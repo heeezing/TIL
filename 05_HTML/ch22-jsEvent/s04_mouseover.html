@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>mouseover/mouseout</title>
+<style type="text/css">
+	a{
+		color:white;
+		text-decoration:none;
+	}
+	td{
+		width:100px;
+		margin-top:100px;
+		text-align:center;
+		background-color:#FF8888;
+	}
+</style>
+<script type="text/javascript">
+	//함수 정의
+	function changeBgColor(cell,newColor){
+		//이벤트가 발생한 태그의 이벤트 속성을 제어
+		cell.style.backgroundColor = newColor;
+	}
+</script>
+</head>
+<body>
+<table>
+	<tr>
+		<!-- this : 코드 상에서 이벤트가 발생한 태그 -->
+		<td onmouseover="changeBgColor(this,'#FF0000')"
+			onmouseout="changeBgColor(this,'#FF8888')"> 
+			<a href="#">menu01</a>
+		</td>
+	</tr>
+	<tr>
+		<td onmouseover="changeBgColor(this,'#FF0000')"
+			onmouseout="changeBgColor(this,'#FF8888')"> 
+			<a href="#">menu02</a>
+		</td>
+	</tr>
+	<tr>
+		<td onmouseover="changeBgColor(this,'#FF0000')"
+			onmouseout="changeBgColor(this,'#FF8888')"> 
+			<a href="#">menu03</a>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>변수</title>
+</head>
+<body>
+<script type="text/javascript">
+/*
+ 변수명의 정의
+ 1.키워드(예약어)를 사용하면 안 됨
+ 2.숫자로 시작하면 안 됨
+ 3.특수문자는 _와 $만 허용
+ 4.공백 문자를 포함할 수 없음
+ 
+ 식별자를 잘못 지정한 예
+ -break (키워드)
+ -10alpha (숫자로 시작)
+ -#num (특수문자 사용)
+ -has space (공백 사용)
+ */
+	//변수 선언
+	var num;
+	
+	//변수 초기화
+	num = 123;
+	
+	//변수 선언 및 초기화
+	var num2 = 1234;
+	
+	//출력
+	document.write('num2 = ' + num2);
+	document.write('<br>');
+	
+	//변수를 선언하지 않고 출력했을 때
+	//document.write(num3); //오류 발생
+
+	//변수 선언 후 값을 할당하지 않고 출력했을 때
+	var num4;
+	//undefined로 출력, 오류는 발생하지 않음
+	document.write('num4 = ' + num4);
+	document.write('<br>');
+	
+	//2개 이상의 변수를 한 번에 선언
+	var a, b;
+	a = 10;
+	b = 5;
+	document.write('a + b = ' + (a + b));
+	document.write('<br>');
+	
+	//변수 선언과 초기화를 한 번에 처리
+	var c = 10, d = 3.5; //자바스크립트 -> 정수/실수 구분X. 모두 숫자로 인식.
+	document.write('c + d = ' + (c + d));
+</script>
+</body>
+</html>

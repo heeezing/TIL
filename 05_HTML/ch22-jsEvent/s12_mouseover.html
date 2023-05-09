@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>이미지 크기 변경</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 이벤트 핸들러(함수) 호출
+	window.onload=function(){
+		//a태그
+		let alink = document.getElementsByTagName('a');
+		//img태그
+		let bigImg = document.getElementById('bigImg');
+		//이벤트 연결 (태그가 2개이상 - 반복문 이용)
+		for(let i=0 ; i<alink.length ; i++){
+					//이벤트 속성	   이벤트 핸들러
+			alink[i].onmouseover = function(){
+				//img태그 표시
+				bigImg.style.display = '';
+				//큰 이미지 경로를 읽어들여 img태그의 src 속성에 저장
+				//이벤트 핸들러 안에서 this를 사용하면 이벤트가 발생한 태그에 접근 가능
+				//이벤트가 발생한 a태그의 href 속성값(이미지 경로)
+				bigImg.src = this.href;
+				bigImg.width = 500;
+				bigImg.height = 350;
+			};
+			alink[i].onmouseout = function(){
+				//img태그 숨기기
+				bigImg.style.display = 'none';
+			};
+			alink[i].onclick=function(){
+				//a태그의 링크 기능(기본 이벤트) 제거
+				return false;
+			};
+		}
+	};
+</script>
+</head>
+<body>
+<div>
+	<a href="../files/Penguins.jpg">
+	<img src="../files/Penguins.jpg" width="83" height="83" alt="작은 이미지"></a>
+	<a href="../files/Koala.jpg">
+	<img src="../files/Koala.jpg" width="83" height="83" alt="작은 이미지"></a>
+</div>
+<div>
+	<img id="bigImg" style="display:none;">
+</div>
+</body>
+</html>

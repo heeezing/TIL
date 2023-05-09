@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>박스 모델</title>
+<style type="text/css">
+/*
+<태그 밖 여백>
+ margin : 속성값 4개 -> 상,우,하,좌 순서(시계방향)로 명시
+			   3개 -> 상, 좌우, 하
+			   2개 -> 상하, 좌우
+			   1개 -> 상하좌우
+<태그 안 여백>
+ padding : 속성값 4개 -> 상,우,하,좌
+ 			    3개 -> 상, 좌우, 하
+			    2개 -> 상하, 좌우
+			    1개 -> 상하좌우
+<테두리(border)>
+/스타일 지정
+ border-style : 속성값
+ 				dotted  점
+ 				dashed  점선
+ 				solid   실선 (가장 보편적)
+ 				double  두 줄
+ 				groove  오른쪽 아래에서 빛을 받은 스타일
+ 				ridge   왼쪽 위에서 빛을 받은 스타일
+ 				outset  테두리를 밖으로 나온 스타일
+ 				inset   테두리를 안으로 파인 스타일
+/굵기 지정
+ border-width : 속성값
+ 				thin, medium, thick
+ 				(픽셀로도 지정 가능 ex.10px)
+/색상 지정
+ border-color
+
+/방향 별 테두리 지정
+ border-top-
+ border-right-
+ border-bottom-
+ border-left-
+ 
+/일괄 지정 border
+ border : style width color (순서 바뀌어도 가능)
+*/
+	ul{
+		list-style:none; /*리스트의 점 아이콘 제거*/
+		background-color:green;
+		/*태그 밖 여백*/
+			  /*상   우   하   좌*/
+		margin:10px 5px 15px 10px;
+		/*태그 안 여백*/
+		padding:10px; /*상하좌우 모두 10px*/
+	}
+	
+	li{
+		color:red; /*글자 색*/
+		background-color:yellow;
+		margin:10px;
+		padding:10px;
+	}
+	
+	li.withborder{ 
+		/*테두리 설정*/
+		border-style:dashed; /*점선*/
+		border-width:medium; /*중간 두께*/
+		border-color:black; /*검정색*/
+	}
+	
+</style>
+</head>
+<body>
+<ul>
+	<li>테두리가 없는 곳</li>
+	<li class="withborder">테두리가 있는 곳</li>
+</ul>
+</body>
+</html>

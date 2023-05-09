@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>실습</title>
+<style>
+h1{
+	text-align:center;
+}
+div#game{
+	width:480px;
+	margin:0 auto;
+	text-align:center;
+}
+div.result-img{
+	position:relative;
+	width:220px;
+	float:left;
+}
+div.result-img:first-child{
+	text-align:right;
+}
+div.result-img:last-child{
+	/*div#game에서 text-align:center로 지정한 것이 영향을 미쳐서
+	  이미지 중앙 정렬되어 있는 것을 왼쪽으로 정렬함*/
+	text-align:left;
+}
+div.result-img span{
+	font-size:20px;
+	font-weight:bold;
+	border-radius:20px;
+	width:120px;
+	text-align:center;
+	background-color:#f4f2c6;
+	position:absolute;
+	top:25%;
+	left:20%;
+}
+.user-option{
+/*그림에 커서를 올리면 손 모양으로 아이콘 변화*/
+	cursor:pointer
+}
+</style>
+<script type="text/javascript">
+	window.onload=function(){
+		//computer,userImg가 선택한 값을 표시할 이미지
+		let gameImage = document.querySelectorAll('.result-img img')
+		
+		//user가 선택한 이미지를 처리하기 위해 user이미지 정보를 읽어옴
+		let userOption = document.getElementsByClassName('user-option');
+		
+		//이벤트 연결
+		for(let i=0 ; i<userOption.length ; i++){
+			userOption[i].onclick=function(){
+				//computer가 선택한 값
+				let com_answer = Math.floor(Math.random() * 3); //0 가위, 1 바위, 2 보
+				 
+				//computer가 선택한 이미지 표시
+				gameImage[0].style.display = '';
+				gameImage[0].src="../files/timg" + com_answer + ".png";
+				
+				//user가 선택한 값
+				let user_answer = this.id.substr(4);
+				
+				//user가 선택한 이미지 표시
+				gameImage[1].style.display = '';
+				gameImage[1].src=this.src;
+				
+				//가위바위보 결과
+				/* 
+				컴퓨터  사용자 (컴퓨터-사용자)   결과
+				  0		0		 0			무
+				  0		1		-1			패
+				  0		2		-2			승
+				-------------------------------
+				  1		0		 1			승
+				  1		1		 0			무
+				  1		2		-1			패
+				-------------------------------
+				  2		0		 2			패
+				  2		1		 1			승
+				  2		2		 0			무
+				*/
+				let result;
+				let num = com_answer - user_answer;
+				if(num == 0) {
+					result = ['무','무'];
+				}else if(num == -2 || num == 1){
+					result = ['승','패'];
+				}else if(num == -1 || num == 2){
+					result = ['패','승'];
+				}
+
+				let showResult = document.querySelectorAll('.result-img span');
+				for(let i=0 ; i<showResult.length ; i++){
+					
+					//스타일 효과
+					if(result[i] == '패'){
+						gameImage[i].width = 100;
+						showResult[i].style.display='none';
+					}else {
+						gameImage[i].width = 220;
+						showResult[i].style.display='';
+					}
+					
+					//결과 출력
+					showResult[i].innerHTML = (i==0 ? '컴퓨터 ' : '사용자 ') + result[i]; 
+				}		
+			};
+		};
+	};
+		
+</script>
+</head>
+<body>
+<h1>가위바위보 게임</h1>
+<div id="game">
+	<div>
+		<img class="user-option" id="timg0" src="../files/timg0.png" width="90">
+		<img class="user-option" id="timg1" src="../files/timg1.png" width="90">
+		<img class="user-option" id="timg2" src="../files/timg2.png" width="90">
+	</div>
+	<div>
+		<div class="result-img">
+			<img style="display:none;" alt="컴퓨터">
+			<span></span> 
+		</div>
+		<div class="result-img">
+			<img style="display:none;" alt="사용자">
+			<span></span>
+		</div>
+	</div>
+</div>
+</body>
+</html>

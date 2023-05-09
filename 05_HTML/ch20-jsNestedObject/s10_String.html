@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>String의 메서드 사용</title>
+</head>
+<body>
+<script type="text/javascript">
+	let msg = '세상의 끝에서 세상을 노래하다';	
+	//문자열의 길이
+	document.write(msg.length + '<br>'); //16	
+	//지정한 인덱스를 통해서 문자 추출 (0~15)
+	document.write(msg.charAt(8) +'<br>'); //세
+	//지정한 문자의 인덱스 탐색 (앞부터)
+	document.write(msg.indexOf('상') + '<br>'); //1
+	document.write(msg.indexOf('노래') + '<br>'); //12
+	//지정한 문자가 존재하지 않으면 -1 반환
+	document.write(msg.indexOf('수') + '<br>'); //-1
+	//지정한 문자의 인덱스 탐색 (뒤부터)
+	document.write(msg.lastIndexOf('상') + '<br>'); //9
+	document.write('-----------<br>')
+	
+	//문자열에서 특정 문자열을 추출
+	document.write(msg.substring(5) + '<br>'); //에서 세상을 노래하다
+	document.write(msg.substr(5) + '<br>'); //에서 세상을 노래하다
+	//시작인덱스부터 끝인덱스'전'까지 추출
+	document.write(msg.substring(0,5) + '<br>'); //세상의 끝
+	//시작인덱스부터 지정한 개수만큼 추출 
+	document.write(msg.substr(4,5) + '<br>'); //끝에서 세
+	
+	let msg2 = 'Hello WORLD';
+	document.write(msg2.toUpperCase() + '<br>'); //HELLO WORLD
+	document.write(msg2.toLowerCase() + '<br>'); //hello world
+	
+	let msg3 = '하하';
+	document.write(msg.concat(msg3) + '<br>'); //세상의 끝에서 세상을 노래하다하하
+	
+	let msg4 = '2023-06-13';
+	//구분자를 기준으로 데이터를 잘라 배열에 저장
+	let array = msg4.split('-'); 
+	document.write(array + '<br>'); //2023,06,13
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>toString</title>
+</head>
+<body>
+<script type="text/javascript">
+	const student = {};
+	
+	document.write(student + '<br>'); //[object Object]
+	document.write(student.toString() + '<br>') //[object Object]
+	 //object에 있는 toString은 명시하지 않아도 자동적으로 호출된다.
+	
+	//객체에 속성 추가
+	student.이름 = '홍길동';
+	student.학번 = '202301';
+	
+	//객체에 메서드 추가
+	student.toString = function(){
+		let msg = '';
+		for(let key in this){  //this : 객체 내부에서 객체 참조
+			//toString 메서드는 제외해서 출력하기 위해 조건문 부여
+			if(key != 'toString'){
+				msg += key + ':' +this[key] + '<br>';
+			}
+		}
+		return msg;
+	};
+	
+	//객체의 메서드 출력
+	document.write(student.toString() + '<br>');
+	document.write('----------------<br>');
+	document.write(student);
+	 //toString 자동적으로 명시되므로 재정의된 toString이 적용되어 똑같이 출력됨
+	
+</script>
+</body>
+</html>

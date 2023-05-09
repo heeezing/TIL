@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form</title>
+</head>
+<body>
+<h3>폼의 하위 태그 필드 및 속성 사용하기</h3>
+<form action="do.jsp" method="get">
+	<!-- 
+		fieldset : 폼을 그룹핑하는 역할 
+		legend : 제목 지정
+	-->
+	<fieldset>
+		<legend>프로젝트 정보</legend>
+		<ul>
+			<li>
+				<!-- label : 입력 레이블(항목) 지정 -->
+				<label for="name">이름</label>
+				<!-- required : 입력 필수 지정
+					 autofocus : 페이지 로드 시 자동 포커스 지정
+				 -->
+				<input type="text" name="name" id="name"
+				 required="required" autofocus="autofocus">
+			</li>
+			
+			<li>
+				<label for="priority">중요도</label>
+				<!-- range : 슬라이드 막대로 표시하는 숫자 필드
+					(value : 기본값) -->
+				<input type="range" name="priority" id="priority"
+				 min="0" max="10" value="0"
+				 oninput="result.value=priority.value">
+				 <!-- output : 계산의 결과를 삽입 -->
+				<output name="result"></output>
+			</li>	
+			
+			<li>
+				<label for="hour">예상 시간</label>
+				<!-- number : 숫자 필드 -->
+				<input type="number" name="estimated_hour" id="hour"
+				 min="0" max="1000">
+			</li>
+				
+			<li>
+				<label for="start_date">시작 날짜</label>
+				<!-- date : 날짜 필드 -->
+				<input type="date" name="start_date" id="start_date">
+			</li>	
+			
+			<li>
+				<label for="start_time">시작 시간</label>
+				<!-- time : 시간 필드 -->
+				<input type="time" name="start_time" id="start_time">
+			</li>
+			
+			<li>
+				<label for="email">이메일</label>
+				<!-- email : 이메일 필드 -->
+				<input type="email" name="email" id="email">
+			</li>
+			
+			<li>
+				<label for="search">검색</label>
+				<!-- search : 검색 필드 -->
+				<input type="search" name="search" id="search">
+			</li>
+							
+			<li>
+				<input type="submit" value="전송">
+			</li>
+		</ul>
+	</fieldset>
+</form>
+</body>
+</html>

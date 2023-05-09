@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ID와 태그명을 이용한 문서객체 탐색</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수 호출
+	window.onload=function(){
+		//모든 span 태그에 접근해서 내용 읽기 (배열로 반환)
+		let allSpans = document.getElementsByTagName('span');		
+		let output = '';
+		for(let i=0 ; i<allSpans.length ; i++){
+			//alert창에 띄울거면 브라우저에서 처리하는것이므로 줄바꿈 시 '\n' 명시
+			output += allSpans[i].innerHTML + '\n'; 
+		}
+		alert(output);
+		
+		//id가 foo인 p태그에 접근해서 p태그의 하위 태그인 span의 내용 읽기
+		let foo = document.getElementById('foo');
+		//id가 foo인 p태그의 하위태그에서 span태그를 검색
+		let fooSpans = foo.getElementsByTagName('span');
+		let output2 = '';
+		for(let i=0 ; i<fooSpans.length; i++){
+			output2 += fooSpans[i].innerHTML + '\n';
+		}
+		alert(output2);
+	};
+</script>
+</head>
+<body>
+	<p id="foo">
+		<span>a</span>
+		<span>b</span>
+		<span>c</span>
+	</p>
+	<p id="bar">
+		<span>x</span>
+	</p>
+</body>
+</html>

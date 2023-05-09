@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>filter</title>
+</head>
+<body>
+<script type="text/javascript">
+	//배열 생성
+	let array = [1,2,3,4,5,6,7,8,9,10];
+	
+	//filter() : 특정 조건을 만족하는 새로운 배열을 만들 때 사용
+	//익명함수가 filter에 전달됨, filter가 인자값을 제공하고 return값을 반환받음.
+	let new_array = array.filter(function(element,index,array){
+		return element <= 5;
+		//데이터가 boolean타입으로 반환
+	});
+	
+	//새로 생성된 배열의 요소 목록 출력
+	document.write(new_array);  //1,2,3,4,5
+</script>
+</body>
+</html>

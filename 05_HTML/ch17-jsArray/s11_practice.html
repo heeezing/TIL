@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>실습</title>
+</head>
+<body>
+<script type="text/javascript">
+/*
+ [실습]
+ score라는 이름의 배열을 생성한 후 5개의 정수를 입력해서 배열에 저장하고,
+ 저장된 데이터의 최대값과 최소값을 구하시오.
+ 
+ [입력 예시]
+ 첫번째 수 : 
+ 두번째 수 :
+ 
+ [출력 예시]
+ 배열에 저장된 숫자 : 30,20,15,2,8
+ 최대값 : 20
+ 최소값 : 2
+ */
+ 
+	let score = [];
+ 	
+	let num1 = prompt('첫번째 수 : ','');
+	let num2 = prompt('두번째 수 : ','');
+	let num3 = prompt('세번째 수 : ','');
+	let num4 = prompt('네번째 수 : ','');
+	let num5 = prompt('다섯번째 수 : ','');
+
+	score.push(Number(num1), Number(num2), Number(num3), Number(num4), Number(num5));
+ 
+ 
+	/*반복문을 이용한 입력
+	for(let i=0 ; i<5; i++){
+		score.push(Number(prompt('숫자 입력 : ','')));
+	}
+ 	*/
+ 
+	let max = score[0], min = score[0];
+
+	score.forEach(function(element,index,array){
+		if(max < element) {
+			max = element;
+		}
+		if(min > element) {
+			min = element;
+		}
+	});
+	
+	
+/*	
+	for(let i=1 ; i<score.length ; i++){
+		if(score[i-1] <= score[i]) {
+			max = score[i];
+		}
+		if(score[i-1] >= score[i]) {
+			min = score[i];
+		}
+	}
+*/
+
+ 	document.write('배열에 저장된 숫자 : ' + score + '<br>');
+ 	document.write('최대값 : ' + max + '<br>');
+ 	document.write('최소값 : ' + min);
+</script>
+</body>
+</html>

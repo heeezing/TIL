@@ -1,0 +1,1 @@
+document.write('script.jsp 파일에서 호출');

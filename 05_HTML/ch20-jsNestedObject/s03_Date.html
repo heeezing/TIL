@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Date</title>
+<script type="text/javascript">
+	//윈도우가 로드되면 함수를 호출
+	//(밑에 있는 태그까지 다 인식된 다음에 함수가 실행되게끔 지연시키기)
+	window.onload=function(){
+		//일정 시간마다 매개 변수로 전달된 함수를 반복해서 실행
+		window.setInterval(function(){
+			const time = new Date();
+			let hours = time.getHours();
+			let minutes = time.getMinutes();
+			let seconds = time.getSeconds();
+			
+			let clock = '';
+			clock += ((hours < 10) ? '0' : '') + hours;
+			clock += ((minutes < 10) ? ':0' : ':') + minutes;
+			clock += ((seconds < 10) ? ':0' : ':') + seconds;
+			
+			document.getElementById('display').innerHTML = clock;
+		},1000); //1000=1초 단위로
+	};
+</script>
+</head>
+<body>
+<span id="display"></span>
+</body>
+</html>

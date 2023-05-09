@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>웹 폰트</title>
+<style type="text/css">
+	/*사용할 폰트 지정*/
+	@font-face {
+		font-family:'나눔손글씨 혜준체'; /*폰트의 이름 지정(임의로 지정도 가능)*/
+									 /*공백 있는 경우 작은 따옴표로 감싸줘야함.*/
+		src:url('../files/나눔손글씨 혜준체.ttf') format('truetype');
+	}
+	
+	p.font1 {
+		font-family:'나눔손글씨 혜준체', serif; /*혜준체 발견 못 했을 시 serif로 하도록 명시*/
+		font-size:20pt;
+	}
+</style>
+</head>
+<body>
+<h1>웹 폰트(Web Font)</h1>
+<p class="font1">웹 폰트는 서버의 폰트를 읽어와서 HTML 문서에 적용하는 기술</p>
+<p>웹 폰트는 서버의 폰트를 읽어와서 HTML 문서에 적용하는 기술</p>
+</body>
+</html>

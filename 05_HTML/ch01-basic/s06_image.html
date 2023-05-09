@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>이미지</title>
+</head>
+<body>
+
+<h3>같은 경로의 이미지 표시</h3>
+<!-- img는 단독 태그. 닫을 필요X 
+파일 크기 지정 안 할시 원본 크기로 표시.
+허나 용량도 같이 줄어드는 게 아니라 편집 프로그램으로 줄인 후
+원본파일 그대로 사용하는 것이 낫다.
+<img src="winter.jpg"> 
+ -->
+<img src="winter.jpg" width="200" height="150">
+ 
+ 
+<h3>다른 경로의 이미지 표시</h3>
+<!-- 
+작성 중인 html파일이 들어가있는 폴더가 .
+상위 폴더는 ..
+ -->
+<img src="../files/landscape.jpg" width="200" height="150">
+
+
+<h3>이미지에 링크 걸기</h3>
+<a href="https://www.naver.com">
+<img src="../files/landscape.jpg" width="100" height="100"></a>
+
+
+<h3>figure, figcation 태그 : 이미지에 설명 글 붙이기</h3>
+<!-- 이미지는 들여쓰기로 올라감.
+alt="겨울"은 태그에만 명시되고 겉으론 보이지 X 
+용도: 낭독기 프로그램-->
+<figure><img src="winter.jpg" alt="겨울" width="100" height="100">
+<figcaption>겨울 이미지(Winter Image)</figcaption></figure>
+
+</body>
+</html>

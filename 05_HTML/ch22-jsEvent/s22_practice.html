@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>실습</title>
+<style>
+table{
+	border-collapse:collapse;
+	border:1px solid gray;
+}
+td{
+	height:30px;
+	border:1px solid gray;
+}
+td.title{
+	text-align:right;
+	background-color:ivory;
+	font-weight:bold;
+	color:#ff6600;
+	padding:0 10px;
+}
+input[type="number"]{
+	text-align:right;
+	width:50px;
+	height:19px;
+}
+ul{
+	list-style:none;
+	padding:0 10px;
+	margin:5px;
+}
+ul li{
+	display:inline;
+}
+#totalMoney{
+	text-align:center;
+	border-style:hidden;
+	font-size:15pt;
+	font-weight:bold;
+	color:maroon;
+}
+</style>
+<script type="text/javascript">
+	//식사 및 음료의 가격
+	let product = {
+		c0:4000,
+		c1:5000,
+		c2:6000,
+		c3:1000,
+		c4:1000,
+		c5:2000
+	};
+	
+	//윈도우가 로드될 때 이벤트 핸들러를 호출
+	window.onload=function(){
+		//input type="checkbox", type="number" 태그 호출
+		let items = document.getElementsByClassName('order-item');
+
+		//이벤트 연결
+		for(let i=0 ; i<items.length ; i++){
+			items[i].onclick=function(){
+				//input type="checkbox" 클릭
+				//input type="number" 증가,감소 아이콘 클릭
+				check(this);
+			};
+			items[i].onkeyup=function(){
+				//input type="number"에 데이터를 직접 입력
+				check(this);
+			};
+		};
+		
+		//이벤트 발생 시 공통적으로 호출하는 함수
+		function check(obj){ //인자:이벤트가 발생한 태그
+			if(obj.type=="checkbox"){ //input type="checkbox" 클릭(선택/해제)
+				let input_num = document.getElementById('num_'+obj.id);
+				if(obj.checked){ //체크박스 선택
+					input_num.value = 1;
+				}else{ //체크박스 해제
+					input_num.value = 0;
+				}
+			}else{ //input type="number" 클릭(증가/감소)
+				//숫자를 지우고 비워두면 0으로 바꾸도록 설정
+				if(obj.value==''){
+					obj.value = 0;
+				}
+			
+				if(obj.value >= 1){ //숫자를 1 이상 선택했을 경우->체크박스 선택
+					document.getElementById(obj.id.substr(4)).checked = true;
+				}else{ //숫자를 0으로 선택했을 경우->체크박스 해제
+					document.getElementById(obj.id.substr(4)).checked = false;
+				}
+			}
+			//결과 출력
+			let sum = 0; //합계 금액
+			//객체를 호출해서 가격을 읽어옴
+			for(let key in product){
+				sum += product[key] * document.getElementById('num_'+key).value;
+			}
+			
+			document.getElementById('totalMoney').value = sum.toLocaleString();	
+		}; //end of function
+	};
+</script>
+</head>
+<body>
+<div align="center">
+	<h2>계산서</h2>
+	<form name="frmData">
+		<table>
+			<tr>
+				<td class="title">식사류</td>
+				<td>
+					<ul>
+						<li>
+							<input type="checkbox" id="c0" name="foodName"
+								   value="짜장면" class="order-item">
+							<label for="c0">짜장면(4,000원)</label>
+							<input type="number" id="num_c0" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+						<li>
+							<input type="checkbox" id="c1" name="foodName"
+								   value="짬뽕" class="order-item">
+							<label for="c1">짬뽕(5,000원)</label>
+							<input type="number" id="num_c1" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+						<li>
+							<input type="checkbox" id="c2" name="foodName"
+								   value="볶음밥" class="order-item">
+							<label for="c2">볶음밥(6,000원)</label>
+							<input type="number" id="num_c2" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td class="title">음료</td>
+				<td>
+					<ul>
+						<li>
+							<input type="checkbox" id="c3" name="foodName"
+								   value="사이다" class="order-item">
+							<label for="c3">사이다(1,000원)</label>
+							<input type="number" id="num_c3" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+						<li>
+							<input type="checkbox" id="c4" name="foodName"
+								   value="콜라" class="order-item">
+							<label for="c4">짬뽕(1,000원)</label>
+							<input type="number" id="num_c4" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+						<li>
+							<input type="checkbox" id="c5" name="foodName"
+								   value="커피" class="order-item">
+							<label for="c5">커피(2,000원)</label>
+							<input type="number" id="num_c5" name="foodOrdercnt"
+								   min="0" max="99" value="0" class="order-item">
+						</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td class="title">청구금액</td>
+				<td>
+					<input type="text" id="totalMoney" name="totalMoney" size="15" value="0" readonly="readonly">원
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="주문">
+					<input type="reset" value="취소">
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

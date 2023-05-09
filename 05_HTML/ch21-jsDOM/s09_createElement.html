@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문서객체 생성</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수를 호출
+	window.onload=function(){
+		//h1 태그 생성
+		let header = document.createElement('h1'); //=h1태그를 생성해라
+		//텍스트 생성
+		let textNode = document.createTextNode('Hello DOM');
+		//노드 연결 (노드 : 탐색 가능한 객체)
+		///h1태그에 텍스트 연결
+		header.appendChild(textNode);
+		///body태그에 h1태그 연결
+		document.body.appendChild(header);
+	};
+</script>
+</head>
+<body>
+</body>
+</html>

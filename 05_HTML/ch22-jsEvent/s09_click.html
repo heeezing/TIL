@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>click</title>
+<style type="text/css">
+	div#header{
+		background-color:yellow;
+	}
+</style>
+<script type="text/javascript">
+	//윈도우가 로드될 때 이벤트 핸들러(함수)를 호출
+	window.onload=function(){
+		let header = document.getElementById('header');
+		
+		//익명함수를 이용한 이벤트 연결
+		header.onclick = function(){
+			alert('클릭');
+		};
+	};
+</script>
+</head>
+<body>
+	<div id="header">클릭</div>
+</body>
+</html>

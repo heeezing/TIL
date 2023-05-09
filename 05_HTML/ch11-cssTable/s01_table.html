@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>table</title>
+<style type="text/css">
+	table{
+		width:500px;
+		border:solid 1px orange;
+		/*표 테두리는 기본적으로 두 줄이지만 아래와 같이 명시하면 한 줄로 줄을 합칠 수 있음*/
+		border-collapse:collapse;
+		/* 중앙 정렬
+		테이블의 margin을 상하 0px, 좌우 auto로 명시.
+		수평 방향으로 남은 여백을 좌우에 동등하게 분배.*/
+		margin:0 auto; /*0일 땐 px 명시 안 해도 됨*/
+		/*제목 위치 지정*/
+		caption-side:bottom;
+	}
+	th{
+		border:solid 1px orange;
+		background-color:#FFCC66;
+		color:#FFFFFF;
+		padding:5px;
+	}
+	td{
+		border:solid 1px orange;
+		height:100px;
+		/*가로 방향 정렬*/
+		text-align:center;
+		/*세로 방향 정렬*/
+		vertical-align:top;
+	}
+	caption{
+		color:#FF6600;
+		font-size:11pt;
+		font-weight:bold;
+		/*margin을 줄 때 방향 선택하고 싶으면 -방향 입력하면 됨*/
+		margin-top:5px;
+	}
+</style>
+</head>
+<body>
+<table>
+	<caption>table에 스타일 지정</caption>
+	<tr>
+		<th>도시</th>
+		<th>산</th>
+		<th>강</th>
+	</tr>
+	<tr>
+		<td>서울</td>
+		<td>북한산</td>
+		<td>한강</td>
+	</tr>
+	<tr>
+		<td>대구</td>
+		<td>팔공산</td>
+		<td>금호강</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>함수</title>
+<script type="text/javascript">
+	///선언적 함수 - 함수의 이름을 선언, 호출하지 않으면 동작X.
+	//인자 없는 경우
+	function check(){
+		document.write('호출하면 동작함<br>');
+	}
+	//함수 호출
+	check(); //호출하면 동작함
+	
+	//인자 있는 경우 - 인자 앞에 var를 명시하면 오류
+	function check2(msg){
+		document.write(msg + '을 좋아합니다.<br>');
+	}
+	//함수 호출
+	check2('가을'); //가을을 좋아합니다.
+	
+	//반환값 있는 경우
+	function check3(num){
+		return num*num;
+	}
+	//함수 호출
+	var number = check3(10);
+	document.write('number = ' + number + '<br>'); //number = 100
+	
+	
+	///익명 함수 - 변수에 함수를 담음. 변수명이 식별자 역할로 함수명을 대체.
+	//인자 없는 경우
+	var play = function(){
+		document.write('운동을 좋아해요<br>');
+	};
+	//함수 호출
+	play();
+	
+	//인자 있는 경우
+	var play2 = function(item){
+		document.write(item + '를 좋아해요<br>');
+	};
+	//함수 호출
+	play2('축구');
+	
+	//반환값 있는 경우
+	var play3 = function(x,y){
+		return x + y;
+	};
+	//함수 호출
+	var result = play3(5,8);
+	document.write('result = ' + result + '<br>');
+	
+	
+	///정의한 함수를 인라인 방식으로 호출하기
+	function checkIt(){
+		alert('인라인 방식으로 함수 호출하기');
+	}
+	
+</script>
+</head>
+<body>
+	<input type="button" value="확인" onclick="checkIt();">
+</body>
+</html>

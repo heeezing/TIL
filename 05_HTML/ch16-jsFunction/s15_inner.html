@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>내부 함수</title>
+</head>
+<body>
+<script type="text/javascript">
+	function f(){
+		//변수 선언
+		let n =123;
+		//내부 함수
+		function g(){
+			document.write('n is ' + n + '<br>');
+			document.write('g is called');
+		}
+		//g함수 호출
+		g();
+	}
+	//f함수 호출
+	f();
+</script>
+</body>
+</html>

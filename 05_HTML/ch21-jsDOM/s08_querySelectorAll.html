@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>querySelectorAll을 이용한 태그 탐색</title>
+</head>
+<body>
+	<ul>
+		<li>Apple</li>
+		<li>Banana</li>
+		<li>Orange</li>
+	</ul>
+<script type="text/javascript">
+//body의 맨 아래에 script를 작성했으므로 window.onload 생략가능
+	//ul요소의 자식요소인 li요소를 모두 탐색 (배열로 반환)
+	let elems = document.querySelectorAll('ul > li');
+	
+	elems[0].style.background='yellow';
+	
+	document.write('-------------<br>');
+	
+	//반복문을 이용해서 li의 내용을 출력
+	for(let i=0 ; i<elems.length ; i++){
+		document.write(elems[i].innerHTML + '<br>');
+	}
+</script>
+</body>
+</html>

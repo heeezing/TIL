@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>배열 요소의 정렬</title>
+</head>
+<body>
+<script type="text/javascript">
+	//배열의 생성
+	let array = ['가','하','아','나'];
+	
+	//사전에 명시된 순서대로 정렬(오름차순 정렬)
+	array.sort();
+	//배열 요소 목록 출력
+	document.write(array + '<br>');  //가,나,아,하
+	
+	//역순으로 정렬
+	array.reverse();
+	//배열 요소 목록 출력
+	document.write(array + '<br>');
+	document.write('------------<br>');
+	
+	
+	//배열의 생성
+	let array2 = [52,273,103,32];
+	
+	//숫자를 오름차순 정렬
+	array2.sort(function(left,right){
+		return left - right; //익명함수 호출 - 작은 걸 앞으로 보내고, 큰 걸 뒤로 보냄
+	});
+	document.write(array2 + '<br>');
+	
+	//숫자를 내림차순 정렬
+	//array2.reverse();
+	array2.sort(function(left,right){
+		return right - left;
+	})
+	document.write(array2);
+	
+</script>
+</body>
+</html>

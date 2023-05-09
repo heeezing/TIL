@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>isNaN 함수의 활용</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 이벤트 핸들러(함수) 호출
+	window.onload=function(){
+		let check_age = document.getElementById('check_age');
+		//이벤트 연결
+		check_age.onclick=function(){
+			let age = document.getElementById('age');
+			
+			//공백 제거 - trim메서드 사용
+			if(age.value.trim()==''){ //공백만 입력했을 경우
+				alert('나이를 입력하세요');
+				age.value=''; //공백이 있다면 빈 문자열을 덮음으로서 공백을 제거
+				age.focus();
+				return; //함수만 빠져나오면 되므로 return (submit->return false 해야 제출 안됨)
+			}
+			
+			if(isNaN(age.value)){ //문자를 입력했을 경우
+				alert('숫자만 입력 가능');
+				age.value='';
+				age.focus();
+				return;
+			}		
+			
+			alert('나이는 ' + age.value + '살입니다.');
+		};
+	};
+</script>
+</head>
+<body>
+<form>
+	<!-- 자바스크립트로 조건 체크하기 위해서 number필드 말고 text필드로 테스트! -->
+	<input type="text" name="age" id="age" size="20">
+	<input type="button" value="나이 확인" id="check_age">
+</form>
+</body>
+</html>

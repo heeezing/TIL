@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>기본 이벤트</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 이벤트 핸들러를 호출
+	window.onload=function(){
+		let alink = document.getElementById('alink');
+		//이벤트 연결
+		alink.onclick=function(){
+			alert('이벤트 연결');
+			//기본 이벤트 제거
+			return false;
+		};
+		
+		let myForm = document.getElementById('myForm');
+		//이벤트 연결
+		myForm.onsubmit=function(){
+			let name = document.getElementById('name');
+			alert(name.value);
+			//기본 이벤트 제거
+			return false;
+		};
+	};
+</script>
+</head>
+<body>
+<a id="alink" href="https://www.naver.com">이동</a>
+<form id="myForm" action="a.jsp" method="post">
+	이름 <input type="text" name="name" id="name">
+	<input type="submit" value="전송"> 
+</form>
+</body>
+</html>

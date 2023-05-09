@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>태그명을 이용한 문서 객체 탐색</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수 호출
+	window.onload=function(){
+		let spans = document.getElementsByTagName('span');
+		
+		//반복문을 이용해서 태그에 접근하고 정보를 처리
+		for(let i=0 ; i<spans.length ; i++){
+			if(i%2==1){ //홀수 인덱스
+				spans[i].innerHTML = '우주';
+			}else { //짝수 인덱스
+				spans[i].innerHTML = '지구';
+			}
+		}
+	};
+</script>
+</head>
+<body>
+	<span>하늘</span><br>
+	<span>하늘</span><br>
+	<span>하늘</span>
+</body>
+</html>

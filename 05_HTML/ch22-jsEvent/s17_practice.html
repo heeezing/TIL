@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>실습</title>
+<script type="text/javascript">
+/*
+ [실습]
+ 국어,영어,수학 점수를 입력 받고 총점,평균을 구하여 출력.
+ 출력은 alert()를 이용 - 국어,영어,수학,총점,평균
+ 평균은 소수점 둘째자리까지 출력.
+ 유효성 검사 : 국어,영어,수학은 값을 꼭 입력,
+ 			입력 값은 숫자, 0~100까지 가능.
+ */
+	window.onload=function(){
+		let confirm_btn = document.getElementById('confirm_btn');
+	 	//이벤트 연결
+	 	confirm_btn.onclick=function(){
+	 		let korean = document.getElementById('korean');
+	 		if(!check(korean,'국어')){ //정확한 값이 아닐 경우
+	 			return; //함수를 빠져나감
+	 		}
+	 		
+	 		let english = document.getElementById('english');
+	 		if(!check(english,'영어')){ 
+	 			return;
+	 		}
+	 		
+	 		let math = document.getElementById('math');
+	 		if(!check(math,'수학')){
+	 			return;
+	 		}
+	 		
+	 		let sum = Number(korean.value) + Number(english.value) + Number(math.value);
+	 		let avg = sum / 3;
+	 		
+	 		let msg = '';
+	 		msg += '국어 : ' + korean.value + '\n';
+	 		msg += '영어 : ' + english.value + '\n';
+	 		msg += '수학 : ' + math.value + '\n';
+	 		msg += '총점 : ' + sum + '\n';
+	 		msg += '평균 : ' + avg.toFixed(2);
+	 		
+	 		alert(msg);
+	 	};
+	 	
+	 	//유효성 체크용 함수
+	 	function check(course,name){
+	 		//값 필수 입력 (공백 불가)
+	 		if(course.value.trim()==''){
+	 			alert(name + ' 성적을 입력하세요');
+	 			course.value = '';
+	 			course.focus();
+	 			return false;
+	 		}
+	 		//문자인지 숫자인지 체크
+	 		if(isNaN(course.value)){
+	 			alert(name + ' 성적은 숫자만 입력 가능합니다');
+	 			course.value='';
+	 			course.focus();
+	 			return false;
+	 		}
+	 		//범위 제한
+	 		if(course.value<0 || course.value>100){
+	 			alert('0부터 100까지만 입력 가능합니다');
+	 			course.value='';
+	 			course.focus();
+	 			return false;
+	 		}
+	 		return true;
+	 	};
+ 	};
+</script>
+</head>
+<body>
+<form>
+	국어 <input type="text" name="korean" id="korean"><br>
+	영어 <input type="text" name="enlgish" id="english"><br>
+	수학 <input type="text" name="math" id="math"><br>
+	<input type="button" value="확인" id="confirm_btn">
+</form>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>논리 연산자</title>
+</head>
+<body>
+<script type="text/javascript">
+/*
+ ! 논리 부정
+ && 논리 곱
+ || 논리 합
+*/
+	var a = true && false;
+	document.write('true && false : ' + a + '<br>');
+	//true && false : false
+	
+	var b = true || false;
+	document.write('true && false : ' + b + '<br>');
+	//true && false : true
+	
+	var c = !true;
+	document.write('!true : ' + c + '<br>');
+	document.write('-----------------<br>');
+	//!true : false
+	
+	//논리값으로 숫자 사용 가능 (true를 1로, false를 0으로 사용)
+	var d = 1, e = 0, f;
+	f = d && e;
+	document.write('d && e : ' + f + '<br>');
+	//d && e : 0
+	
+	f = d || e;
+	document.write('d || e : ' + f + '<br>');
+	//d || e : 1
+	
+	f = !d;
+	document.write('!d : ' + f);
+	//!d : false
+</script>
+</body>
+</html>

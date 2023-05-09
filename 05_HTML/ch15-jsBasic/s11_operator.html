@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비교 연산자</title>
+</head>
+<body>
+<script type="text/javascript">
+/*
+연산자		설명
+x === y     x와 y의 값과 타입이 같으면 true
+x !== y		x와 y의 값 또는 타입이 다르면 true
+ */
+ 	var a = 20, b = '20', result;
+ 	//값의 일치 여부만 체크
+ 	result = a == b; //타입 상관 없이 값만 같으면 true
+ 	document.write('a == b : ' + result + '<br>');
+ 	
+ 	result = a != b; //타입 상관 없이 값만 다르면 true
+ 	document.write('a != b : ' + result + '<br>');
+ 	
+ 	
+ 	//값과 타입을 모두 체크
+ 	result = a === b; //값, 타입 모두 일치하면 true
+ 	document.write('a === b : ' + result + '<br>');
+ 	
+ 	result = a !== b; //값 또는 타입이 일치하지 않으면 true
+ 	document.write('a !== b : ' + result + '<br>');
+</script>
+</body>
+</html>

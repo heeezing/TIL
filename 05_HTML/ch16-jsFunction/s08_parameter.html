@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>가변 인자</title>
+</head>
+<body>
+<script type="text/javascript">
+//함수에 인자를 명시해도 되고 가변인자로 전달되는 값을 사용해도 됨. 선택 사항.
+	function test(){
+		for(let i=0 ; i<arguments.length; i++){
+			document.write('arguments[' + i + ']:' + arguments[i] + '<br>');
+		}
+	}
+	test(10); 
+	document.write('------------------<br>');
+	test(10,20);
+	document.write('------------------<br>');
+	test(10,20,30);
+</script>
+</body>
+</html>

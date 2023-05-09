@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>속성 제거</title>
+</head>
+<body>
+<script type="text/javascript">
+	const student = {};
+	
+	//객체에 속성 추가
+	student.이름 = '홍길동';
+	student.학번 = '202301';
+	student.전공 = '국어국문학';
+	
+	//객체에 메서드 추가
+	student.toString = function(){
+		let msg = '';
+		for(let key in this){  //this : 객체 내부에서 객체 참조
+			//toString 메서드는 제외해서 출력하기 위해 조건문 부여
+			if(key != 'toString'){
+				msg += key + ':' +this[key] + '<br>';
+			}
+		}
+		return msg;
+	};
+	
+	//객체의 속성 출력
+	document.write(student + '<br>');
+	document.write('---------------<br>');
+	
+	//속성 제거
+	delete(student.학번); // = delete student.학번 (괄호 쓰면 띄어쓰기 안해도 됨)
+	document.write(student);
+
+</script>
+</body>
+</html>

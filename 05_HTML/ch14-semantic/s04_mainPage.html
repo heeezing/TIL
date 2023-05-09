@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML5 문법 공유 블로그</title>
+<style type="text/css">
+	/*기본 설정*/
+	*{
+		margin:0;
+		padding:0;
+		font-family:'맑은 고딕', 'Malgun Gothic', Gothic, sans-serif;
+	}	
+	a{
+		text-decoration:none;	
+	}
+	ul{
+		list-style:none;
+	}
+	
+	/*페이지 구성*/
+	body{
+		width:960px;
+		margin:0 auto;
+		background:#E6E6E6;
+	}
+	#page_wrap{
+		background:white;
+		margin:40px 0;
+		padding:10px 20px;
+		border-radius:5px;
+		box-shadow:0 2px 6px rgba(100,100,100,0.3);
+	}
+	
+	/*헤더 구성*/
+	#main_header{
+		padding:40px 50px;
+	}
+	.master-title{
+		font-size:30px;
+		color:#181818;
+	}
+	.master-desc{
+		font-size:15px;
+		font-weight:500;
+		color:#383838;
+	}
+	
+	/*내비게이션 및 풀다운 메뉴 구성*/
+	#main_nav{
+		border-top:1px solid #c8c8c8;
+		border-bottom:1px solid #c8c8c8;
+		margin-bottom:20px;
+		height:40px;
+	}
+	.pull-left{
+		float:left;
+	}
+	.pull-right{
+		float:right;
+	}
+	.outer-menu-item{
+		float:left;
+		position:relative; 
+	}
+	.outer-menu-item:hover{
+		background:black;
+		color:white;
+	}
+	.outer-menu-item:hover .inner-menu{
+		display:block; /*숨겨놨다가 갖다대면 block형태로 보이게 설정(하위메뉴 보이기)*/
+	}
+	
+	/*메뉴 타이틀 설정*/
+	.menu-title{
+		display:block; /*영역을 만들어 넓이, 높이, 여백 등 제어할 수 있음*/
+		height:30px;
+		line-height:30px;
+		text-align:center;
+		padding:5px 20px;
+	}
+	
+	/*하위 메뉴 설정*/
+	.inner-menu{
+		display:none; /*기본적으로 안 보여지게 설정(하위메뉴 숨기기)*/
+		position:absolute;
+		top:40px;
+		left:0;
+		width:100%;
+		background:white;
+		box-shadow:0 2px 6px rgba(5,5,5,0.9);
+		z-index:1000; /*항상 제일 위에 있게 하기 위해 큰 숫자 명시*/
+		text-align:center;
+	}
+	
+	/*하위 메뉴의 링크에 스타일 설정*/
+	.inner-menu-item > a{ /*자식 선택자*/
+		display:block;
+		padding:5px 10px;
+		color:black;
+	}
+	.inner-menu-item > a:hover{ 
+		background:black;
+		color:white;
+	}
+	
+	/*검색 양식 추가 (내비게이션 내부 검색)*/
+	.search-bar{
+		height:26px;
+		padding:7px;
+	}
+	.input-search{
+		display:block;
+		float:left;
+		background-color:#FFFFFF;
+		border:1px solid #CCCCCC;
+		border-radius:15px 0 0 15px; /*상좌 상우 하우 하좌*/
+		box-shadow:0 1px 1px rgba(0,0,0,0.05);
+		width:120px;
+		height:26px;
+		padding:0 0 0 10px;
+		font-size:12px;
+		color:#555555;
+	}
+	.input-search:focus{ /*검색 바 클릭했을 때 설정*/
+		border-color:rgba(82,168,236,0.8);
+		/*border 바깥 외곽선 설정*/
+		outline:0; /*0 입력으로 외곽선이 추가로 생기지 않게 설정*/
+		box-shadow:0 1px 1px rgba(0,0,0,0.05);
+	}
+	.input-search-submit{
+		width:50px;
+		height:26px;
+		border-radius:0 15px 15px 0; /*상좌 상우 하우 하좌*/
+		border:1px solid #CCCCCC;
+		margin-left:-1px; /*음수 입력으로 여백 줄이기*/
+	}
+	
+	/*본문 스타일(중앙 내용)*/
+	#content{
+		overflow:hidden;
+	}
+	#main_section{
+		float:left;
+		width:710px;
+	}
+	#main_aside{
+		float:right;
+		width:200px;
+	}
+	
+	/*본문 내용 스타일*/
+	article{
+		padding:0 10px 20px 10px;
+		border-bottom:1px solid #c8c8c8;
+	}
+	.article-header{
+		padding:20px 0;
+	}
+	.article-title{
+		font-size:25px;
+		font-weight:500;
+		padding-bottom:10px;
+	}
+	.article-date{
+		font-size:13px;
+	}
+	.article-body{
+		font-size:14px;
+	}
+	
+	/*사이드 메뉴*/
+	.aside-list{
+		padding:10px 0 30px 0;
+	}
+	.aside-list > h3 {
+		font-size:15px;
+		font-weight:600;
+	}
+	.aside-list li a{
+		margin-left:8px;
+		font-size:13px;
+		color:#6C6C6C;
+	}
+	
+	/*커서 처리*/
+	.outer-menu-item, .input-search-submit {
+		cursor:pointer; /*올려놨을 시 커서가 손바닥 모양으로 변하게 설정*/
+	}
+	
+</style>
+</head>
+<body>
+	<!-- 전체를 감싸는 태그 -->
+	<div id="page_wrap">
+		<!-- 머리말 -->
+		<header id="main_header">
+			<!-- 제목 -->
+			<hgroup>
+				<h1 class="master-title">HTML5 Example Preview</h1>
+				<h2 class="master-desc">서울동아리</h2>
+			</hgroup>
+		</header>
+		<!-- 내비게이션 -->
+		<nav id="main_nav">
+			<!-- 메뉴 시작 -->
+			<div class="pull-left">
+				<ul class="outer-menu">
+				<!-- 1번 메뉴 -->
+					<li class="outer-menu-item">
+						<span class="menu-title">HTML5</span>
+						<ul class="inner-menu">
+							<li class="inner-menu-item"><a href="#">태그</a></li>
+							<li class="inner-menu-item"><a href="#">속성</a></li>
+						</ul>
+					</li>
+				<!-- 2번 메뉴 -->
+					<li class="outer-menu-item">
+						<span class="menu-title">CSS3</span>
+						<ul class="inner-menu">
+							<li class="inner-menu-item"><a href="#">선택자</a></li>
+							<li class="inner-menu-item"><a href="#">속성</a></li>
+							<li class="inner-menu-item"><a href="#">박스</a></li>
+						</ul>
+					</li>
+				<!-- 3번 메뉴 -->
+					<li class="outer-menu-item">
+						<span class="menu-title">JavaScript</span>
+						<ul class="inner-menu">
+							<li class="inner-menu-item"><a href="#">연산자</a></li>
+							<li class="inner-menu-item"><a href="#">제어문</a></li>
+							<li class="inner-menu-item"><a href="#">함수</a></li>
+							<li class="inner-menu-item"><a href="#">객체</a></li>
+							<li class="inner-menu-item"><a href="#">이벤트</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- 메뉴 끝 -->
+			
+			<!-- 검색 시작 -->
+			<div class="pull-right">
+				<div class="search-bar">
+					<form> <!-- 전송용 아니라 action 등 생략. 디자인만 볼 용도. -->
+						<input type="search" class="input-search">
+						<input type="submit" class="input-search-submit" value="검색">
+					</form>
+				</div>
+			</div>
+			<!-- 검색 끝 -->
+		</nav>
+		
+		<!-- 본문 -->
+		<div id="content">
+			<!-- 본문 좌측 영역 시작-->
+			<section id="main_section">
+				<!-- 1번 내용 -->
+				<article>
+					<div class="article-header">
+						<h1 class="article-title">HTML5 개요와 활용</h1>
+						<p class="article-date">2023년 04월 01일</p>
+					</div>
+					<div class="article-body">
+						<img src="../files/landscape.jpg" width="430" height="280">
+						<br><br>
+						<p>HTML은 태그를 중심으로 데이터를 표현</p>
+						<br>
+						<p>HTML5는 자바스크립트를 이용해서 동적인 데이터 처리 가능</p>
+					</div>
+				</article>
+				<!-- 2번 내용 -->
+				<article>
+					<div class="article-header">
+						<h1 class="article-title">HTML5 응용과 실습</h1>
+						<p class="article-date">2023년 04월 20일</p>
+					</div>
+					<div class="article-body">
+						<img src="../files/S_1.jpg" width="430" height="280">
+						<br><br>
+						<p>HTML은 태그를 중심으로 데이터를 표현</p>
+						<br>
+						<p>HTML5는 자바스크립트를 이용해서 동적인 데이터 처리 가능</p>
+					</div>
+				</article>
+			</section>
+			<!-- 본문 좌측 영역 끝-->
+			
+			<!-- 본문 우측 영역 시작-->
+				<aside id="main_aside">
+				<!-- 1번 메뉴 -->
+					<div class="aside-list">
+						<h3>카테고리</h3>
+						<ul>
+							<li><a href="#">AI</a></li>
+							<li><a href="#">사물인터넷</a></li>
+							<li><a href="#">모바일</a></li>
+							<li><a href="#">IT일반</a></li>
+						</ul>
+					</div>
+				<!-- 2번 메뉴 -->
+					<div class="aside-list">
+						<h3>최신 글</h3>
+						<ul>
+							<li><a href="#">챗GPT가 몰려온다</a></li>
+							<li><a href="#">자동 온도 조절 의류</a></li>
+							<li><a href="#">전기 자동차가 대세</a></li>
+							<li><a href="#">은행 점포가 사라지고 있다</a></li>
+						</ul>
+					</div>
+				</aside>
+			<!-- 본문 우측 영역 끝-->
+		</div>
+		
+		<!-- 꼬리말 -->
+		<footer id="main_footer">
+			<a href="#">HTML5 Programming</a>
+		</footer>
+	</div>
+</body>
+</html>

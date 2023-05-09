@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>함수를 매개변수에 전달하기</title>
+</head>
+<body>
+<script type="text/javascript">   //매개변수를 함수명처럼 사용
+	function callFunctionTenTimes(otherFunction){
+		for(let i=0 ; i<10 ; i++){
+			otherFunction(); //매개변수로 전달된 함수를 실행
+		}
+	}
+	
+	//선언적 함수
+	function justFunction(){
+		document.write('Happy Day!<br>');
+	}
+	
+	//함수 호출 (선언적 함수를 매개 변수에 전달)
+	callFunctionTenTimes(justFunction); //->justFunction함수에 대한 정보를 보냄. 성공(10번 실행)
+	document.write('------------------<br>');
+	
+	//아래의 경우는 함수를 호출하면서 다른 함수를 매개변수로 전달한 것이 아님.
+	//따라서 전달되는 함수가 바로 실행해서 한 번은 동작되지만,
+	//매개변수에 함수 정보가 전달되지 않아 오류가 발생함.
+	//callFunctionTenTimes(justFunction()); ->justFunction함수를 실행함. 오류(1번 실행 후 소멸)
+	
+	//함수 호출 (익명 함수를 매개 변수에 전달)
+	callFunctionTenTimes(function(){
+		document.write('Hello JavaScript!<br>');
+	});
+</script>
+
+</body>
+</html>

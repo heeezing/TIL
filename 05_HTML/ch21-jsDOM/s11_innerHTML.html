@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>innerHTML 속성을 이용한 태그 생성</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수 호출
+	window.onload=function(){
+		//변수 선언 및 초기화
+		let output = '';
+		output += '<ul>';
+		output += '<li>JavaScript</li>';
+		output += '<li>jQuery</li>';
+		output += '<li>Ajax</li>';
+		output += '</ul>';
+		
+		//innerHTML 속성에 문자열을 할당 (태그의 스타일 반영 O)
+		document.body.innerHTML = output;
+		
+		//텍스트로만 처리할 경우 (태그의 스타일 반영 X)
+		//document.body.textContent = output;
+		//<ul><li>JavaScript</li><li>jQuery</li><li>Ajax</li></ul>
+	};
+</script>
+</head>
+<body>
+</body>
+</html>

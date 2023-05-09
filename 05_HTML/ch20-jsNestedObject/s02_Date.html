@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Date</title>
+</head>
+<body>
+<script type="text/javascript">
+	const now = new Date();
+	document.write('now의 값 : ' + now + '<br>');
+	//now의 값 : Tue May 02 2023 17:14:14 GMT+0900 (한국 표준시)
+		
+	document.write('오늘 : ' + now.toString() + '<br>');
+	//오늘 : Tue May 02 2023 17:14:14 GMT+0900 (한국 표준시)
+		
+	document.write('오늘 : ' + now.toLocaleString() + '<br>');
+	//오늘 : 2023. 5. 2. 오후 5:14:14
+		
+	document.write('오늘의 날짜 : ' + now.toLocaleDateString() + '<br>');
+	//오늘의 날짜 : 2023. 5. 2.
+		
+	document.write('오늘의 시간 : ' + now.toLocaleTimeString() + '<br>');
+	//오늘의 시간 : 오후 5:15:20
+	
+	document.write('연도 : ' + now.getFullYear() + '<br>');
+	//연도 : 2023
+	
+	//월 : 0 ~ 11로 반환하기 때문에 1을 더해줘야 함.
+	document.write('월 : ' + (now.getMonth()+1) + '<br>');
+	//월 : 5
+	
+	document.write('일 : ' + now.getDate() + '<br>');
+	//일 : 2
+	
+	//요일 : 0(일) ~ 6(토) 으로 반환 (자바:1~7로반환)
+	document.write('요일 : ' + now.getDay() + '<br>');
+	//요일 : 2
+	
+	//시 : 0 ~ 23 으로 반환
+	document.write('시 : ' + now.getHours() + '<br>');
+	//시 : 17
+	
+	document.write('분 : ' + now.getMinutes() + '<br>');
+	//분 : 25
+	
+	document.write('초 : ' + now.getSeconds() + '<br>');
+	//초 : 16
+	
+	document.write('밀리초 : ' + now.getMilliseconds() + '<br>');
+	//초 : 356
+</script>
+</body>
+</html>

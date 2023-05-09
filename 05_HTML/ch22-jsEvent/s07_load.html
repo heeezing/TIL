@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>load</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수를 호출
+	//이 자체가 이벤트 연결임.
+	//    이벤트속성=이벤트핸들러(이벤트를 처리하는 함수)
+	window.onload=function(){
+		alert('문서가 로드되었습니다.');
+		document.body.style.backgroundColor="yellow";
+		document.getElementById('notice').innerHTML = '날씨 맑음!';
+	};
+</script>
+</head>
+<body>
+	<div id="notice"></div>
+</body>
+</html>

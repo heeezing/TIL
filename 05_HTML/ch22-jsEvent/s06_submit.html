@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function check(){
+		if(document.member.id.value==''){
+			alert('id를 입력하세요!');
+			document.member.id.focus();
+			return false; //submit이 안되게 처리
+		}
+		if(document.member.password.value==''){
+			alert('비밀번호를 입력하세요!');
+			document.member.password.focus();
+			return false;
+		}
+	}
+</script>
+</head>
+<body> 			 	<!--   가짜링크    전송방법 --><!-- return을 명시하지 않으면 false값을 못 받고 실행만 됨 -->
+<form name="member" action="a.jsp" method="post" onsubmit="return check()">
+	id <input type="text" name="id"><br>
+	비밀번호 <input type="password" name="password"><br>
+	<input type="submit" value="확인">
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>click</title>
+<style type="text/css">
+	div#header{
+		background-color:yellow;
+	}
+</style>
+</head>
+<body>
+	<div id="header">클릭</div>
+	<script type="text/javascript">
+	/*
+	 이벤트를 연결해야 하는 태그 뒤에 스크립트를 명시하면
+	 이미 태그를 인식했기 때문에
+	 window.onload=function(){}; 생략 가능
+	*/
+		let header = document.getElementById('header');
+			
+		//익명함수를 이용한 이벤트 연결
+		header.onclick = function(){
+			alert('클릭');
+		};
+	
+	</script>
+</body>
+</html>

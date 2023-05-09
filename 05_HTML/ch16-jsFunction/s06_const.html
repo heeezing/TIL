@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>const</title>
+</head>
+<body>
+<script type="text/javascript">
+	const a = 10; //상수
+	document.write(a + '<br>');
+	document.write('--------------<br>');
+	
+	//a = 20; - 오류. 상수는 변경 불가능.
+	//document.write(a + '<br>');
+	
+	function test(){
+		const b = 20; //블록 레벨 스코프
+		document.write(b + '<br>');
+	}
+	test();  //20
+	//블록 레벨이기 때문에 함수 블록 밖에서 호출 불가능
+	//document.write(b); - 오류
+</script>
+</body>
+</html>

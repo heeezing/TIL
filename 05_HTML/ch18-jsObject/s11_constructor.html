@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>생성자 함수를 이용한 객체 생성</title>
+</head>
+<body>
+<script type="text/javascript">
+	//생성자 함수 정의
+	function Student(name,korean,english,math,science){
+		//속성 지정
+		this.이름 = name;
+		this.국어 = korean;
+		this.영어 = english;
+		this.수학 = math;
+		this.과학 = science;
+		//메서드 지정
+		this.getSum = function(){
+			return this.국어 + this.영어 + this.수학 + this.과학;
+		};
+		this.getAverage = function(){
+			return this.getSum() / 4;
+		};
+		this.toString = function(){
+			return this.이름 + ', ' + this.getSum() + ', ' + this.getAverage();
+		};
+	}
+	
+	//생성자 함수를 이용한 객체 생성
+	const student = new Student('홍길동',99,95,98,97);
+	document.write(student); //=document.write(student.toString());
+	
+	
+	
+</script>
+</body>
+</html>

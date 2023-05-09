@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>﻿querySelector를 이용한 문서객체 탐색</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수를 실행
+	window.onload=function(){
+		//CSS의 선택자를 통해 태그 접근 (무조건 하나의 태그에만 접근!!)
+		let header1 = document.querySelector('#header_1');
+		let header2 = document.querySelector('#header_2');
+		
+		header1.innerHTML = '하하';
+		header2.innerHTML = '호호';
+											//공백 -> 후손 선택자
+		let input1 = document.querySelector('#my_form #input_1');
+		input1.value = '홍길동';
+		
+		//선택자를 통해서 복수의 태그에 접근하는 상황일 때는
+		//복수의 태그 정보를 호출할 수 없고 최상단 태그에 접근만 허용.
+		//따라서 querySeletor는 항상 단수의 태그에 접근할 때만 사용.
+		let title = document.querySelector('h1'); 
+		title.innerHTML = 'Happy Sunday' //맨위의 h1태그에만 적용됨.
+	};
+</script>
+</head>
+<body>
+	<h1 id="header_1">Header</h1>
+	<h1 id="header_2">Header</h1>
+	
+	<form id="my_form">
+		<input type="text" id="input_1">
+	</form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>클래스를 이용한 문서객체 탐색</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수 호출
+	window.onload=function(){
+		//태그의 class 속성이 지정한 class명과 일치하는 문서객체를 배열로 가져옴
+		let foo = document.getElementsByClassName('matched');
+		let output = '';
+		for(let i=0 ; i<foo.length ; i++){
+			output += foo[i].innerHTML + '\n';
+		}
+		alert(output);
+		
+		//클래스명이 여러 개인 경우 공백을 구분자로 해서 문자열로 전달
+		//여러 개의 클래스명을 명시할 때 순서는 바꿔도 됨
+		//let foo2 = document.getElementsByClassName('unmatched matched'); -> 가능
+		let foo2 = document.getElementsByClassName('matched unmatched');
+		let output2 = '';
+		for(let i=0 ; i<foo2.length ; i++){
+			output2 += foo2[i].innerHTML; + '\n';
+		}
+		alert(output2);
+	};
+</script>
+</head>
+<body>
+<p id="foo">
+	<span class="matched">a</span>
+	<span class="matched unmatched">b</span>
+	<span class="unmatched">c</span>
+</p>
+<p id="bar">
+	<span class="matched">x</span>
+</p>
+</body>
+</html>

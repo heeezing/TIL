@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>toFixed(), toLocaleString()</title>
+</head>
+<body>
+<script type="text/javascript">
+	document.write('반올림(자리수 지정)<br>');	
+	let newNum = 12254.437; //Number객체를 호출하지 않아도 자동연결
+	document.write('소수점 셋째자리에서 반올림 : ' + newNum.toFixed(2) + '<br>'); //12254.44
+	document.write('---------------<br>');
+	
+	document.write('숫자 세자리 콤마 지정하기<br>');
+	let number = 134567.493878204;
+	//기본값 : 세자리 콤마 처리, 소수점 넷째 자리에서 반올림
+	document.write(number.toLocaleString() + '<br>'); //134,567.494
+	//소수점 자리수 지정 					    지역			  소수점 자리수
+	document.write(number.toLocaleString(undefined,{maximumFractionDigits:5})); //134,567.49388
+</script>
+</body>
+</html>

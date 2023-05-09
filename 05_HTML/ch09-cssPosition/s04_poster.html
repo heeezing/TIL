@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>영화 홍보 페이지</title>
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap');
+
+	body{
+	background-image:url(background.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-size:cover;
+	background-position:center center;
+	color:white;
+	font-family:'Noto Serif KR', serif;
+	text-align:center;
+	}
+
+	.text{font-size:15pt; line-height:40pt; width:"55%";
+		  padding:10px 10px 200px;}
+	
+	.char{background-color:black;font-weight:bold;
+		  font-size:15pt;letter-spacing:0.3em;}
+	
+	p#t{font:italic bold 30pt/100pt serif;}
+	
+	form{background-image:url(hole.jpg); line-height:30pt;}
+	
+	ul{list-style:none;}
+	
+</style>
+</head>
+<body>
+<br><br><br>
+<h1 align="center"><img src="logo.png"></h1>
+<table>
+	<tr>
+		<td align="right" width="45%"><img src="poster.jpg" width="500"><td>
+		<td class="text">
+			<p id="t">“우린 답을 찾을 거야, 늘 그랬듯이”</p>
+			세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다.<br>
+			지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다.<br>
+			이때 시공간에 불가사의한 틈이 열리고, 남은 자들에게는 이 곳을 탐험해 인류를 구해야 하는 임무가 지워진다.<br>
+			사랑하는 가족들을 뒤로 한 채 인류라는 더 큰 가족을 위해, 그들은 이제 희망을 찾아 우주로 간다.<br>
+			그리고 우린 답을 찾을 것이다. 늘 그랬듯이… 
+		</td>
+	</tr>
+</table>
+<br><br><br>
+
+<div>
+	<p class="char">출연</p>
+		<br>
+		<img src="ch2.jpg" width="100" height="140">&nbsp;&nbsp;&nbsp;
+		<img src="ch3.jpg" width="100" height="140">&nbsp;&nbsp;&nbsp;
+		<img src="ch4.jpg" width="100" height="140">&nbsp;&nbsp;&nbsp;
+		<img src="ch5.jpg" width="100" height="140"><br>
+		매튜 맥커너히&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		앤 해서웨이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		마이클 케인&nbsp;&nbsp;&nbsp;&nbsp;
+		제시카 차스테인<br>
+</div>
+<br><br><br>
+
+<p class="char">예고편</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vABfjuXZhYY"
+title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<br><br><br><br>
+
+<p class="char">예매권 이벤트</p>
+<form action="do.jsp" method="get">
+<fieldset>
+	<legend>광활한 우주로 당신을 초대합니다.</legend>
+	<ul>
+		<li>
+			<label for="name">이름</label>
+			<input type="text" name="name" id="name"
+			 required="required" autofocus="autofocus">
+		</li>
+		
+		<li>
+			<label for="email">이메일</label>
+			<!-- email : 이메일 필드 -->
+			<input type="email" name="email" id="email">
+		</li>
+			
+		<li>
+			<label for="date">응모 날짜ㅣ</label>
+			<!-- email : 이메일 필드 -->
+			<input type="radio" name="date" id="date" value="0505">5월 5일
+			<input type="radio" name="date" id="date" value="0505">5월 6일
+			<input type="radio" name="date" id="date" value="0505">5월 7일
+		</li>
+	
+		<li>
+			<label for="content">응원 메시지</label>
+			<!-- email : 이메일 필드 -->
+			<textarea rows="5" cols="50" name="content" id="content"></textarea>
+		</li>
+		
+		<li>
+			<input type="submit" value="응모">
+		</li>
+	</ul>
+</fieldset>
+</form>
+</body>
+</html>

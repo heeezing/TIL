@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>목록</title>
+</head>
+<body>
+<h3>순서 없는 목록</h3>
+<ul>
+	<li>유치원</li>
+	<li>초등학교</li>
+	<li>중학교</li>
+	<li>고등학교</li>
+	<li>대학교</li>
+</ul>
+
+<ul type="circle">
+	<li>유치원</li>
+	<li>초등학교</li>
+	<li>중학교</li>
+	<li>고등학교</li>
+	<li>대학교</li>
+</ul>
+
+<ul type="square">
+	<li>유치원</li>
+	<li>초등학교</li>
+	<li>중학교</li>
+	<li>고등학교</li>
+	<li>대학교</li>
+</ul>
+
+
+<h3>순서 있는 목록</h3>
+<ol>
+	<li>서울</li>
+	<li>부산</li>
+	<li>광주</li>
+	<li>인천</li>
+</ol>
+
+<ol type="A">
+	<li>서울</li>
+	<li>부산</li>
+	<li>광주</li>
+	<li>인천</li>
+</ol>
+
+<ol type="a">
+	<li>서울</li>
+	<li>부산</li>
+	<li>광주</li>
+	<li>인천</li>
+</ol>
+
+<ol type="I">
+	<li>서울</li>
+	<li>부산</li>
+	<li>광주</li>
+	<li>인천</li>
+</ol>
+
+<ol type="i">
+	<li>서울</li>
+	<li>부산</li>
+	<li>광주</li>
+	<li>인천</li>
+</ol>
+
+<!-- 순서 있는 목록 : 100번부터 시작, 중간에 200번으로 점프 -->
+<ol type="1" start="100">
+	<li>자동차</li>
+	<li value="200">컴퓨터</li>
+	<li>휴대폰</li>
+	<li>시계</li>
+</ol>
+
+<!-- reversed : 항목을 역순으로 표시 -->
+<ol type="1" reversed="reversed">
+	<li>자동차</li>
+	<li>컴퓨터</li>
+	<li>휴대폰</li>
+	<li>시계</li>
+</ol>
+
+<h3>ul 태그 하위 요소로 ol 태그 사용 (반대로도 가능)</h3>
+<ul type="square">
+	<li>로맨틱코미디
+		<ol>
+			<li>해리와 샐리가 만났을 때</li>
+			<li>당신이 잠든 사이에</li>
+		</ol>
+	</li>
+	<li>액션
+		<ol>
+			<li>글래디에이터</li>
+			<li>007 어나더데이</li>
+			<li>다이하드</li>
+		</ol>
+	</li>	
+</ul>
+
+
+<h3>dl,dt,dd 태그 : 설명 목록 만들기
+	dl 태그는 제목(dt)과 설명(dd)이 한 쌍인 설명 목록을 만듬</h3>
+<dl>
+	<dt>올레1코스</dt> <!-- 제목 -->
+	<dd>코스 : 시흥 초등학교 - 광치기 해변</dd> <!-- 설명 -->
+	<dd>거리 : 14.6km(4~5시간)</dd>
+	<dt>올레2코스</dt>
+	<dd>코스 : 광치기 해변 - 온평 포구</dd> <!-- 설명 -->
+	<dd>거리 : 14.5km(4~5시간)</dd>	
+</dl>
+
+</body>
+</html>

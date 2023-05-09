@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>key</title>
+<script type="text/javascript">
+/*
+ 이벤트이름		 설명		 발생 순서
+ ------------------------------------
+ keydown	키보드가 눌러질 때		1
+ keypress	글자가 입력될 때		2
+ 			(한글 사용할 수X)
+ keyup		키보드가 떼어질 때		3
+ */
+	//윈도우가 로드될 때 이벤트 핸들러를 호출
+	window.onload=function(){
+		//이벤트 연결
+		document.getElementById('content').onkeyup=function(){
+			//입력한 글자 수
+			//이벤트 핸들러 내의 this = 이벤트가 발생한 객체(태그) = textarea
+			let inputLength = this.value.length;
+			//남은 글자 수
+			let remain = 150 - inputLength;
+			//문서객체에 반영
+			let letter = document.getElementById('letter');
+			letter.innerHTML = remain;
+		}
+	};
+</script>
+</head>
+<body>
+<h4 id="letter">150</h4>
+<textarea rows="5" cols="30" name="content" id="content"></textarea>
+</body>
+</html>

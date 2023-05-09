@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>id를 이용한 문서객체 탐색</title>
+<script type="text/javascript">
+	//윈도우가 로드될 때 함수 호출
+	window.onload=function(){
+		//id를 통해서 문서객체를 가져옴 (id는 값이 하나이므로 element->단수)
+		let header1 = document.getElementById('header_1');
+		let header2 = document.getElementById('header_2');
+		
+		//id를 통해서 태그에 접근하여 태그의 내용 변경
+		header1.innerHTML = '하하';
+		header2.innerHTML = '호호';
+	};
+</script>
+</head>
+<body>
+	<h1 id="header_1">Header</h1>
+	<h1 id="header_2">Header</h1>
+</body>
+</html>

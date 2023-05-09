@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>div</title>
+<style type="text/css">
+	div.a{
+		width:500px;
+		height:100px;
+		border:solid 1px orange;
+		
+		/*가로 방향 정렬*/
+		text-align:center;
+		/*세로 방향 정렬*/
+		vertical-align:middle;
+		/*div에서는 vertical-align 속성이 적용되지 않기 때문에
+		  display:table-cell을 명시함으로서
+		  테이블의 cell에서(td에서)세로 방향 정렬하는 것처럼 처리*/
+		display:table-cell;
+	}
+	
+	div.b{
+		width:500px;
+		height:100px;
+		border:1px solid orange;
+		
+		display:flex;
+		align-items:center; /*세로 방향 정렬*/
+		justify-content:center; /*가로 방향 절렬*/
+	}
+</style>
+</head>
+<body>
+<div class="a">호호</div>
+<br><br>
+<div class="b">하하</div>
+</body>
+</html>
