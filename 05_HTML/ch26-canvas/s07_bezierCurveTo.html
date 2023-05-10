@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas</title>
+<script type="text/javascript">
+	window.onload=function(){
+		let canvas = document.getElementById('canvas');
+		if(canvas.getContext){
+			let context = canvas.getContext('2d');
+			
+			context.beginPath();
+			context.moveTo(50,200); //시작점 표시
+			//두개의 조절점 - (90,50)과 (310,50)을 이용해 (350,200)까지의 곡선을 그림
+			context.bezierCurveTo(90,50,310,50,350,200);
+			context.stroke();
+			
+		}else{
+			alert('브라우저가 캔버스를 지원하지 않습니다.');
+		}
+	};
+</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="220"></canvas>
+	<br><br>
+	<hr size="1" width="90%" noshade="noshade">
+	<br><br>
+	<img src="../files/exp_02.gif">
+</body>
+</html>

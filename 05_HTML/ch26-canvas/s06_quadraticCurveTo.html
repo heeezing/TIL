@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas</title>
+<script type="text/javascript">
+	window.onload=function(){
+		let canvas = document.getElementById('canvas');
+		if(canvas.getContext){
+			let context = canvas.getContext('2d');
+			
+			context.beginPath();
+			//시작점(50,200) 표시
+			context.moveTo(50,200);
+			//200,50을 조절점으로 하여 현재 위치(시작점)에서 350,200까지 곡선을 그림
+			context.quadraticCurveTo(200,50,350,200);
+			context.stroke();
+
+		}else{
+			alert('브라우저가 캔버스를 지원하지 않습니다.');
+		}
+	};
+</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="220"></canvas>
+	<br><br>
+	<hr size="1" width="90%" noshade="noshade">
+	<br><br>
+	<img src="../files/exp_01.gif">
+</body>
+</html>

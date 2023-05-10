@@ -3,23 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Canvas</title>
-<style type="text/css">
-	#canvas{
-		border:1px solid #999999;
-	}
-</style>
 <script type="text/javascript">
 	window.onload=function(){
 		let canvas = document.getElementById('canvas');
-		//canvas 태그에 접근하면 객체로 인식
-		//canvas가 도화지, getContext가 붓의 역할을 함
+		//브라우저가 캔버스를 지원하는지 조건 체크
 		if(canvas.getContext){
 			let context = canvas.getContext('2d');
 			context.fillStyle = 'rgb(200,0,0)'; //색상 지정
-			//사각형 -> (캔버스상에서의)x좌표,y좌표,width,height
-			context.fillRect(0,0,100,100); 
-		}else{	
-			alert('브라우저가 캔버스를 지원하지 않습니다.');
+			context.fillRect(10,10,100,100);
+			
+			//색상 및 알파값 지정(0.0 완전 투명 ~ 1.0 완전 불투명)
+			context.fillStyle = 'rgba(0,0,200,0.5)';
+			context.fillRect(50,50,100,100);
+		}else{
+			alert('브라우저가 캔버스를 지원하지 않습니다.')
 		}
 	};
 </script>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<style type="text/css">
+	.high_light_0{
+		background-color:yellow ;
+	}
+	.high_light_1{
+		background-color:orange;
+	}
+	.high_light_2{
+		background-color:blue;
+	}
+	.high_light_3{
+		background-color:green;
+	}
+	.high_light_4{
+		background-color:red;
+	}
+</style>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+				//addClass가 index를 넣어주고, 반환된 데이터도 받음
+		$('h1').addClass(function(index){
+			//index : 배열의 인덱스
+			return 'high_light_' + index; //클래스명 
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>item - 0</h1>
+	<h1>item - 1</h1>
+	<h1>item - 2</h1>
+	<h1>item - 3</h1>
+	<h1>item - 4</h1>
+</body>
+</html>

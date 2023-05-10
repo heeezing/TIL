@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		///하나의 속성 제어
+		//$('img').attr('width',100);
+		
+		///복수의 속성 제어
+		//attr이 속성 제어한 것을 또 다시 배열 그대로 반환함.
+		//따라서 width가 150이 된 배열을 그 다음 attr이 또 받음.
+		/* $('img').attr('width',150)
+				   .attr('height',150);*/
+		//권장 방식) 객체 형태로 만들어 key,value를 쌍으로 명시
+		$('img').attr({width:200,height:200});
+	});
+</script>
+</head>
+<body>
+	<img src="../files/blue.jpg">
+	<img src="../files/flower.jpg">
+	<img src="../files/winter.jpg">
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//empty() : 특정 문서 객체의 후손을 모두 제거
+		$('div').empty();
+		//remove() : 특정 문서 객체를 제거
+		$('p').remove();
+	});
+</script>
+</head>
+<body>
+	<div>
+		<h1>Header - 0</h1>
+		<h1>Header - 1</h1>
+	</div>
+	
+	<p>
+		<span>Content - 0</span>
+		<span>Content - 1</span>
+	</p>
+</body>
+</html>

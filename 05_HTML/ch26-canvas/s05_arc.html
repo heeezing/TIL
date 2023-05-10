@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Canvas</title>
+<script type="text/javascript">
+	window.onload=function(){
+		let canvas = document.getElementById('canvas');
+		if(canvas.getContext){
+			let context = canvas.getContext('2d');
+			/*
+			arc메서드에서의 각도는 도(degree)로 표시하지 않고 라디안 값으로 표기함.
+			1라디안 = 180 / Math.PI,
+			60도 = (Math.PI / 180) * 60
+			360도 = Math.PI * 2
+			
+					   1.5파이(270도)
+							|
+							|
+		  	 1파이(180도)---중심점---0파이,2파이(0도,360도)
+		  	 				|
+		  	 				|
+		  	 		   0.5파이(90도)
+			*/
+			
+			//x 70, y 70에서 반시계방향, 반지름 20px인 원 생성. 60도까지만 그리고 테두리만 표시.
+			context.beginPath();
+			//context.arc(x,y,r(반지름),시작각도,끝각도,anticlockwise(반시계방향));
+			context.arc(70,70,20,0,(Math.PI/180)*60,true); //반시계방향:true,시계방향:false		
+			//context.closePath(); 원이 닫아져서 이 경우엔 선택적 생략
+			context.stroke();
+			
+			//x 130, y 110에서 반시계방향, 반지름 50px인 원 생성. 색을 채우고 끝 각도는 360도.
+			context.beginPath();
+			context.arc(130,110,50,0,Math.PI*2,true);
+			context.closePath(); //원이기 때문에 생략 가능
+			context.fillStyle = 'rgb(0,200,200)';
+			context.fill();
+			context.stroke();
+			
+			//x 190, y 70에서 반시계방향, 반지름 20px인 원 생성. 110도에서 170도까지만 그리고, 테두리 표시.
+			context.beginPath();
+			context.arc(190,70,20,(Math.PI/180)*110,(Math.PI/180)*170,true);
+			context.stroke();
+			
+		}else{
+			alert('브라우저가 캔버스를 지원하지 않습니다.');
+		}
+	};
+</script>
+</head>
+<body>
+	<canvas id="canvas" width="700" height="500"></canvas>
+</body>
+</html>
