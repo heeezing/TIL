@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<style type="text/css">
+	.reverse{
+		background:black;
+		color:white;
+	}
+</style>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//click이벤트 연결
+				 //이벤트타입,이벤트핸들러
+		$('h1').on('click',function(){
+			//이벤트가 발생한 태그
+			$(this).html(function(index,html){
+				return html + '+';
+			});
+		});
+		
+		//객체 형태로 입력하여 복수의 이벤트 명시 가능
+		$('h1').on({
+			mouseover:function(){
+				$(this).addClass('reverse'); //클래스 추가
+			},
+			mouseout:function(){
+				$(this).removeClass('reverse'); //클래스 제거
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>Header-0</h1>
+	<h1>Header-1</h1>
+	<h1>Header-2</h1>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery UI</title>
+<link rel="stylesheet" href="../css/jquery-ui.min.css">
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#datepicker').datepicker({
+			showMonthAfterYear:true, //(default값 : 월 연)
+			dateFormat:'yy-mm-dd', //(주의)yyyy로 명시하면 연도 반복(20232023)
+			changeMonth:true, //월 변경
+			dayNamesMin:['일','월','화','수','목','금','토'],
+			monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			changeYear:true //연도 변경
+		});
+	});
+</script>
+</head>
+<body>			
+	<p>
+		Date : <input type="text" id="datepicker">
+	</p>
+</body>
+</html>

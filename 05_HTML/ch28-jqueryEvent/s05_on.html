@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//.on() : 현재 존재하는 태그 뿐만 아니라 동적으로 생성된 태그에도 이벤트 연결 가능.
+		
+		//동적으로 생성된 태그(미래에 만들어질 태그)에 이벤트 연결
+					//이벤트타입,이벤트발생태그,이벤트핸들러
+		$(document).on('click','h1',function(){
+			let length = $('h1').length; //h1태그의 개수
+			let targetHTML = $(this).html(); //이벤트가 발생한 태그의 내용
+			//태그를 생성해서 div에 추가
+			$('#wrap').append('<h1>' + length + ' - ' + targetHTML + '</h1>')
+		});
+	});
+</script>
+</head>
+<body>
+	<div id="wrap">
+		<h1>Header</h1>
+	</div>
+</body>
+</html>

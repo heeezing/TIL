@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<style type="text/css">
+	.reverse{
+		background-image:url(../files/winter.jpg);
+		color:white;
+	}
+</style>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#btn1').mouseover(function(){
+			$('p').css('background-color','yellow');
+		});
+		$('#btn1').mouseout(function(){
+			$('p').css('background-color','purple');
+		});
+		
+		$('#btn2').hover(function(){
+			//mouseover 이벤트 발생 시 호출
+			$('p').css('background-color','yellow');
+		},function(){
+			//mouseout 이벤트 발생 시 호출
+			$('p').css('background-color','purple');
+		});
+		
+		$('h1').hover(function(){
+			//mouseover 이벤트 발생 시 호출
+			//이벤트가 발생한 태그(this)에 reverse 클래스속성 추가
+			$(this).addClass('reverse'); 
+		},function(){
+			//mouseout 이벤트 발생 시 호출
+			//이벤트가 발생한 태그(this)에 reverse 클래스속성 제거
+			$(this).removeClass('reverse'); 
+		});
+	});
+</script>
+</head>
+<body>
+	<button id="btn1">mouseover/out</button>
+	<button id="btn2">hover</button>
+	<p>내용</p>
+							<!-- 수평선 입체감 제거 -->
+	<hr size="1" width="90%" noshade="noshade">
+	
+	<h1>Header-0</h1>
+	<h1>Header-1</h1>
+	<h1>Header-2</h1>
+</body>
+</html>

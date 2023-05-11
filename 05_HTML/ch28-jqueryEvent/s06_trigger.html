@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//.trigger(이벤트 타입) : 이벤트 강제 발생
+		$('h1').on('click',function(){
+			$(this).html(function(index,html){
+				return html + '*';
+			});
+		});
+		
+		//1초마다 함수를 실행
+		setInterval(function(){
+			//이벤트 강제 발생
+			$('h1').trigger('click'); 
+		},1000);
+	});
+</script>
+</head>
+<body>
+	<h1>Start : </h1>
+</body>
+</html>

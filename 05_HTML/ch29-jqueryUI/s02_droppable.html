@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery UI</title>
+<link rel="stylesheet" href="../css/jquery-ui.min.css">
+<style type="text/css">
+	#draggable{width:100px;height:100px;padding:0.5em;float:left;margin:10px 10px 10px 0;}
+	#droppable{width:150px;height:150px;padding:0.5em;float:left;margin:10px;}
+</style>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#draggable').draggable();
+		$('#droppable').droppable({
+			drop:function(event,ui){
+				//태그가 영역에 진입할 때 이벤트 발생
+								//css파일에 포함되어있는 클래스
+				$(this).addClass('ui-state-highlight')
+					   .find('p') //find():상위태그의 하위태그를 찾는 메서드
+					   .html('Dropped!'  
+							   );
+			},out:function(event,ui){
+				//태그가 영역 밖으로 나갈 때 이벤트 발생
+				$(this).removeClass('ui-state-highlight')
+					   .find('p')
+					   .html('Drop here');
+			}
+		});
+	});
+</script>
+</head>
+<body>				<!-- css파일에 들어있는 클래스 -->
+<div id="draggable" class="ui-widget-content"> 
+	<p>Drag me around</p>
+</div>
+
+<div id="droppable" class="ui-widget-header">
+	<p>Drop here</p>
+</div>
+</body>
+</html>

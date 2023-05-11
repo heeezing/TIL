@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery UI</title>
+<link rel="stylesheet" href="../css/jquery-ui.min.css">
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#dialog').dialog({
+			resizable:false, //사이즈 변경 불가 처리
+			height:200,
+			modal:true, //다이얼로그가 표시되면 부모 영역을 선택할 수 없음
+			buttons:{ 
+				'Delete all items':function(){ //공백때문에 작은따옴표 안에 명시
+					//다이얼로그 닫기
+					$(this).dialog('close');
+				},
+				Cancel:function(){
+					//다이얼로그 닫기
+					$(this).dialog('close');
+				}
+			}
+		});
+	});
+</script>
+</head>
+<body>			
+<div id="dialog" title="Basic dialog">
+	<p>여기는 대한민국의 수도 서울의 심장부인 강남의 역삼역 근처 한독 빌딩의 강의실입니다.</p>
+</div>
+<p>
+	부산에서 여행 중에 방문할 수 있는 명소를 추천해주세요!
+</p>
+</body>
+</html>

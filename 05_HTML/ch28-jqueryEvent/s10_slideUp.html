@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery</title>
+<style type="text/css">
+	h1{
+		width:300px;
+		height:200px;
+		background-color:#FF0;
+	}
+</style>
+<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#btn1').on('click',function(){
+			//위로 올라가면서 숨겨짐
+			$('h1').slideUp(1000);
+		});
+		
+		$('#btn2').on('click',function(){
+			//아래로 내려가면서 보여짐
+			$('h1').slideDown(1000);
+		});
+		
+		$('#btn3').on('click',function(){
+			$('h1').slideToggle('fast');
+		});
+	});
+</script>
+</head>
+<body>
+	<button id="btn1">SlideUp</button>
+	<button id="btn2">SlideDown</button>
+	<button id="btn3">SlideToggle</button>
+	<h1>내용</h1>
+</body>
+</html>
