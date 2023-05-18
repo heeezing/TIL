@@ -9,16 +9,22 @@
 	window.onload=function(){
 		let myForm = document.getElementById('myForm');
 		myForm.onsubmit=function(){
-			
-			let c0 = document.getElementById('c0');
-			let c1 = document.getElementById('c1');
-			let c2 = document.getElementById('c2');
-			
-			if(c0.value==0 && c1.value==0 && c2.value==0){
-				alert('최소 하나의 수량은 선택해야 합니다.')
+			let items = document.querySelectorAll('input[type="number"]');
+			//수량 필수 입력 (기본값 0을 지우고 공백으로 제출할 경우)
+			for(let i=0 ; i<items.length ; i++){
+				if(items[i].value==''){
+					let label = document.querySelector('label[for="'+items[i].id+'"]');
+					alert(label.textContent + '의 수량을 입력하세요!');/*label.innerHTML도 가능*/
+					items[i].value = 0;
+					items[i].focus();
+					return false;
+				}
+			}
+			//최소 주문 수량 체크
+			if(items[0].value==0 && items[1].value==0 && items[2].value==0){
+				alert('세 가지 음식 중 하나는 꼭 주문해야 합니다.')
 				return false;
 			}
-	
 		};//end of onsubmit
 	};//end of onload
 </script>
