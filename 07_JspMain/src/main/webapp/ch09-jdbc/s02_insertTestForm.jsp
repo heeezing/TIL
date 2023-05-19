@@ -34,7 +34,7 @@
 		
 		<div class="align-center">
 			<input type="submit" value="전송">
-			<input type="button" value="목록" onclick="s04_selectTest.jsp">
+			<input type="button" value="목록" onclick="location.href='s04_selectTest.jsp'">
 		</div>
 	</form>
 </div>
