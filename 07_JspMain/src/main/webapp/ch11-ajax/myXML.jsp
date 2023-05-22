@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/xml; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%-- 주석 --%>
-<?xml version="1.0" encoding="UTF-8"?><!-- 주석 -->
+<%-- xml 선언 전에는 jsp주석 --%>
+<?xml version="1.0" encoding="UTF-8"?><!-- 선언 후에는 html 주석 가능 -->
 <people>
 	<person>
 		<name>강호동</name>

@@ -12,6 +12,7 @@
 			success:function(param){
 						//find : 태그에 접근, 배열로 반환
 				$(param).find('person').each(function(){
+									    //여기서 this = 이벤트가 일어난 person태그
 					let name = '<li>' + $(this).find('name').text() + '</li>';
 					let job = '<li>' + $(this).find('job').text() + '</li>';
 					let age = '<li>' + $(this).find('age').text() + '</li>';
