@@ -14,6 +14,16 @@ public class MemberVO {
 	private String phone;
 	private Date reg_date;
 	
+	//비밀번호 체크
+	public boolean isCheckedPassword(String userPasswd) {
+		//passwd : DB에 저장된 비밀번호
+		//userPasswd : loginForm에서 입력한 비밀번호
+		if(passwd.equals(userPasswd)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public int getNum() {
 		return num;
 	}
