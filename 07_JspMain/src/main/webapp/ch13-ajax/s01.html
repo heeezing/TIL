@@ -69,8 +69,8 @@
 			event.preventDefault();
 			
 			//입력 양식의 내용을 요청 매개 변수 문자열로 만듬
-			//(파라미터네임과 value의 쌍, 인코딩 처리)
 			//.serialize() : 입력한 데이터를 다 불러오는 메서드
+			//(데이터 : 파라미터네임과 value의 쌍 형태로 인코딩 처리 되어 불러옴)
 			let input_data = $(this).serialize();
 			
 			//서버와 통신

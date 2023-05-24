@@ -6,7 +6,7 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ include file="dbInfo.jspf" %>
-<%-- 전체 데이터를 목록 형태로 보여주기 때문에 배열형태 [] 안에 작성--%>
+<%-- 전체 데이터(여러 레코드)를 목록 형태로 보여주기 때문에 [] 안에 작성--%>
 [<%
 	Connection conn = null;
 	PreparedStatement pstmt = null;
