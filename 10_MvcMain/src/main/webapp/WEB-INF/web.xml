@@ -8,7 +8,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>DispatcherServlet</servlet-name>
-  	<url-pattern>/dispatcher</url-pattern>
+  	<url-pattern>*.do</url-pattern>
   </servlet-mapping>
   <!-- servlet 주소 매핑 끝 -->
   <welcome-file-list>
