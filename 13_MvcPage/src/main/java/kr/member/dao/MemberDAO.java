@@ -28,7 +28,8 @@ public class MemberDAO {
 		try {
 			//커넥션풀로부터 커넥션을 할당받음
 			conn = DBUtil.getConnection();
-			//오토커밋 해제 (sql문이 3개이므로 오토커밋을 해제하고 수작업 필요) 
+			//오토커밋 해제
+			//(sql문 1개 : 오토커밋 / 2개 이상 : 오토커밋 해제, 수작업 필요) 
 			conn.setAutoCommit(false);
 			
 			//회원번호(mem_num) 구하기
@@ -117,9 +118,112 @@ public class MemberDAO {
 	
 	
 	//회원상세정보
+	public MemberVO getMember(int mem_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberVO member = null;
+		String sql = null;
+		
+		try {
+			//커넥션 풀로부터 커넥션을 할당받음
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "SELECT * FROM zmember m JOIN zmember_detail d "
+					+ "ON m.mem_num=d.mem_num WHERE m.mem_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setInt(1, mem_num);
+			//SQL문 실행
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				member = new MemberVO();
+				member.setMem_num(rs.getInt("mem_num"));
+				member.setId(rs.getString("id"));
+				member.setAuth(rs.getInt("auth"));
+				member.setPasswd(rs.getString("passwd"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setEmail(rs.getString("email"));
+				member.setZipcode(rs.getString("zipcode"));
+				member.setAddress1(rs.getString("address1"));
+				member.setAddress2(rs.getString("address2"));
+				member.setPhoto(rs.getString("photo"));
+				member.setReg_date(rs.getDate("reg_date"));
+				member.setModify_date(rs.getDate("modify_date"));
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return member;
+	}
+		
+	
 	//회원정보 수정
+	public void updateMember(MemberVO member) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			//커넥션 풀로부터 커넥션을 할당받음
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "UPDATE zmember_detail "
+				+ "SET name=?,phone=?,email=?,zipcode=?,address1=?,address2=?,modify_date=SYSDATE "
+				+ "WHERE mem_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getPhone());
+			pstmt.setString(3, member.getEmail());
+			pstmt.setString(4, member.getZipcode());
+			pstmt.setString(5, member.getAddress1());
+			pstmt.setString(6, member.getAddress2());
+			pstmt.setInt(7, member.getMem_num());
+			//SQL문 실행
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//비밀번호 수정
-	//프로필사진 수정
+	
+	
+	//프로필 사진 수정
+	public void updateMyPhoto(String photo, int mem_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			//커넥션 풀로부터 커넥션을 할당 받음
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "UPDATE zmember_detail SET photo=? WHERE mem_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setString(1, photo);
+			pstmt.setInt(2, mem_num);
+			//SQL문 실행
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally{
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//회원 탈퇴 (회원정보 삭제)
 	
 	

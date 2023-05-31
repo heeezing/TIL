@@ -22,7 +22,7 @@
 		<!-- 일반회원만 보는 메뉴 : 로그인되어있고, auth가 2 -->
 		<c:if test="${!empty user_num && user_auth == 2}"> 
 		<li>
-			<a href="${pageContext.request.contextPath}/member/myPage.do">MyPage</a>
+			<a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a>
 		</li>
 		</c:if>
 		

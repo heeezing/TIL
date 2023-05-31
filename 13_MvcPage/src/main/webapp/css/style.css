@@ -131,4 +131,24 @@ input[type="number"]{
 	margin-left:130px;
 }
 
+/* ----------로그인---------- */
+#login_form #id,#login_form #passwd{
+	width:200px;
+}
 
+/* ----------마이 페이지---------- */
+.mypage-div{
+	width:48%;
+	float:left;
+	padding:5px;
+}
+.mypage-end{
+	clear:both; /*float 해제*/
+}
+.my-photo{
+	object-fit:cover;
+	/*정사각형이 아니라 직사각형일 경우 원 안에 보여지게 할 중심 이미지의 위치를 지정*/
+	object-position:top;
+	/*사각형의 모서리 둥근 정도를 지정 (50% : 완전한 원)*/
+	border-radius:50%;
+}
