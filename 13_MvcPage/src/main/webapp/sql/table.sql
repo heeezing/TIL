@@ -23,3 +23,29 @@ CREATE TABLE zmember_detail(
 );
 
 CREATE SEQUENCE zmember_seq;
+
+
+--게시판
+CREATE TABLE zboard(
+	board_num number,
+	title varchar2(150) not null,
+	content clob not null,
+	hit number(9) default 0 not null,
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	filename varchar2(150),
+	ip varchar2(40) not null,
+	mem_num number not null,
+	constraint zboard_pk primary key (board_num),
+	constraint zboard_fk foreign key (mem_num) references zmember (mem_num)
+);
+
+CREATE SEQUENCE zboard_seq;
+
+
+
+
+
+
+
+

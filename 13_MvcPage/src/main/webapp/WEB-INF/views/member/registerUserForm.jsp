@@ -37,7 +37,7 @@
 						idChecked = 0;
 						$('#message_id').css('color','red')
 										.text('중복된 ID');
-						${'#id'}.val('').focus();
+						$('#id').val('').focus();
 					}else{
 						idChecked = 0;
 						alert('아이디 중복 체크 오류 발생');

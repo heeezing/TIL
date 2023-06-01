@@ -95,6 +95,17 @@ table td, table th{
 	padding:5px;
 }
 
+/* ----------게시판 글 상세---------- */
+ul.detail-info{
+	list-style:none;
+}
+ul.detail-info li{
+	display:inline-block;
+}
+.detail-img{
+	max-width:500px;
+}
+
 /* ----------공통 등록/수정 폼---------- */
 form{
 	width:600px;

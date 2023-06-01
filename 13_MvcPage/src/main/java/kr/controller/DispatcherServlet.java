@@ -2,7 +2,7 @@ package kr.controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,40 +22,53 @@ public class DispatcherServlet extends HttpServlet{
 			                  new HashMap<String,Action>();
 
 	@Override
-	public void init(ServletConfig config) throws ServletException {
-		Properties pr = new Properties();
-		//"/WEB-INF/ActionMap.properties" 반환
-		String props = config.getInitParameter("propertiesPath");
-		//ActionMap.properties 파일의 절대 경로 구하기
-		String path = config.getServletContext().getRealPath(props);
-		FileInputStream fis = null;
-		try{
-			fis = new FileInputStream(path);
-			//파일 스트림을 Properties 객체 넘겨 key와 value 구분
-			pr.load(fis);
-		}catch(IOException e){
-			throw new ServletException(e);
-		}finally{
-			if(fis!=null)try{fis.close();}catch(IOException e){}
-		}
+	public void init(ServletConfig config)throws ServletException{
+		// "/WEB-INF/ActionMap.properties" 반환
+		String propsPath = config.getInitParameter("propertiesPath");
 		
-		//Properties 객체에서 key구하기
+		//web.xml에 아래와 같이 properties 파일 분할할 경우
+        // /WEB-INF/ActionMap.properties,/WEB-INF/ActionMap2.properties
+        String[] propsArray = propsPath.split(",");
+        if(propsArray == null){
+        	//properties 파일이 분리되어 있지 않아도 배열로 변환
+        	propsArray = (String[])Arrays.asList(propsPath).toArray();
+        }
+        
+        Properties pr = new Properties();//명령어와 처리클래스의 매핑정보를 저장할 Properties객체 생성
+		
+        for(String props : propsArray){
+        	FileInputStream fis = null;
+        	try {
+        		String path = config.getServletContext().getRealPath(props);
+        		fis = new FileInputStream(path); //ActionMap.properties파일의 내용을 읽어옴
+            		pr.load(fis);//ActionMap.properties파일의 정보를  Properties객체에 저장
+        	} catch (IOException e) {
+            		throw new ServletException(e);
+        	} finally {
+            		if (fis != null) try { fis.close(); } catch(IOException ex) {}
+        	} 	
+        }
+        System.out.println("-----------------------------");
+		//Properties 객체에서 key 구하기
 		Iterator<?> keyIter = pr.keySet().iterator();
 		while(keyIter.hasNext()){
-			String command = (String)keyIter.next();//key
-			String className = pr.getProperty(command);//value
+			String command = (String)keyIter.next(); //key
+			String className = pr.getProperty(command); //value
 			
 			try {
 				//문자열을 이용해 클래스를 찾아 Class 타입으로 반환
 				Class<?> commandClass = Class.forName(className);
 				//객체로 생성
 				Object commandInstance = commandClass.getDeclaredConstructor().newInstance();
+				
+				System.out.println(command + "," + commandInstance);
 				//HashMap에 key와 value로 등록
 				commandMap.put(command, (Action)commandInstance);
 			} catch (Exception e) {
 				throw new ServletException(e);
 			} 
 		}
+		System.out.println("-----------------------------");
 	}
 	@Override
 	protected void doGet(HttpServletRequest request, 
