@@ -157,7 +157,25 @@
 				<input type="button" value="회원 탈퇴" onclick="location.href='deleteUserForm.do'">
 			</h3>
 		</div> <%-- end of .mypage-div --%>
-		
+		<div class="mypage-div">
+			<h3>신규 게시물</h3>
+			<table>
+				<tr>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>등록일</th>
+				</tr>
+				<c:forEach var="board" items="${boardList}">
+				<tr>
+					<%-- target="_blank" : 새탭으로 열기 --%>
+					<%-- fn:substring(board.title,0,12) : 12자까지만 출력해라 --%>
+					<td><a href="${pageContext.request.contextPath}/board/detail.do?board_num=${board.board_num}" target="_blank">${fn:substring(board.title,0,12)}</a></td>
+					<td>${board.id}</td>
+					<td>${board.reg_date}</td>
+				</tr>
+				</c:forEach>
+			</table>
+		</div> <%-- end of .mypage-div --%>
 		<%-- float 해제 --%>
 		<div class="mypage-end"></div>
 	</div>
