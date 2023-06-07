@@ -158,7 +158,7 @@
 			</h3>
 		</div> <%-- end of .mypage-div --%>
 		<div class="mypage-div">
-			<h3>신규 게시물</h3>
+			<h3>관심 게시물 목록</h3>
 			<table>
 				<tr>
 					<th>제목</th>

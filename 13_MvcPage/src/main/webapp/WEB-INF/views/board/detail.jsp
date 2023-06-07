@@ -8,6 +8,7 @@
 <title>글 상세</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/board.fav.js"></script>
 </head>
 <body>
 <div class="page-main">
@@ -44,6 +45,14 @@
 		<hr size="1" noshade="noshade" width="100%">
 		<ul class="detail-sub">
 			<li>
+				<%-- 좋아요 --%>
+				<%-- html은 속성태그 추가X (예외)'data-' 형태로만 추가 가능--%>
+				<img id="output_fav" data-num="${board.board_num}" 
+					 src="${pageContext.request.contextPath}/images/fav01.gif" width="50">
+				좋아요
+				<span id="output_fcount"></span>
+			</li>
+			<li>
 				<c:if test="${!empty board.modify_date}">
 				최근 수정일 : ${board.modify_date}
 				</c:if>
@@ -57,7 +66,7 @@
 				 let delete_btn = document.getElementById('delete_btn');
 				 //이벤트 연결
 				 delete_btn.onclick=function(){
-					 let choice = confirm('삭제하겠습니까?');
+					 let choice = confirm('삭제하시겠습니까?');
 					 if(choice){
 						 //히스토리를 지우면서 이동
 						 location.replace('delete.do?board_num=${board.board_num}');
@@ -67,6 +76,32 @@
 				</c:if>
 			</li>
 		</ul>
+		<!-- 댓글 시작 -->
+		<div id="reply_div">
+			<span class="re-title">댓글 달기</span>
+			<form id="re_form">
+				<input type="hidden" name="board_num" value="${board.board_num}" id="board_num">
+				<textarea rows="3" cols="50" name="re_content" id="re_content" class="rep-content"></textarea>
+				<c:if test="${!empty user_num}"> <!-- 로그인 여부 체크 -->
+				<div id="re_first">
+					<span class="letter-count">300/300</span>
+				</div>
+				<div id="re_second" class="align-right">
+					<input type="submit" value="전송">
+				</div>
+				</c:if>
+			</form>
+		</div>
+		<!-- 댓글 목록 출력 시작 -->
+		<div id="output"></div>
+		<div class="paging-button" style="display:none;">
+			<input type="button" value="다음글 보기">
+		</div>
+		<div id="loading" style="display:none;">
+			<img src="${pageContext.request.contextPath}/images/loading.gif" width="50" height="50">
+		</div>
+		<!-- 댓글 목록 출력 끝 -->
+		<!-- 댓글 끝 -->
 	</div>
 	<!-- 내용 끝 -->
 </div>

@@ -43,6 +43,38 @@ CREATE TABLE zboard(
 CREATE SEQUENCE zboard_seq;
 
 
+--좋아요
+CREATE TABLE zboard_fav(
+	fav_num number,
+	board_num number not null,
+	mem_num number not null,
+	constraint zboard_fav_pk primary key (fav_num),
+	constraint zboard_fav_fk1 foreign key (board_num) references zboard (board_num),
+	constraint zboard_fav_fk2 foreign key (mem_num) references zmember (mem_num)
+);
+
+CREATE SEQUENCE zboardfav_seq;
+
+
+--댓글
+CREATE TABLE zboard_reply(
+	re_num number,
+	re_content varchar2(900) not null,
+	re_date date default sysdate not null,
+	re_modifydate date,
+	re_ip varchar2(40) not null,
+	board_num number not null, -- 부모글 번호
+	mem_num number not null,
+	constraint zreply_pk primary key (re_num),
+	constraint zreply_fk foreign key (board_num) references zboard (board_num),
+	constraint zreply_fk2 foreign key (mem_num) references zmember (mem_num)	
+);
+
+CREATE SEQUENCE zreply_seq;
+
+
+
+
 
 
 

@@ -34,7 +34,7 @@ public class MyPageAction implements Action {
 		
 		BoardDAO boardDao = BoardDAO.getInstance();
 		//게시판 글
-		List<BoardVO> boardList = boardDao.getListBoard(1, 5, null, null);
+		List<BoardVO> boardList = boardDao.getListBoardFav(1, 5, user_num);
 		request.setAttribute("member", member);
 		request.setAttribute("boardList", boardList);
 		
