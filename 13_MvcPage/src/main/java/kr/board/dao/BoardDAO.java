@@ -12,6 +12,7 @@ import kr.board.vo.BoardFavVO;
 import kr.board.vo.BoardReplyVO;
 import kr.board.vo.BoardVO;
 import kr.util.DBUtil;
+import kr.util.DurationFromNow;
 import kr.util.StringUtil;
 
 public class BoardDAO {
@@ -289,10 +290,16 @@ public class BoardDAO {
 			conn = DBUtil.getConnection();
 			//auto commit 해제
 			conn.setAutoCommit(false);
-			//좋아요 삭제
-			
+			//좋아요 삭제 (좋아요 및 댓글을 삭제하지 않고 글 삭제 시 오류)
+			sql = "DELETE FROM zboard_fav WHERE board_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, board_num);
+			pstmt.executeUpdate();
 			//댓글 삭제
-			
+			sql = "DELETE FROM zboard_reply WHERE board_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, board_num);
+			pstmt2.executeUpdate();
 			//부모글 삭제
 			sql = "DELETE FROM zboard WHERE board_num=?";
 			pstmt3 = conn.prepareStatement(sql);
@@ -564,9 +571,10 @@ public class BoardDAO {
 			while(rs.next()) {
 				BoardReplyVO reply = new BoardReplyVO();
 				reply.setRe_num(rs.getInt("re_num"));
-				reply.setRe_date(rs.getString("re_date"));
+				//날짜 -> 1분 전, 1시간 전, 1일 전 형식의 문자열로 변환
+				reply.setRe_date(DurationFromNow.getTimeDiffLabel(rs.getString("re_date")));
 				if(rs.getString("re_modifydate") != null) {
-					reply.setRe_modifydate(rs.getString("re_modifyDate"));
+					reply.setRe_modifydate(DurationFromNow.getTimeDiffLabel(rs.getString("re_modifyDate")));
 				}
 				reply.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
 				reply.setBoard_num(rs.getInt("board_num"));
@@ -619,7 +627,29 @@ public class BoardDAO {
 	
 	
 	//댓글 수정
-	
+	public void updateReplyBoard(BoardReplyVO reply) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			//커넥션 풀로부터 커넥션 할당
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "UPDATE zboard_reply SET re_content=?,re_modifydate=SYSDATE,re_ip=? WHERE re_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setString(1, reply.getRe_content());
+			pstmt.setString(2, reply.getRe_ip());
+			pstmt.setInt(3, reply.getRe_num());
+			//SQL문 실행
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
 	
 	//댓글 삭제
