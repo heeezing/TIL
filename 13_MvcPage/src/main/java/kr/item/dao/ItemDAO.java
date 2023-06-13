@@ -148,6 +148,45 @@ public class ItemDAO {
 	
 	
 	//관리자,사용자 - 상품 상세
+	public ItemVO getItem(int item_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ItemVO item = null;
+		String sql = null;
+		try {
+			//커넥션 풀로부터 커넥션을 할당받음
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "SELECT * FROM zitem WHERE item_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setInt(1, item_num);
+			//SQL문 실행
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				item = new ItemVO();
+				item.setItem_num(rs.getInt("item_num"));
+				item.setName(rs.getString("name"));
+				item.setPrice(rs.getInt("price"));
+				item.setQuantity(rs.getInt("quantity"));
+				item.setPhoto1(rs.getString("photo1"));
+				item.setPhoto2(rs.getString("photo2"));
+				item.setDetail(rs.getString("detail"));
+				item.setReg_date(rs.getDate("reg_date"));
+				item.setStatus(rs.getInt("status"));
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return item;
+	}
+		
+	
 	//관리자 - 상품 수정
 	//관리자 - 상품 삭제
 	

@@ -83,6 +83,24 @@ a:hover{
 	text-align:left;
 }
 
+/* ----------메인---------- */
+.image-space .horizontal-area{
+	margin:2px;
+	padding:3px;
+	width:220px;
+	height:240px;
+	float:left;
+	overflow:hidden;
+	text-align:center;
+}
+.image-space .horizontal-area img{
+	width:215px;
+	height:195px;
+}
+.image-space .float-clear{
+	clear:both; /*float 해제용*/
+}
+
 /* ----------공통 목록---------- */
 form#search_form{
 	border:none;
@@ -248,3 +266,31 @@ input[type="number"]{
 	/*사각형의 모서리 둥근 정도를 지정 (50% : 완전한 원)*/
 	border-radius:50%;
 }
+
+/* ----------상품---------- */
+.item-image{
+	width:400px;
+	margin:0 0 10px 0;
+	float:left;
+}
+.item-detail li{
+	padding: 0 0 5px 0;
+}
+.item-detail form{
+	border:none;
+	width:470px;
+	margin:0;
+	float:left;
+}
+#item_total_txt{
+	color:#000;
+	font-weight:bold;
+}
+input[type="number"].quantity-width{
+	width:40px;
+	margin-bottom:3px;
+}
+.sold-out{
+	color:red;
+}
+
