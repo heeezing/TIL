@@ -59,7 +59,7 @@
 						alert('로그인 후 사용하세요');
 					}else if(param.result == 'success'){
 						alert('장바구니에 담았습니다.');
-						//location.href='../cart/list.do';
+						location.href='../cart/list.do';
 					}else if(param.result == 'overquantity'){
 						alert('기존에 주문한 상품입니다. 개수를 추가하면 재고가 부족합니다.');
 					}else{

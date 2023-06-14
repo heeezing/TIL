@@ -91,16 +91,4 @@ CREATE TABLE zitem(
 CREATE SEQUENCE zitem_seq;
 
 
---장바구니
-CREATE TABLE zcart(
-	cart_num number,
-	item_num number not null,
-	order_quantity number(5) not null,
-	reg_date date default SYSDATE not null,
-	mem_num number not null,
-	constraint zcart_pk primary key (cart_num),
-	constraint zcart_item_fk1 foreign key (item_num) references zitem (item_num),
-	constraint zcart_member_fk2 foreign key (mem_num) references zmember (mem_num)
-);
-
-CREATE SEQUENCE zcart_seq;
+-
