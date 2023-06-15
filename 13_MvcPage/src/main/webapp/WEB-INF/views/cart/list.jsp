@@ -58,7 +58,27 @@
 				type:'post',
 				data:{cart_num:$(this).attr('data-cartnum'),
 					  item_num:$(this).attr('data-itemnum'),
-					  order_quantity:input_quantity.val()}
+					  order_quantity:input_quantity.val()},
+				dataType:'json',
+				success:function(param){
+					if(param.result == 'logout'){
+						alert('로그인 후 사용하세요!');	
+					}else if(param.result == 'noSale'){
+						alert('판매가 중지된 상품입니다.');
+						location.href='list.do'; //화면 정보 갱신
+					}else if(param.result == 'noQuantity'){
+						alert('상품의 수량이 부족합니다.');
+						location.href='list.do'; //화면 정보 갱신
+					}else if(param.result = 'success'){
+						alert('상품의 개수가 수정되었습니다.');
+						location.href='list.do'; //화면 정보 갱신
+					}else{
+						alert('장바구니 상품 개수 수정 오류');
+					}
+				},
+				error:function(){
+					alert('네트워트 오류 발생');
+				}
 			});
 		});
 	});

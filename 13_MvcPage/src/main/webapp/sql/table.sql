@@ -91,4 +91,40 @@ CREATE TABLE zitem(
 CREATE SEQUENCE zitem_seq;
 
 
--
+--주문
+CREATE TABLE zorder(
+	order_num number,
+	item_name varchar2(60) not null, --대표 상품명(생략가능)
+	order_total number(9) not null,
+	payment number(1) not null, --결제 방식
+	status number(1) default 1 not null, --배송 상태
+	receive_name varchar2(30) not null, --받는 사람의 이름
+	receive_post varchar2(5) not null,
+	receive_address1 varchar2(90) not null,
+	receive_address2 varchar2(90) not null,
+	receive_phone varchar2(15) not null,
+	notice varchar2(4000),
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	mem_num number not null,
+	constraint zorder_pk primary key (order_num),
+	constraint zorder_fk foreign key (mem_num) references zmember (mem_num)
+);
+
+CREATE SEQUENCE zorder_seq;
+
+
+--주문 상세
+CREATE TABLE zorder_detail(
+	detail_num number,
+	item_num number not null,
+	item_name varchar2(30) not null,
+	item_price number(8) not null,
+	item_total number(8) not null,
+	order_quantity number(7) not null,
+	order_num number not null,
+	constraint zorder_detail_pk primary key (detail_num),
+	constraint zorder_detail_fk foreign key (order_num) references zorder (order_num)
+);
+
+CREATE SEQUENCE zorder_detail_seq;

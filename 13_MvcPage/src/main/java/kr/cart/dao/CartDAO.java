@@ -166,7 +166,24 @@ public class CartDAO {
 	
 	
 	//장바구니 상품번호와 회원번호별 수정
-	
+	public void updateCartByItem_num(CartVO cart) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "UPDATE zcart SET order_quantity=? WHERE item_num=? AND mem_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cart.getOrder_quantity());
+			pstmt.setInt(2, cart.getItem_num());
+			pstmt.setInt(3, cart.getMem_num());
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
 	
 	//장바구니 삭제

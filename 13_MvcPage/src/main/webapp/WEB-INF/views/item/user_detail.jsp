@@ -60,7 +60,7 @@
 					}else if(param.result == 'success'){
 						alert('장바구니에 담았습니다.');
 						location.href='../cart/list.do';
-					}else if(param.result == 'overquantity'){
+					}else if(param.result == 'over_quantity'){
 						alert('기존에 주문한 상품입니다. 개수를 추가하면 재고가 부족합니다.');
 					}else{
 						alert('장바구니 담기 오류');
