@@ -20,6 +20,9 @@
 		<li>
 			<a href="${pageContext.request.contextPath}/item/list.do">상품관리</a>
 		</li>
+		<li>
+			<a href="${pageContext.request.contextPath}/order/list.do">주문관리</a>
+		</li>
 		</c:if>
 		
 		<!-- 일반회원만 보는 메뉴 : 로그인되어있고, auth가 2 -->
