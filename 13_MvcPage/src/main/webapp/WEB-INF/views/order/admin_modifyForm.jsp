@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 구매</title>
+<title>[관리자]구매 정보 수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -41,7 +41,8 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<!-- 내용 시작 -->
 	<div class="content-main">
-		<h2>상품 구매</h2>
+		<h2>구매 내역</h2>
+		<hr size="1" noshade="noshade" width="100%">
 		<table>
 			<tr>
 				<th>상품명</th>
@@ -49,65 +50,117 @@
 				<th>상품가격</th>
 				<th>합계</th>
 			</tr>
-			<c:forEach var="cart" items="${list}">
+			<c:forEach var="detail" items="${detailList}">
 			<tr>
-				<td>
-					<a href="${pageContext.request.contextPath}/item/detail.do?item_num=${cart.item_num}">
-						<img src="${pageContext.request.contextPath}/upload/${cart.itemVO.photo1}" width="80">
-						${cart.itemVO.name}
-					</a>
+				<td>${detail.item_name}</td>
+				<td class="align-center">
+					<fmt:formatNumber value="${detail.order_quantity}"/>
 				</td>
 				<td class="align-center">
-					<fmt:formatNumber value="${cart.order_quantity}"/>
+					<fmt:formatNumber value="${detail.item_price}"/>원
 				</td>
 				<td class="align-center">
-					<fmt:formatNumber value="${cart.itemVO.price}"/>원
-				</td>
-				<td class="align-center">
-					<fmt:formatNumber value="${cart.sub_total}"/>원
+					<fmt:formatNumber value="${detail.item_total}"/>원
 				</td>
 			</tr>
 			</c:forEach>
 			<tr>
 				<td colspan="3" class="align-right"><b>총 구매 금액</b></td>
 				<td class="align-center">
-					<fmt:formatNumber value="${all_total}"/>원
+					<fmt:formatNumber value="${order.order_total}"/>원
 				</td>
 			</tr>
 		</table>
-		<form id="order_form" action="order.do" method="post">
-			<ul>
+		<form id="order_modify" action="modify.do" method="post">
+			<input type="hidden" name="order_num" value="${order.order_num}">
+			<ul> <%-- 배송 대기 상태 : 수정 가능 --%>
+				<c:if test="${order.status < 2}">
 				<li>
 					<label for="receive_name">받는사람</label>
-					<input type="text" name="receive_name" id="receive_name" maxlength="10">
+					<input type="text" name="receive_name" id="receive_name"
+						   maxlength="10" value="${order.receive_name}">
 				</li>
 				<li>
 					<label for="receive_phone">전화번호</label>
-					<input type="text" name="receive_phone" id="receive_phone" maxlength="15">
+					<input type="text" name="receive_phone" id="receive_phone" 
+						   maxlength="15" value="${order.receive_phone}">
 				</li>
 				<li>
 					<!-- api에 명시되어 있는 건 건들지 않고 name만 변경 -->
 					<label for="zipcode">우편번호</label> 
-					<input type="text" name="receive_post" id="zipcode" maxlength="5">
+					<input type="text" name="receive_post" id="zipcode"
+						   maxlength="5" value="${order.receive_post}">
 					<input type="button" value="우편번호 찾기" onclick="execDaumPostcode()">
 				</li>				
 				<li>
 					<label for="address1">주소</label>
-					<input type="text" name="receive_address1" id="address1" maxlength="30">
+					<input type="text" name="receive_address1" id="address1" 
+						   maxlength="30" value="${order.receive_address1}">
 				</li>				
 				<li>
 					<label for="address2">나머지주소</label>
-					<input type="text" name="receive_address2" id="address2" maxlength="30">
-				</li>				
-				<li>
-					<label>결제수단</label>
-					<input type="radio" name="payment" id="payment1" value="1">무통장 입금
-					<input type="radio" name="payment" id="payment2" value="2">카드 결제
+					<input type="text" name="receive_address2" id="address2"
+						   maxlength="30" value="${order.receive_address2}">
 				</li>
 				<li>
 					<label for="notice">남기실말씀</label> <!-- 4000바이트니까 한글 약 1300자 -->
-					<textarea rows="5" cols="30" name="notice" id="notice" maxlength="1300"></textarea>
-				</li>				
+					<textarea rows="5" cols="30" name="notice" id="notice" 
+							  maxlength="1300">${order.notice}</textarea>
+				</li>	
+				</c:if>		
+				
+				<%-- 배송대기 상태가 아닌(지난) 경우 : 수정X. 정보만 보여줌. --%>
+				<c:if test="${order.stauts >= 2 }">
+				<li>
+					<label>받는사람</label>
+					${order.receive_name}
+				</li>
+				<li>
+					<label>전화번호</label>
+					${order.receive_phone}
+				</li>
+				<li>
+					<label>우편번호</label>
+					${order.receive_post}
+				</li>
+				<li>
+					<label>주소</label>
+					${order.receive_address1}
+				</li>
+				<li>
+					<label>나머지주소</label>
+					${order.receive_address1}
+				</li>
+				<li>
+					<label>남기실말씀</label>
+					${order.notice}
+				</li>
+				</c:if>	
+				
+				<%-- 결제 수단은 배송 전에도 수정 X --%> 
+				<li>
+					<label>결제 수단</label>
+					<c:if test="${order.payment == 1}">은행 입금</c:if>
+					<c:if test="${order.payment == 2}">카드 결제</c:if>
+				</li>
+				
+				<%-- 상태 변경 : 주문 취소 상태일 경우에만 X --%>
+				<li>
+					<label>배송 상태</label>
+					<c:if test="${order.status != 5}">
+					<input type="radio" name="status" id="status1" value="1" 
+						   <c:if test="${order.status==1}">checked</c:if>>배송대기
+					<input type="radio" name="status" id="status2" value="2" 
+						   <c:if test="${order.status==2}">checked</c:if>>배송준비중
+					<input type="radio" name="status" id="status3" value="3" 
+						   <c:if test="${order.status==3}">checked</c:if>>배송중
+					<input type="radio" name="status" id="status4" value="4" 
+						   <c:if test="${order.status==4}">checked</c:if>>배송완료
+					</c:if>
+					<input type="radio" name="status" id="status5" value="5" 
+						   <c:if test="${order.status==5}">checked</c:if>>주문취소
+				</li>
+				
 			</ul>
 			<div class="align-center">
 				<input type="submit" value="주문">

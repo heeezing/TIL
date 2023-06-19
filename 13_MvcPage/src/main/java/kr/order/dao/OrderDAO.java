@@ -179,7 +179,7 @@ public class OrderDAO {
 			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
 								+ "FROM (SELECT * "
 									  + "FROM zorder o JOIN zmember m ON o.mem_num=m.mem_num " 
-									  + sub_sql + "ORDER BY order_num DESC)a "
+									  + sub_sql + "ORDER BY order_num DESC)a) "
 								+ "WHERE rnum >= ? AND rnum <= ?";
 			//PreparedStatment 객체 생성
 			pstmt = conn.prepareStatement(sql);
@@ -227,9 +227,85 @@ public class OrderDAO {
 	
 	//[사용자] 전체 주문 개수 / 검색 주문 개수
 	//[사용자] 전체 주문 목록 / 검색 주문 목록
+	
+	
 	//개별 상품 목록
-	//주문 삭제 (삭제 시 재고 - 원상 복귀X / 주문 취소 시 원상 복귀 O)
+	public List<OrderDetailVO> getListOrderDetail(int order_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<OrderDetailVO> list = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT * FROM zorder_detail WHERE order_num=? ORDER BY item_num DESC";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order_num);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<OrderDetailVO>();
+			while(rs.next()) {
+				OrderDetailVO detail = new OrderDetailVO();
+				detail.setItem_num(rs.getInt("item_num"));
+				detail.setItem_name(rs.getString("item_name"));
+				detail.setItem_price(rs.getInt("item_price"));
+				detail.setItem_total(rs.getInt("item_total"));
+				detail.setOrder_quantity(rs.getInt("order_quantity"));
+				detail.setOrder_num(rs.getInt("order_num"));
+				
+				list.add(detail);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return list;
+	}
+	
+	
+	//주문 삭제 (삭제 시 재고 - 원상 복귀X / 주문 취소 시 원상 복귀O)
+	
+	
 	//[관리자&사용자] 주문 상세
+	public OrderVO getOrder(int order_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		OrderVO order = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT * FROM zorder WHERE order_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				order = new OrderVO();
+				order.setOrder_num(rs.getInt("order_num"));
+				order.setItem_name(rs.getString("item_name"));
+				order.setOrder_total(rs.getInt("order_total"));
+				order.setPayment(rs.getInt("payment"));
+				order.setStatus(rs.getInt("status"));
+				order.setReceive_name(rs.getString("receive_name"));
+				order.setReceive_post(rs.getString("receive_post"));
+				order.setReceive_address1(rs.getString("receive_address1"));
+				order.setReceive_address2(rs.getString("receive_address2"));
+				order.setReceive_phone(rs.getString("receive_phone"));
+				order.setNotice(rs.getString("notice"));
+				order.setReg_date(rs.getDate("reg_date"));
+				order.setMem_num(rs.getInt("mem_num"));
+			}
+		}catch(Exception e){
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return order;
+	}
+	
+	
 	//[관리자&사용자] 주문 수정
 	//[사용자] 주문 취소
 }
