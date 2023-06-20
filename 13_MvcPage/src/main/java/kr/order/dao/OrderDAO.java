@@ -67,6 +67,7 @@ public class OrderDAO {
 				+ "VALUES (zorder_detail_seq.nextval,?,?,?,?,?,?)";
 			pstmt3 = conn.prepareStatement(sql);
 			//여러 건의 정보를 삽입해야 하므로 반복문 사용
+			//인덱스가 필요하므로 확장for문을 사용하지 않고 for문 사용
 			for(int i=0 ; i<orderDetailList.size() ; i++) {
 				OrderDetailVO orderDetail = orderDetailList.get(i);
 				pstmt3.setInt(1, orderDetail.getItem_num());
@@ -264,7 +265,39 @@ public class OrderDAO {
 	}
 	
 	
-	//주문 삭제 (삭제 시 재고 - 원상 복귀X / 주문 취소 시 원상 복귀O)
+	//[관리자] 주문 삭제 (삭제 시 재고 - 원상 복귀X / 주문 취소 시 원상 복귀O)
+	public void deleteOrder(int order_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false); //오토 커밋 해제
+			
+			//자식 테이블 먼저 삭제
+			sql = "DELETE FROM zorder_detail WHERE order_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order_num);
+			pstmt.executeUpdate();
+			
+			//부모 테이블 삭제
+			sql = "DELETE FROM zorder WHERE order_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, order_num);
+			pstmt2.executeUpdate();
+			
+			//모든 SQL문 성공 시
+			conn.commit();
+		}catch(Exception e) {
+			//하나라도 SQL문 실패 시
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
 	
 	//[관리자&사용자] 주문 상세
@@ -307,5 +340,67 @@ public class OrderDAO {
 	
 	
 	//[관리자&사용자] 주문 수정
+	public void updateOrder(OrderVO order) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sql = null;
+		String sub_sql = "";
+		int cnt = 0;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false); //오토 커밋 해제
+			//sub_sql문 생성
+			if(order.getStatus() == 1) {
+				sub_sql += "receive_name=?,receive_post=?,receive_address1=?,receive_address2=?,receive_phone=?,notice=?,";
+			}
+			//sql문 생성
+			sql = "UPDATE zorder SET status=?,"+sub_sql+"modify_date=SYSDATE WHERE order_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(++cnt, order.getStatus());
+			if(order.getStatus() == 1) {
+				pstmt.setString(++cnt, order.getReceive_name());
+				pstmt.setString(++cnt, order.getReceive_post());
+				pstmt.setString(++cnt, order.getReceive_address1());
+				pstmt.setString(++cnt, order.getReceive_address2());
+				pstmt.setString(++cnt, order.getReceive_phone());
+				pstmt.setString(++cnt, order.getNotice());
+			}
+			pstmt.setInt(++cnt, order.getOrder_num());
+			pstmt.executeUpdate();
+			
+			//주문 취소일 경우만 상품 개수 조정 (다시 환원)
+			if(order.getStatus() == 5) {
+				//주문 번호에 해당하는 상품 정보 구하기
+				List<OrderDetailVO> detailList = getListOrderDetail(order.getOrder_num());
+				
+				sql = "UPDATE zitem SET quantity=quantity+? WHERE item_num=?";
+				pstmt2 = conn.prepareStatement(sql);
+				for(int i=0 ; i<detailList.size() ; i++) {
+					OrderDetailVO detail = detailList.get(i);
+					pstmt2.setInt(1, detail.getOrder_quantity());
+					pstmt2.setInt(2, detail.getItem_num());
+					pstmt2.addBatch();
+					//계속 추가하면 outOfMemory 발생, 1000개 단위로 executeBatch()
+					if(i % 1000 == 0) {
+						pstmt2.executeBatch();
+					}
+				}
+				pstmt2.executeBatch();
+			}
+			
+			//모든 SQL문이 성공 시
+			conn.commit();
+		}catch(Exception e) {
+			//하나라도 SQL문 실패 시
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//[사용자] 주문 취소
 }

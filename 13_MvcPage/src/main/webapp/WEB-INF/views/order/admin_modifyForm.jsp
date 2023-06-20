@@ -8,11 +8,12 @@
 <meta charset="UTF-8">
 <title>[관리자]구매 정보 수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<c:if test="${order.status < 2}"> <%-- 배송대기(1)일때만 script가 보이게 설정 --%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		//주문 유효성 체크
-		$('#order_form').submit(function(){
+		$('#order_modify').submit(function(){
 			//빈 칸이 있는 경우
 			let items = 
 				document.querySelectorAll('input[type="text"]');
@@ -26,15 +27,10 @@
 					return false;
 				}
 			}
-			
-			//최소 하나는 선택해야 하는데 안 한 경우
-			if($('input[type=radio]:checked').length < 1){
-				alert('결제 수단을 선택하세요!');
-				return false;
-			}
 		});
 	});
 </script>
+</c:if>
 </head>
 <body>
 <div class="page-main">
@@ -110,7 +106,7 @@
 				</c:if>		
 				
 				<%-- 배송대기 상태가 아닌(지난) 경우 : 수정X. 정보만 보여줌. --%>
-				<c:if test="${order.stauts >= 2 }">
+				<c:if test="${order.status >= 2 }">
 				<li>
 					<label>받는사람</label>
 					${order.receive_name}
@@ -163,9 +159,12 @@
 				
 			</ul>
 			<div class="align-center">
-				<input type="submit" value="주문">
-				<input type="button" value="홈으로" 
-					   onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
+				<%-- 주문 취소 상태일 때는 수정 X, 버튼 안 보이게 처리--%>
+				<c:if test="${order.status != 5}">
+				<input type="submit" value="수정">
+				</c:if>
+				<input type="button" value="삭제" onclick="location.href='deleteOrder.do?order_num=${order.order_num}'">
+				<input type="button" value="주문목록" onclick="location.href='list.do'">
 			</div>
 		</form>
 	</div>
