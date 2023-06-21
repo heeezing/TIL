@@ -14,20 +14,34 @@
 	$(function(){
 		//주문 유효성 체크
 		$('#order_modify').submit(function(){
-			//빈 칸이 있는 경우
-			let items = 
-				document.querySelectorAll('input[type="text"]');
-			for(let i=0;i<items.length;i++){
-				if(items[i].value.trim()==''){
-					let label = document.querySelector(
-						               'label[for="'+items[i].id+'"]');
-					alert(label.textContent + ' 항목 필수 입력');
-					items[i].value = '';
-					items[i].focus();
-					return false;
+			//배송 대기 상태일 경우 조건 체크
+			if($('input[type=radio]:checked'.val() == 1)){
+				//빈 칸이 있는 경우
+				let items = 
+					document.querySelectorAll('input[type="text"]');
+				for(let i=0;i<items.length;i++){
+					if(items[i].value.trim()==''){
+						let label = document.querySelector(
+							               'label[for="'+items[i].id+'"]');
+						alert(label.textContent + ' 항목 필수 입력');
+						items[i].value = '';
+						items[i].focus();
+						return false;
+					}
 				}
 			}
-		});
+		});//end of submit
+		
+		let origin_status = ${order.status};
+		$('input[type=radio]').click(function(){
+			//원래는 배송대기인데, 다른 상태로 수정(선택)한 경우 주문 수정폼을 가림
+			if(origin_status == 1 && $('input[type=radio]:checked').val() != 1){
+				$('input[type=text],textarea').parent().hide();
+			}else{
+				$('input[type=text],textarea').parent().show();
+			}
+		});//end of click;
+		
 	});
 </script>
 </c:if>
@@ -69,8 +83,29 @@
 		</table>
 		<form id="order_modify" action="modify.do" method="post">
 			<input type="hidden" name="order_num" value="${order.order_num}">
-			<ul> <%-- 배송 대기 상태 : 수정 가능 --%>
+			<ul>
+				<%-- 상태 변경 : 주문 취소 상태일 경우에만 X --%>
+				<li>
+					<label>배송 상태</label>
+					<c:if test="${order.status != 5}">
+					<input type="radio" name="status" id="status1" value="1" 
+						   <c:if test="${order.status==1}">checked</c:if>>배송대기
+					<input type="radio" name="status" id="status2" value="2" 
+						   <c:if test="${order.status==2}">checked</c:if>>배송준비중
+					<input type="radio" name="status" id="status3" value="3" 
+						   <c:if test="${order.status==3}">checked</c:if>>배송중
+					<input type="radio" name="status" id="status4" value="4" 
+						   <c:if test="${order.status==4}">checked</c:if>>배송완료
+					</c:if>
+					<input type="radio" name="status" id="status5" value="5" 
+						   <c:if test="${order.status==5}">checked</c:if>>주문취소
+				</li>
+				
+				<%-- 배송 대기 상태(1)에만 수정 가능 --%>
 				<c:if test="${order.status < 2}">
+				<li>
+					<span id="delivery_text">*배송대기일 경우만 배송 관련 정보를 수정할 수 있습니다.</span>
+				</li>
 				<li>
 					<label for="receive_name">받는사람</label>
 					<input type="text" name="receive_name" id="receive_name"
@@ -125,7 +160,7 @@
 				</li>
 				<li>
 					<label>나머지주소</label>
-					${order.receive_address1}
+					${order.receive_address2}
 				</li>
 				<li>
 					<label>남기실말씀</label>
@@ -139,31 +174,16 @@
 					<c:if test="${order.payment == 1}">은행 입금</c:if>
 					<c:if test="${order.payment == 2}">카드 결제</c:if>
 				</li>
-				
-				<%-- 상태 변경 : 주문 취소 상태일 경우에만 X --%>
-				<li>
-					<label>배송 상태</label>
-					<c:if test="${order.status != 5}">
-					<input type="radio" name="status" id="status1" value="1" 
-						   <c:if test="${order.status==1}">checked</c:if>>배송대기
-					<input type="radio" name="status" id="status2" value="2" 
-						   <c:if test="${order.status==2}">checked</c:if>>배송준비중
-					<input type="radio" name="status" id="status3" value="3" 
-						   <c:if test="${order.status==3}">checked</c:if>>배송중
-					<input type="radio" name="status" id="status4" value="4" 
-						   <c:if test="${order.status==4}">checked</c:if>>배송완료
-					</c:if>
-					<input type="radio" name="status" id="status5" value="5" 
-						   <c:if test="${order.status==5}">checked</c:if>>주문취소
-				</li>
-				
 			</ul>
+			
 			<div class="align-center">
 				<%-- 주문 취소 상태일 때는 수정 X, 버튼 안 보이게 처리--%>
 				<c:if test="${order.status != 5}">
 				<input type="submit" value="수정">
 				</c:if>
+				<c:if test="${order.status == 4 or order.status == 5}">
 				<input type="button" value="삭제" onclick="location.href='deleteOrder.do?order_num=${order.order_num}'">
+				</c:if>
 				<input type="button" value="주문목록" onclick="location.href='list.do'">
 			</div>
 		</form>

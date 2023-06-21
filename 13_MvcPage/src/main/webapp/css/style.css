@@ -303,3 +303,6 @@ form[id="cart_order"]{
 form[id="order_modify"],form[id="order_form"]{
 	width:860px;
 }
+#delivery_text{
+	color:red;
+}

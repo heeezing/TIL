@@ -227,7 +227,103 @@ public class OrderDAO {
 	
 	
 	//[사용자] 전체 주문 개수 / 검색 주문 개수
+	public int getOrderCountByMem_num(String keyfield,String keyword,int mem_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		String sub_sql = "";
+		int count = 0;
+		try {
+			conn = DBUtil.getConnection();
+			//sub_sql문 작성
+			if(keyword != null && !"".equals(keyword)) {
+				if(keyfield.equals("1")) sub_sql += "AND order_num=?";
+				else if(keyfield.equals("2")) sub_sql += "AND item_name LIKE ?";
+			}
+			sql = "SELECT COUNT(*) FROM zorder WHERE mem_num=? " + sub_sql;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mem_num);
+			if(keyword != null && !"".equals(keyword)) {
+				if(keyfield.equals("1")) {
+					pstmt.setString(2, keyword);
+				}else if(keyfield.equals("2")){
+					pstmt.setString(2, "%"+keyword+"%");
+				}
+			}
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return count;
+	}
+	
+	
 	//[사용자] 전체 주문 목록 / 검색 주문 목록
+	public List<OrderVO> getListOrderByMem_num(int start,int end,String keyfield,
+												String keyword,int mem_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<OrderVO> list = null;
+		String sql = null;
+		String sub_sql = "";
+		int cnt = 0;
+		try {
+			conn = DBUtil.getConnection();
+			if(keyword != null && !"".equals(keyword)) {
+				if(keyfield.equals("1")) sub_sql += "AND order_num=?";
+				else if(keyfield.equals("2")) sub_sql += "AND item_name LIKE ?";
+			}
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
+							   + "FROM (SELECT * FROM zorder WHERE mem_num=? "+sub_sql
+							   				  + " ORDER BY order_num DESC)a) "
+							   + "WHERE rnum >= ? AND rnum <= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(++cnt, mem_num);
+			if(keyword != null && !"".equals(keyword)) {
+				if(keyfield.equals("1")) {
+					pstmt.setString(++cnt, keyword);
+				}else if(keyfield.equals("2")){
+					pstmt.setString(++cnt, "%"+keyword+"%");
+				}
+			}
+			pstmt.setInt(++cnt, start);
+			pstmt.setInt(++cnt, end);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<OrderVO>();
+			while(rs.next()) {
+				OrderVO order = new OrderVO();
+				order.setOrder_num(rs.getInt("order_num"));
+				order.setItem_name(rs.getString("item_name"));
+				order.setOrder_total(rs.getInt("order_total"));
+				order.setPayment(rs.getInt("payment"));
+				order.setStatus(rs.getInt("status"));
+				order.setReceive_name(rs.getString("receive_name"));
+				order.setReceive_post(rs.getString("receive_post"));
+				order.setReceive_address1(rs.getString("receive_address1"));
+				order.setReceive_address2(rs.getString("receive_address2"));
+				order.setReceive_phone(rs.getString("receive_phone"));
+				order.setNotice(rs.getString("notice"));
+				order.setReg_date(rs.getDate("reg_date"));
+				order.setMem_num(rs.getInt("mem_num"));
+				
+				list.add(order);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return list;
+	}
 	
 	
 	//개별 상품 목록
@@ -350,15 +446,20 @@ public class OrderDAO {
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false); //오토 커밋 해제
+			
+			//조건 체크를 위해 현재 DB에 등록되어있는 정보를 구해옴
+			OrderVO db_order = getOrder(order.getOrder_num());
+			
 			//sub_sql문 생성
-			if(order.getStatus() == 1) {
+			// 화면에서 전송된 데이터             DB에 저장된 데이터
+			if(order.getStatus() == 1 && db_order.getStatus() == 1) {
 				sub_sql += "receive_name=?,receive_post=?,receive_address1=?,receive_address2=?,receive_phone=?,notice=?,";
 			}
 			//sql문 생성
 			sql = "UPDATE zorder SET status=?,"+sub_sql+"modify_date=SYSDATE WHERE order_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(++cnt, order.getStatus());
-			if(order.getStatus() == 1) {
+			if(order.getStatus() == 1 && db_order.getStatus() == 1) {
 				pstmt.setString(++cnt, order.getReceive_name());
 				pstmt.setString(++cnt, order.getReceive_post());
 				pstmt.setString(++cnt, order.getReceive_address1());
