@@ -504,4 +504,48 @@ public class OrderDAO {
 	
 	
 	//[사용자] 주문 취소
+	public void updateOrderCancel(int order_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false); //오토 커밋 해제
+			
+			//[주문 상태 변경]
+			sql = "UPDATE zorder SET status=5,modify_date=SYSDATE WHERE order_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order_num);
+			pstmt.executeUpdate();
+			
+			//[주문 취소한 상품의 재고 수 환원]
+			//주문 번호에 해당하는 상품 정보 구하기
+			List<OrderDetailVO> detailList = getListOrderDetail(order_num);
+			sql = "UPDATE zitem SET quantity=quantity+? WHERE item_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			for(int i=0 ; i<detailList.size() ; i++) {
+				OrderDetailVO detail = detailList.get(i);
+				pstmt2.setInt(1, detail.getOrder_quantity());
+				pstmt2.setInt(2, detail.getItem_num());
+				pstmt2.addBatch(); //메모리에 추가
+				//계속 추가하면 outOfMemory 발생, 1000개 단위로 executeBatch()
+				if(i%1000 == 0) {
+					pstmt2.executeBatch(); //메모리에 있던 걸 전송
+				}
+			}
+			pstmt2.executeBatch();
+			
+			//모든 SQL문 성공 시
+			conn.commit();
+		}catch(Exception e) {
+			//하나라도 SQL문 실패 시
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
 }

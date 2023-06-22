@@ -177,7 +177,7 @@
 			</table>
 			
 			<h3>상품구매목록
-				<input type="button" value="구매목록보기" onclick="location.href=${pageContext.request.contextPath}/order/orderList.do">
+				<input type="button" value="구매목록보기" onclick="location.href='${pageContext.request.contextPath}/order/orderList.do'">
 			</h3>
 			<ul>
 				<li>
