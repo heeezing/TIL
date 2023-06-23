@@ -183,7 +183,7 @@
 					};
 				</script>
 				</c:if>
-				<input type="button" value="MY페이지" onclick="${pageContext.request.contextPath}/member/myPage.do">
+				<input type="button" value="MY페이지" onclick="location.href='${pageContext.request.contextPath}/member/myPage.do'">
 				<input type="button" value="주문목록" onclick="location.href='orderList.do'">
 			</div>
 		</form>
