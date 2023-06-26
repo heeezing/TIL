@@ -188,7 +188,80 @@ public class ItemDAO {
 		
 	
 	//관리자 - 상품 수정
-	//관리자 - 상품 삭제
+	public void updateItem(ItemVO item) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		String sub_sql = "";
+		int cnt = 0;
+		try {
+			conn = DBUtil.getConnection();
+			if(item.getPhoto1() != null) {
+				sub_sql += ",photo1=?";
+			}
+			if(item.getPhoto2() != null) {
+				sub_sql += ",photo2=?";
+			}
+			sql = "UPDATE zitem "
+				+ "SET name=?,price=?,quantity=?"+sub_sql+",detail=?,modify_date=SYSDATE,status=? "
+				+ "WHERE item_num=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(++cnt, item.getName());
+			pstmt.setInt(++cnt, item.getPrice());
+			pstmt.setInt(++cnt, item.getQuantity());
+			if(item.getPhoto1() != null) {
+				pstmt.setString(++cnt, item.getPhoto1());
+			}
+			if(item.getPhoto2() != null) {
+				pstmt.setString(++cnt, item.getPhoto2());
+			}
+			pstmt.setString(++cnt, item.getDetail());
+			pstmt.setInt(++cnt, item.getStatus());
+			pstmt.setInt(++cnt, item.getItem_num());
+			
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
+	
+	//관리자 - 상품 삭제
+	public void deleteItem(int item_num) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			
+			//장바구니에 담겨있는 상품 삭제
+			sql = "DELETE FROM zcart WHERE item_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, item_num);
+			pstmt.executeUpdate();
+			
+			//상품 정보 삭제
+			sql = "DELETE FROM zitem WHERE item_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setInt(1, item_num);
+			pstmt2.executeUpdate();
+			
+			//모든 SQL문 성공 시
+			conn.commit();
+		}catch(Exception e) {
+			//하나라도 SQL문 실패 시
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
 }

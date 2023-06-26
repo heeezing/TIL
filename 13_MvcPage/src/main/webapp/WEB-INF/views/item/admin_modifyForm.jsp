@@ -42,6 +42,7 @@
 	<div class="content-main">
 		<h2>상품 수정</h2>
 		<form action="modify.do" method="post" encType="multipart/form-data" id="write_form">
+		<input type="hidden" name="item_num" value="${item.item_num}">
 			<ul>
 				<li>
 					<label>상품 표시 여부</label>
