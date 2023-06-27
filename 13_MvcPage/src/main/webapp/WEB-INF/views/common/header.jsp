@@ -8,6 +8,9 @@
 <div id="main_nav">
 	<ul>
 		<li>
+			<a href="${pageContext.request.contextPath}/item/itemList.do">상품목록</a>
+		</li>
+		<li>
 			<a href="${pageContext.request.contextPath}/board/list.do">게시판</a>
 		</li>
 		

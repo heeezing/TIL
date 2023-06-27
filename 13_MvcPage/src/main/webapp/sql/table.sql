@@ -128,3 +128,32 @@ CREATE TABLE zorder_detail(
 );
 
 CREATE SEQUENCE zorder_detail_seq;
+
+
+--계층형 게시판
+CREATE TABLE zboardlevel(
+	boardv_num number,
+	subject varchar2(40) not null,
+	content clob not null,
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	readcount number(6) default 0,
+	parent_num number not null, --부모들의 번호가 들어감, 자식글이 아니라 부모글일 경우 0
+	dept number not null, --자식글의 깊이. 부모글의 자식글A 1, 자식글A의 자식글B 2, 부모글의 경우 0
+	ip varchar2(40) not null,
+	image varchar2(150),
+	mem_num number not null,
+	constraint zboardlevel_pk primary key (boardv_num),
+	constraint zboardlevel_fk foreign key (mem_num) references zmember (mem_num)
+);
+
+CREATE SEQUENCE zboardv_seq;
+
+
+
+
+
+
+
+
+

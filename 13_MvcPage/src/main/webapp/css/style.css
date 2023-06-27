@@ -268,6 +268,26 @@ input[type="number"]{
 }
 
 /* ----------상품---------- */
+.item-space .horizontal-area{
+	margin:2px;
+	padding:3px;
+	width:200px;
+	height:220px;
+	float:left;
+	overflow:hidden;
+	text-align:center;
+}
+.item-space .horizontal-area img{
+	width:195px;
+	height:175px;
+}
+.item-space .horizontal-area span{
+	padding:5px;
+	margin:5px;
+}
+.float-clear{
+	clear:both;
+}
 .item-image{
 	width:400px;
 	margin:0 0 10px 0;
