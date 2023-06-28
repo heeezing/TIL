@@ -14,6 +14,7 @@ public class BoardLevelVO {
 	private String ip; //ip 주소
 	private String image; //업로드 이미지
 	private int mem_num; //작성자 회원번호
+	private String id; //작성자 id
 	
 	public int getBoardv_num() {
 		return boardv_num;
@@ -81,5 +82,10 @@ public class BoardLevelVO {
 	public void setMem_num(int mem_num) {
 		this.mem_num = mem_num;
 	}
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 }

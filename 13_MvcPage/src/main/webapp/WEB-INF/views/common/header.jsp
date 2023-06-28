@@ -11,6 +11,9 @@
 			<a href="${pageContext.request.contextPath}/item/itemList.do">상품목록</a>
 		</li>
 		<li>
+			<a href="${pageContext.request.contextPath}/boardLevel/list.do">답글게시판</a>
+		</li>
+		<li>
 			<a href="${pageContext.request.contextPath}/board/list.do">게시판</a>
 		</li>
 		
