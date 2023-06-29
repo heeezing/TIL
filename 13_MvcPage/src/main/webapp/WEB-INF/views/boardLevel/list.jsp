@@ -53,7 +53,7 @@
 			<input type="button" value="홈으로" 
 			 onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
 		</div>
-		<%-- 
+		
 		<c:if test="${count == 0}">
 			<div class="result-display">
 				표시할 게시물이 없습니다.
@@ -71,17 +71,27 @@
 			</tr>
 			<c:forEach var="board" items="${list}">
 			<tr>
-				<td>${board.board_num}</td>
-				<td><a href="detail.do?board_num=${board.board_num}">${board.title}</a></td>
+				<td>${board.boardv_num}</td>
+				<td width="40%">
+				<c:set var="wid" value="0"/>
+				<c:if test="${board.depth > 0}"><%--자식글일 경우 --%>
+					<c:set var="wid" value="${20*board.depth}"/> <%-- 넓이를 늘려서 표현 --%>
+					<img src="${pageContext.request.contextPath}/images/level.gif" width="${wid}">
+					<img src="${pageContext.request.contextPath}/images/re.gif" width="${wid}">
+				</c:if>
+				<c:if test="${board.depth <= 0}"><%-- 부모글일 경우 --%>
+					<img src="${pageContext.request.contextPath}/images/level.gif" width="${wid}">
+				</c:if>
+				<a href="content.do?boardv_num=${board.boardv_num}">${board.subject}</a>
+				</td>
 				<td>${board.id}</td>
 				<td>${board.reg_date}</td>
-				<td>${board.hit}</td>
+				<td>${board.readcount}</td>
 			</tr>
 			</c:forEach>
 		</table>
 		<div class="align-center">${page}</div>
 		</c:if>
-		--%>
 	</div>
 	<!-- 내용 끝 -->
 </div>

@@ -94,11 +94,11 @@ public class BoardLevelDAO {
 				else if(keyfield.equals("3")) sub_sql += "WHERE content LIKE ?";
 			}
 			
-			//답글 게시판에서는 STARTS WITH ~ CONNECT BY PRIOR ~ ORDER SIBLINGS BY문을 한 쌍처럼 사용
+			//답글 게시판에서는 START WITH ~ CONNECT BY PRIOR ~ ORDER SIBLINGS BY문을 한 쌍처럼 사용
 			//depth=0인 부모글부터 시작하고, 연결되있는 데이터를 묶어서, 쌍으로 쭉 나열함 (최신글이 위로 올라가지만, 부모 밑으로 들어감)
 			sql = "SELECT * "
 				+ "FROM (SELECT a.*, rownum rnum "
-					  + "FROM (SELECT * "
+					  + "FROM (SELECT boardv_num,subject,reg_date,readcount,parent_num,depth,id "
 					  		+ "FROM zboardlevel JOIN zmember USING(mem_num) "
 					  		+ sub_sql + " START WITH depth = 0 CONNECT BY PRIOR boardv_num = parent_num "
 					  		+ "ORDER SIBLINGS BY boardv_num DESC)a) "
@@ -136,7 +136,61 @@ public class BoardLevelDAO {
 	
 	
 	//글상세
+	public BoardLevelVO getBoard(int boardv_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardLevelVO board = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT * FROM zboardlevel JOIN zmember USING(mem_num) WHERE boardv_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardv_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				board = new BoardLevelVO();
+				board.setBoardv_num(rs.getInt("boardv_num"));
+				board.setSubject(rs.getString("subject"));
+				board.setReg_date(rs.getDate("reg_date"));
+				board.setModify_date(rs.getDate("modify_date"));
+				board.setReadcount(rs.getInt("readcount"));
+				board.setContent(rs.getString("content"));
+				board.setParent_num(rs.getInt("parent_num"));
+				board.setDepth(rs.getInt("depth"));
+				board.setImage(rs.getString("image"));
+				board.setMem_num(rs.getInt("mem_num"));
+				board.setId(rs.getString("id"));
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return board;
+	}
+	
+	
 	//조회수 증가
+	public void updateReadcount(int boardv_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "UPDATE zboardlevel SET readcount=readcount+1 WHERE boardv_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardv_num);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//파일 삭제
 	//글 수정
 	//글 삭제
