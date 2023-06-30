@@ -192,7 +192,54 @@ public class BoardLevelDAO {
 	
 	
 	//파일 삭제
+	public void deleteFile(int boardv_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "UPDATE zboardlevel SET image='' WHERE boardv_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardv_num);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//글 수정
+	public void updateBoard(BoardLevelVO board) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		String sub_sql = "";
+		int cnt = 0;
+		try {
+			conn = DBUtil.getConnection();
+			if(board.getImage()!=null) {
+				sub_sql = ",image=?";
+			}
+			sql = "UPDATE zboardlevel SET subject=?,content=?,ip=?"+sub_sql+",modify_date=SYSDATE WHERE boardv_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(++cnt, board.getSubject());
+			pstmt.setString(++cnt, board.getContent());
+			pstmt.setString(++cnt, board.getIp());
+			if(board.getImage()!=null) {
+				pstmt.setString(++cnt, board.getImage());
+			}
+			pstmt.setInt(++cnt, board.getBoardv_num());
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
 	//글 삭제
 	//삭제할 글의 글번호 구함
 }

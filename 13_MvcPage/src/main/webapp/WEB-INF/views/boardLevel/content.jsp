@@ -31,6 +31,23 @@
 			최근 수정일 : ${board.modify_date}
 			</c:if>
 			작성일 : ${board.reg_date}
+			<c:if test="${user_num == board.mem_num}">
+			<input type="button" value="글수정" onclick="location.href='updateForm.do?boardv_num=${board.boardv_num}'">
+			<input type="button" value="글삭제" id="delete_btn">
+			<script type="text/javascript">
+				let delete_btn = document.getElementById('delete_btn');
+				delete_btn.onclick=function(){
+					let choice = confirm('삭제하시겠습니까?');
+					if(choice){
+						location.href='delete.do?boardv_num=${board.boardv_num}';
+					}
+				};
+			</script>
+			</c:if>
+			<c:if test="${!empty user_num}">
+			<input type="button" value="답글쓰기" onclick="location.href='writeForm.do?parent_num=${board.boardv_num}&depth=${board.depth + 1}'">
+			</c:if>
+			<input type="button" value="글목록" onclick="location.href='list.do'">
 		</div>
 	</div>
 	<!-- 내용 끝 -->
