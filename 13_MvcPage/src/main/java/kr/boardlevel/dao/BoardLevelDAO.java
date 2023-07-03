@@ -241,5 +241,53 @@ public class BoardLevelDAO {
 	
 	
 	//글 삭제
-	//삭제할 글의 글번호 구함
+	public void deleteBoard(int boardv_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "DELETE FROM zboardlevel "
+				+ "WHERE boardv_num IN (SELECT boardv_num "
+									 + "FROM zboardlevel START WITH boardv_num=? "
+									 + "CONNECT BY PRIOR boardv_num=parent_num)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardv_num);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	
+	//삭제할 글의 이미지 파일 구하기
+	public List<String> getImageDeleted(int boardv_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<String> list = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT image FROM zboardlevel START WITH boardv_num=? CONNECT BY PRIOR boardv_num=parent_num";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardv_num);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<String>();
+			while(rs.next()) {
+				String image = rs.getString("image");
+				if(image != null) {
+					list.add(image);
+				}
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+		
+		return list;
+	}
 }
