@@ -66,7 +66,7 @@
 	<bean name="restHandler" class="kr.spring.ch11.RestHandler"/>
 	<bean name="soapHandler" class="kr.spring.ch11.SoapHandler"/>
 	
-	<!-- 3. Map 타입 프로퍼티 설정 -->
+	<!-- 3. Set 타입 프로퍼티 설정 -->
 	<bean name="videoClient" class="kr.spring.ch12.VideoClient">
 		<property name="subset">
 			<set>
