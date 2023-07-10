@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
@@ -22,6 +23,7 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 								   <!-- view의 확장자 -->
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1" />
 	</beans:bean>
 	
 	<!-- MVC 기본 설정 -->
@@ -70,5 +72,22 @@
 	
 	<!-- 업로드 폴더 경로 등록 -->			 <!-- classpath = src/main/resources -->
 	<context:property-placeholder location="classpath:config/file.properties"/>
+	
+	<!-- 파일 업로드 -->
+	<beans:bean class="kr.spring.ch08.controller.SubmitReportController"/>
 
+	<!-- 어노테이션을 이용한 유효성 체크 -->
+	<beans:bean class="kr.spring.ch09.controller.MemberWriteController"/>
+	
+	<!-- view이름과 bean이름이 같으면 해당 bean 객체를 호출하도록 설정 -->
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+	
+	<!-- 파일 다운로드 -->
+	<beans:bean class="kr.spring.ch10.controller.DownloadController"/>
+	<beans:bean id="download" class="kr.spring.ch10.view.DownloadView"/> <!-- 뷰이름=빈이름 동일하게 설정 -->
+	
+	<!-- 엑셀 다운로드 -->
+	<beans:bean class="kr.spring.ch11.controller.PageRanksController"/>
+	<beans:bean id="pageRanks" class="kr.spring.ch11.view.PageRanksView"/> <!-- 뷰이름=빈이름 동일하게 설정 -->
+	
 </beans:beans>

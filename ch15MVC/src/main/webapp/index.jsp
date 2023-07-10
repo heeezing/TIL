@@ -17,5 +17,10 @@
 <a href="${pageContext.request.contextPath}/search/main.do">GameSearchController</a><br>
 <a href="${pageContext.request.contextPath}/account/create.do">CreateAccountController</a><br>
 <a href="${pageContext.request.contextPath}/login/login.do">LoginController</a><br>
+<a href="${pageContext.request.contextPath}/report/submitReport.do">SubmitReportController</a><br>
+<a href="${pageContext.request.contextPath}/member/write.do">MemberWriteController</a><br>
+<a href="${pageContext.request.contextPath}/file.do">DownloadController</a><br>
+<a href="${pageContext.request.contextPath}/pageRanksExcel.do">/pageRanksExcel.do(엑셀)</a><br>
+<a href="${pageContext.request.contextPath}/pageJsonReport.do">/pageJsonReport.do(JSON)</a><br>
 </body>
 </html>
