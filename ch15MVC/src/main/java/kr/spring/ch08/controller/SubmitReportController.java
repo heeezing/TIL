@@ -41,7 +41,7 @@ public class SubmitReportController {
 			return form();
 		}
 		
-		//MultipartFile에 저장되어 있는 파일을 가져와서!
+		//MultipartFile에 저장되어 있는 파일을 가져와서! (절대경로/파일명)
 		File file = new File(path + "/" + vo.getReportFile().getOriginalFilename());
 		//지정한(원하는) 경로에 transferTo()를 통해 파일 저장.
 		vo.getReportFile().transferTo(file); //마우스 대고 Add Throw Declaration 클릭하여 예외처리
