@@ -31,6 +31,12 @@ public class BoardDAOImpl implements BoardDAO{
 	private static final String SELECT_DETAIL_SQL
 		= "SELECT * FROM aboard WHERE num=?";
 	
+	private static final String UPDATE_SQL
+	 	= "UPDATE aboard SET writer=?,title=?,content=? WHERE num=?"; 
+	
+	private static final String DELETE_SQL
+		= "DELETE FROM aboard WHERE num=?";
+	
 	//익명 객체를 만들어 mapRow 정의
 	//생성자 뒤에 중괄호가 있다 -> 익명객체(객체 안에 또 다른 객체를 만듬)
 	private RowMapper<BoardVO> rowMapper = new RowMapper<BoardVO>() {
@@ -79,14 +85,15 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public void updateBoard(BoardVO board) {
-		// TODO Auto-generated method stub
-		
+		jdbcTemplate.update(UPDATE_SQL, new Object[] {board.getWriter(),
+													  board.getTitle(),
+													  board.getContent(),
+													  board.getNum()});
 	}
 
 	@Override
 	public void deleteBoard(int num) {
-		// TODO Auto-generated method stub
-		
+		jdbcTemplate.update(DELETE_SQL, new Object[] {num});
 	}
 
 }

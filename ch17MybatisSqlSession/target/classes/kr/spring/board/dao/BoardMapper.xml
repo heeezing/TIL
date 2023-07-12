@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.board.dao.BoardMapper">
+
+	<!-- 글쓰기 -->			<!-- SqlMapConfig.xml에서 설정해놓은 알리아스 -->
+	<insert id="insertBoard" parameterType="boardVO">
+		INSERT INTO aboard(num,
+						   writer,
+					  	   title,
+						   passwd,
+						   content,
+						   reg_date)
+		VALUES(aboard_seq.nextval,
+			   <!-- 자바빈일 경우에 프로퍼티명을 써줘야함. 어떤 데이터가 들어갈건지 명시. 나중에 ?로 대체됨. -->
+			   #{writer},
+			   #{title},
+			   #{passwd},
+			   #{content},
+			   SYSDATE)
+	</insert>
+
+
+	<!-- 총 레코드 수 -->
+	<!-- resultType(반환 타입) : 객체 형태로 명시(java.lang.Integer이 맞지만 integer로 알리아스 처리되어있음)-->
+	<select id="selectBoardCount" resultType="integer">
+		SELECT COUNT(*)
+		FROM aboard
+	</select>
+	
+	
+	<!-- 목록 -->
+	<!-- resultType(반환 타입) - 하나의 레코드가 담기는 객체가 무엇인지 명시하는 것이므로 list가 아니라 boardVO를 명시-->
+	<select id="selectBoardList" parameterType="map" resultType="boardVO">
+		SELECT * 
+		FROM (SELECT a.*, rownum rnum
+			  FROM (SELECT *
+			  		FROM aboard
+			  		ORDER BY num DESC)a)
+		<!-- CDATA 섹션 : 이 부분은 문법 검사하지 않겠다고 선언
+						 아래 문장에서는 <,>같은 부등호 처리를 위해 사용-->
+		<![CDATA[ 
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
+	
+	<!-- 글 상세 -->
+	<select id="selectBoard" parameterType="integer" resultType="boardVO">
+		SELECT *
+		FROM aboard
+		WHERE num = #{num}
+	</select>
+	
+	
+	<!-- 글 수정 -->
+	<update id="updateBoard" parameterType="boardVO">
+		UPDATE aboard
+		SET writer = #{writer},
+			title = #{title},
+			content = #{content}
+		WHERE num = #{num}
+	</update>
+	
+	
+	
+	
+</mapper>

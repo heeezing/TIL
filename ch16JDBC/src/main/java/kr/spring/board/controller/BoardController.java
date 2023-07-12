@@ -99,9 +99,58 @@ public class BoardController {
 		//한 건의 데이터 읽어오기
 		BoardVO vo = boardService.getBoard(num);
 		//데이터 세팅 
-		//ModelAndView(데이터,뷰 정보 저장) - 생성자로 직접 입력 / Model(데이터 저장) - 인자에 쓰면 컨테이너가 알아서 생성해줌
+		//Model(데이터 저장) - 인자에 쓰면 컨테이너가 알아서 생성해줌 / ModelAndView(데이터,뷰 정보 저장) - 생성자로 직접 입력
 		model.addAttribute("boardVO", vo);
 		
 		return "updateForm";
+	}
+	
+	@PostMapping("/update.do")
+	public String submitUpdate(@Valid BoardVO boardVO, BindingResult result) {
+		//유효성 체크 결과 오류가 발생하면 폼을 다시 호출
+		if(result.hasErrors()) {
+			return form();
+		}
+		
+		//DB에 저장되어 있는 비밀번호 구하기
+		BoardVO db_board = boardService.getBoard(boardVO.getNum());
+		//비밀번호 일치 여부 체크
+		if(!db_board.getPasswd().equals(boardVO.getPasswd())) {
+			result.rejectValue("passwd", "invalidPassword");
+			return "updateForm";
+		}
+		
+		//비밀번호 일치, 정상 처리 시 - 글 수정
+		boardService.updateBoard(boardVO);
+		return "redirect:/list.do";
+	}
+	
+	@GetMapping("/delete.do")
+	public String formDelete(BoardVO boardVO) {
+		return "deleteForm";
+	}
+	
+	@PostMapping("/delete.do")
+	public String submitDelete(@Valid BoardVO boardVO, BindingResult result) {
+		//@Valid 명시 - 유효성 체크
+		//그런데 비밀번호만 입력받는데, 다른 프로퍼티도 notEmpty 걸려있음.
+		//지정한 필드(비밀번호)만 유효성 체크 결과를 확인하고 싶을 땐! 
+		//hasFieldErrors : 지정한 필드에서만 유효성 체크 / hasErrors : 전체 유효성 체크(오류 하나만 있어도 걸림)
+		if(result.hasFieldErrors("passwd")) {
+			//유효성 체크 결과 비밀번호 필드에서 오류가 발생하면 폼을 다시 호출
+			return "deleteForm"; //
+		}
+		
+		//DB에 저장된 비밀번호 구하기
+		BoardVO db_board = boardService.getBoard(boardVO.getNum());
+		//비밀번호 일치 여부 체크
+		if(!db_board.getPasswd().equals(boardVO.getPasswd())) {
+			result.rejectValue("passwd", "invalidPassword");
+			return "deleteForm";
+		}
+		
+		//비밀번호 일치, 정상 처리 시 - 글 삭제
+		boardService.deleteBoard(boardVO.getNum());
+		return "redirect:/list.do";
 	}
 }

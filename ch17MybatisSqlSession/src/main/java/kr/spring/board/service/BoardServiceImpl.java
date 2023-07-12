@@ -1,6 +1,7 @@
 package kr.spring.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,11 @@ import org.springframework.stereotype.Service;
 import kr.spring.board.dao.BoardDAO;
 import kr.spring.board.vo.BoardVO;
 
-@Service  //자동 스캔 대상이 된다.
+@Service
 public class BoardServiceImpl implements BoardService{
 
 	@Autowired
-	private BoardDAO boardDAO;  //boardDAO의 주소를 받아와서 메서드에 넘길 것
+	private BoardDAO boardDAO;
 	
 	@Override
 	public void insertBoard(BoardVO board) {
@@ -20,18 +21,18 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int getBoardCount() {
-		return boardDAO.getBoardCount();
+	public int selectBoardCount() {
+		return boardDAO.selectBoardCount();
 	}
 
 	@Override
-	public List<BoardVO> getBoardList(int startRow, int endRow) {
-		return boardDAO.getBoardList(startRow, endRow);
+	public List<BoardVO> selectBoardList(Map<String, Object> map) {
+		return boardDAO.selectBoardList(map);
 	}
 
 	@Override
-	public BoardVO getBoard(int num) {
-		return boardDAO.getBoard(num);
+	public BoardVO selectBoard(int num) {
+		return boardDAO.selectBoard(num);
 	}
 
 	@Override
@@ -41,6 +42,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void deleteBoard(int num) {
-		boardDAO.deleteBoard(num);
+		// TODO Auto-generated method stub
+		
 	}
+
 }
