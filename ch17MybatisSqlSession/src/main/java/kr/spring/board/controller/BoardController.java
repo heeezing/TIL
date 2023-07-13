@@ -132,4 +132,33 @@ public class BoardController {
 		return "redirect:/list.do";
 	}
 
+	
+	//글 삭제 폼 - 삭제 전 비밀번호 확인
+	@GetMapping("/delete.do")
+	public String formDelete(BoardVO vo) {
+		return "deleteForm";
+	}
+	
+	
+	//글 삭제 처리
+	@PostMapping("/delete.do")
+	public String submitDelete(@Valid BoardVO boardVO, BindingResult result) {
+		//비밀번호만 유효성 체크, 오류 있으면 폼 다시 호출
+		if(result.hasFieldErrors("passwd")) {
+			return "deleteForm";
+		}
+		
+		//DB에 저장된 비밀번호 구하기
+		BoardVO db_board = boardService.selectBoard(boardVO.getNum());
+		//비밀번호가 일치하지 않을 경우 
+		if(!db_board.getPasswd().equals(boardVO.getPasswd())) {
+			result.rejectValue("passwd", "invalidPassword");
+			return "deleteForm";
+		}
+		
+		//정상 처리 시 - 글 삭제
+		boardService.deleteBoard(boardVO.getNum());
+		return "redirect:/list.do";
+	}
+
 }

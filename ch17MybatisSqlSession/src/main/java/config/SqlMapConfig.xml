@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases> <!-- 간단히 명시하기 위해 알리아스 부여 -->
+	    <typeAlias alias="boardVO" type="kr.spring.board.vo.BoardVO"/>
+	</typeAliases>
+	
+	<mappers> 
+		<mapper resource="kr/spring/board/dao/BoardMapper.xml"/>
+	</mappers>
+</configuration>
+
+
+
+
+

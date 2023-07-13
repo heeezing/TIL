@@ -28,7 +28,7 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.selectOne("selectBoardCount");
 	}
 
-	@Override
+	@Override							//인자는 하나만 넣을 수 있기에 여러 정보를 넣으려 map객체 사용
 	public List<BoardVO> selectBoardList(Map<String, Object> map) {
 		//selectList() : 데이터 목록을 가져옴
 		return sqlSession.selectList("selectBoardList", map);
@@ -46,8 +46,7 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public void deleteBoard(int num) {
-		// TODO Auto-generated method stub
-		
+		sqlSession.delete("deleteBoard", num);
 	}
 
 }

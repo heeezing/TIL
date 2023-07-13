@@ -50,7 +50,7 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	<!-- aop 설정 - 원하는 객체의 메서드를 찾아 트랜잭션 처리 -->
+	<!-- aop 설정 - 원하는 객체(핵심 기능)의 메서드를 찾아 트랜잭션 처리 -->
 	<aop:config>
 		<aop:pointcut expression="execution(public * kr.spring..*ServiceImpl.*(..))" id="servicePublicMethod"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePublicMethod"/>
