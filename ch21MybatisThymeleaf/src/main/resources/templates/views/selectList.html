@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시판 목록</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page-main">
+	<h2>게시판 목록</h2>
+	<div class="align-right">
+		<input type="button" value="글쓰기" onclick="location.href='insert.do'">
+	</div>
+	
+	<div class="result-display" th:if="${count == 0}">
+		표시할 내용이 없습니다.
+	</div>
+	
+	<div th:unless="${count == 0}"><!-- count가 0이 아닌 그 밖의 경우 -->
+		<table>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+			</tr>
+			<tr th:each="board, userState : ${list}"><!-- list에서 뽑아온 vo정보를 board에 전달 -->
+				<td th:text="${board.num}"></td>
+				<td><a th:href="@{/detail.do(num=${board.num})}" th:text="${board.title}"></a></td>
+				<td th:text="${board.writer}"></td>
+				<td th:text="${board.reg_date}"></td>
+			</tr>
+		</table>
+		<div class="align-center" th:utext="${page}"></div><!-- utext : 링크가 있는 텍스트 -->
+	</div>
+</div>
+</body>
+</html>
