@@ -1,5 +1,7 @@
 package kr.spring.member.vo;
 
+import java.sql.Date;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -43,4 +45,17 @@ public class MemberVO {
 	private String address1;
 	@NotEmpty
 	private String address2;
+	
+	private byte[] photo;
+	private String photo_name;
+	private Date reg_date;
+	private Date modify_date;
+	
+	//비밀번호 일치 여부 체크
+	public boolean isCheckedPassword(String userPasswd) {
+		if(auth > 1 && passwd.equals(userPasswd)) {
+			return true;
+		}
+		return false;
+	}
 }

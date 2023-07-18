@@ -23,14 +23,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO selectCheckMember(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.selectCheckMember(id);
 	}
 
 	@Override
 	public MemberVO selectMember(Integer mem_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.selectMember(mem_num);
 	}
 
 	@Override

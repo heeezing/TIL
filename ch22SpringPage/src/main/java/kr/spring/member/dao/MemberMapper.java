@@ -20,11 +20,15 @@ public interface MemberMapper {
 	@Insert("INSERT INTO spmember (mem_num,id,nick_name) VALUES (#{mem_num},#{id},#{nick_name})")
 	public void insertMember(MemberVO member);
 	
-	public void insertMember_detail(MemberVO member);
+	public void insertMember_detail(MemberVO member); //xml에 생성
+	
 	//ID를 이용한 회원 정보 체크
-	public MemberVO selectCheckMember(String id);
+	public MemberVO selectCheckMember(String id); //xml에 생성
+	
 	//회원 정보 (회원 번호를 이용)
+	@Select("SELECT * FROM spmember m JOIN spmember_detail d ON m.mem_num=d.mem_num WHERE m.mem_num=#{mem_num}")
 	public MemberVO selectMember(Integer mem_num);
+	
 	//회원 정보 수정
 	public void updateMember(MemberVO member);
 	public void updateMember_detail(MemberVO member);

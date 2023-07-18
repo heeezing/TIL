@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!-- 회원 가입 시작 -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/confirmId.js"></script>
 <div class="page-main">
 	<h2>회원 가입</h2>
 	<form:form modelAttribute="memberVO" action="registerUser.do" id="member_register">

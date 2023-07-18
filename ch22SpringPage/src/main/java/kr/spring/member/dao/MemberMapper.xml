@@ -25,4 +25,20 @@
 			#{address2}
 		)
 	</insert>
+	
+	<!-- ID를 이용한 회원 정보 체크 -->		
+	<select id="selectCheckMember" parameterType="string" resultType="memberVO">
+		SELECT 
+			m.mem_num,
+			m.id,
+			m.auth,
+			d.au_id,
+			d.passwd,
+			m.nick_name,
+			d.email
+		FROM spmember m LEFT OUTER JOIN spmember_detail d
+		ON m.mem_num = d.mem_num
+		WHERE m.id = #{id}
+	
+	</select>
 </mapper>
