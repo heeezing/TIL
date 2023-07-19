@@ -23,5 +23,7 @@ public interface MemberService {
 	public void updateAu_id(String au_id, int mem_num);
 	public void selectAu_id(String au_id);
 	public void deleteAu_id(int mem_num);
+	//프로필 사진 업데이트
+	public void updateProfile(MemberVO member);
 	
 }

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import kr.spring.member.vo.MemberVO;
 
@@ -30,10 +31,15 @@ public interface MemberMapper {
 	public MemberVO selectMember(Integer mem_num);
 	
 	//회원 정보 수정
+	@Update("UPDATE spmember SET nick_name=#{nick_name} WHERE mem_num=#{mem_num}")
 	public void updateMember(MemberVO member);
+	
 	public void updateMember_detail(MemberVO member);
+	
 	//비밀번호 수정
+	@Update("UPDATE spmember_detail SET passwd=#{passwd} WHERE mem_num=#{mem_num}")
 	public void updatePassword(MemberVO member);
+	
 	//회원 탈퇴
 	public void deleteMember(Integer mem_num);
 	public void deleteMember_detail(Integer mem_num);
@@ -42,5 +48,8 @@ public interface MemberMapper {
 	public void updateAu_id(@Param("au_id") String au_id, @Param("mem_num")int mem_num);
 	public void selectAu_id(String au_id);
 	public void deleteAu_id(int mem_num);
+	//프로필 이미지 업데이트
+	@Update("UPDATE spmember_detail SET photo=#{photo},photo_name=#{photo_name} WHERE mem_num=#{mem_num}")
+	public void updateProfile(MemberVO member);
 	
 }

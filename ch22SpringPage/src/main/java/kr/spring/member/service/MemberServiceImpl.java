@@ -33,14 +33,13 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void updateMember(MemberVO member) {
-		// TODO Auto-generated method stub
-		
+		memberMapper.updateMember(member);
+		memberMapper.updateMember_detail(member);
 	}
 
 	@Override
 	public void updatePassword(MemberVO member) {
-		// TODO Auto-generated method stub
-		
+		memberMapper.updatePassword(member);
 	}
 
 	@Override
@@ -65,6 +64,11 @@ public class MemberServiceImpl implements MemberService{
 	public void deleteAu_id(int mem_num) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateProfile(MemberVO member) {
+		memberMapper.updateProfile(member);
 	}
 
 }

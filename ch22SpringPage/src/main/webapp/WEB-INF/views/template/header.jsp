@@ -11,7 +11,7 @@
 	<a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a>
 	</c:if>
 	
-	<!-- 로그인 상태인 경우 -->
+	<!-- 로그인O -->
 	<c:if test="${!empty user}">
 	<img src="${pageContext.request.contextPath}/member/photoView.do" width="25" height="25" class="my-photo">
 	</c:if>
