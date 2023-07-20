@@ -57,4 +57,49 @@
 		  mem_num=#{mem_num}
 	</update>
 	
+	
+	<!-- 관리자 회원 목록 -->
+	<!-- 동적 SQL문 생성. 쉽게 말하면 SQL문 조각! 
+	     sql태그와 include태그를 이용해서 SQL문을 재사용할 수 있다. -->
+	<sql id="memberSearch"> 
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				<if test="keyfield == 1"> 
+					m.id LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 2"> 
+					d.name LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 3"> 
+					d.email LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 4"> 
+					m.id LIKE '%' || #{keyword} || '%' or
+					d.name LIKE '%' || #{keyword} || '%' or
+					d.email LIKE '%' || #{keyword} || '%'
+				</if>
+			</if>		
+		</where>
+	</sql>
+	
+	<!-- 전체or검색 레코드 수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*)
+		FROM spmember m LEFT OUTER JOIN spmember_detail d ON m.mem_num = d.mem_num
+		<include refid="memberSearch"></include> <!-- 미리 만들어놓은 WHERE절을 include하여 재사용 -->
+	</select>
+	
+	<!-- 전체or검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="memberVO">
+		SELECT *
+		FROM (SELECT a.*, rownum rnum
+			  FROM (SELECT *
+			  		FROM spmember m LEFT OUTER JOIN spmember_detail d ON m.mem_num=d.mem_num
+			  		<include refid="memberSearch"></include>
+			  		ORDER BY d.reg_date DESC NULLS LAST)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
 </mapper>

@@ -1,5 +1,9 @@
 package kr.spring.member.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,15 +45,30 @@ public interface MemberMapper {
 	public void updatePassword(MemberVO member);
 	
 	//회원 탈퇴
+	@Update("UPDATE spmember SET auth=0 WHERE mem_num=#{mem_num}") //탈퇴회원으로 auth정보변경,
 	public void deleteMember(Integer mem_num);
+	@Delete("DELETE FROM spmember_detail WHERE mem_num=#{mem_num}") //개인정보는 삭제
 	public void deleteMember_detail(Integer mem_num);
+	
 	//자동 로그인
 	//원래 mybatis는 하나의 인자만 넣을 수 있지만, 어노테이션을 통해 여러 인자를 넣을 수 있다.
 	public void updateAu_id(@Param("au_id") String au_id, @Param("mem_num")int mem_num);
 	public void selectAu_id(String au_id);
 	public void deleteAu_id(int mem_num);
+	
 	//프로필 이미지 업데이트
 	@Update("UPDATE spmember_detail SET photo=#{photo},photo_name=#{photo_name} WHERE mem_num=#{mem_num}")
 	public void updateProfile(MemberVO member);
+	
+	
+	/*-----[회원 관리 - 관리자]-----*/
+	
+	//전체or검색 레코드 수
+	public int selectRowCount(Map<String,Object> map);
+	//전체or검색 목록
+	public List<MemberVO> selectList(Map<String,Object> map);
+	//회원 권한 변경
+	@Update("UPDATE spmember SET auth=#{auth} WHERE mem_num=#{mem_num}")
+	public void updateByAdmin(MemberVO memberVO);
 	
 }

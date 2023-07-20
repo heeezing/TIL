@@ -16,4 +16,9 @@ public class MainController {
 	public String main(Model model) {
 		return "main"; //타일스 설정의 식별자(main.xml의 definition name)
 	}
+	
+	@RequestMapping("/main/admin.do")
+	public String adminMain(Model model) {
+		return "admin"; //타일스 설정의 식별자
+	}
 }

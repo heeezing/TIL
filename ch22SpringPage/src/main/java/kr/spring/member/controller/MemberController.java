@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +23,11 @@ import kr.spring.member.service.MemberService;
 import kr.spring.member.vo.MemberVO;
 import kr.spring.util.AuthCheckException;
 import kr.spring.util.FileUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class MemberController {
-    //로그 대상 지정
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
 	private MemberService memberService;
@@ -51,7 +49,7 @@ public class MemberController {
 	@RequestMapping("/member/confirmId.do")
 	@ResponseBody //제이슨 문자열로 만듬 - ajax통신을 위해 (Map or 자바빈을 넘기면 됨)
 	public Map<String,String> confirmId(@RequestParam String id){
-		logger.debug("<<아이디 중복 체크>> : " + id);
+		log.debug("<<아이디 중복 체크>> : " + id);
 		
 		Map<String,String> mapAjax = new HashMap<String,String>();
 		
@@ -82,7 +80,7 @@ public class MemberController {
 	//회원가입 처리
 	@PostMapping("/member/registerUser.do")	//데이터 세팅(notice.jsp보여주기 위해)하기 위해 model에 넣음
 	public String submit(@Valid MemberVO memberVO, BindingResult result, Model model) {
-	      logger.debug("<<회원가입>> : " + memberVO);
+	      log.debug("<<회원가입>> : " + memberVO);
 		
 		//유효성 체크 결과, 오류가 있을 시 폼을 다시 호출
 		if(result.hasErrors()) {
@@ -111,7 +109,7 @@ public class MemberController {
 	//로그인 처리
 	@PostMapping("/member/login.do")
 	public String submitLogin(@Valid MemberVO memberVO, BindingResult result, HttpSession session) {
-		logger.debug("<<회원로그인>> : " + memberVO);
+		log.debug("<<회원로그인>> : " + memberVO);
 		
 		//id, passwd 필드만 유효성 체크. 오류 있을 시 폼 호출
 		if(result.hasFieldErrors("id") || result.hasFieldErrors("passwd")) {
@@ -137,10 +135,10 @@ public class MemberController {
 				
 				//로그인 처리
 				session.setAttribute("user", member); //세션에 통째로 저장
-				logger.debug("<<인증 성공>>");
-				logger.debug("<<id>> : " + member.getId());
-				logger.debug("<<auth>> : " + member.getAuth());
-				logger.debug("<<au_id>> : " + member.getAu_id());
+				log.debug("<<인증 성공>>");
+				log.debug("<<id>> : " + member.getId());
+				log.debug("<<auth>> : " + member.getAuth());
+				log.debug("<<au_id>> : " + member.getAu_id());
 				
 				if(member.getAuth() == 9) {
 					return "redirect:/main/admin.do";
@@ -160,7 +158,7 @@ public class MemberController {
 			}else {
 				result.reject("invalidIdOrPassword");
 			}
-			logger.debug("<<인증 실패>>");
+			log.debug("<<인증 실패>>");
 			
 			return formLogin();
 		}
@@ -208,7 +206,7 @@ public class MemberController {
 	@RequestMapping("/member/photoView.do")
 	public String getProfile(HttpSession session, HttpServletRequest request, Model model) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		logger.debug("<<photoView>> : " + user);
+		log.debug("<<photoView>> : " + user);
 		
 		if(user == null) { //로그인 X
 			//기본 이미지 읽기													//상대 경로를 넣으면 절대 경로를 구해줌
@@ -278,7 +276,7 @@ public class MemberController {
 								BindingResult result,
 								HttpSession session) {
 		//먼저 로그 처리로 입력 정보 확인! (toString 재정의해놨기때문에 O)
-		logger.debug("<<회원정보수정>> : " + memberVO);
+		log.debug("<<회원정보수정>> : " + memberVO);
 		
 		//유효성 체크 결과 오류 발생 시 폼을 다시 호출
 		if(result.hasErrors()) {
@@ -316,7 +314,7 @@ public class MemberController {
 										HttpSession session,
 										HttpServletRequest request,
 										Model model) {
-		logger.debug("<<비밀번호 변경 처리>> : " + memberVO);
+		log.debug("<<비밀번호 변경 처리>> : " + memberVO);
 		
 		//now_passwd, passwd 유효성 체크 결과 오류가 있을 시 폼을 다시 호출
 		if(result.hasFieldErrors("now_passwd") || result.hasFieldErrors("passwd")) {
@@ -344,7 +342,59 @@ public class MemberController {
 		model.addAttribute("message", "비밀번호 변경 완료(*재접속 시 설정되어 있는 자동 로그인 기능 해제)");
 		model.addAttribute("url", request.getContextPath() + "/member/myPage.do");
 		
-		return "common/resultView";
+		return "common/resultView"; //jsp 호출(폴더/파일명 형태)
+	}
+	
+	
+	/*======================
+	   		회원 탈퇴	
+	======================*/
+	
+	//탈퇴 폼 호출
+	@GetMapping("/member/delete.do")
+	public String formDelete() {
+		return "memberDelete"; //tiles 호출
+	}
+	
+	//전송된 데이터 처리
+	@PostMapping("/member/delete.do")
+	public String submitDelete(@Valid MemberVO memberVO,
+								BindingResult result,
+								HttpSession session,
+								Model model) {
+		log.debug("<<회원탈퇴>> : " + memberVO);
+		
+		//id,passwd 유효성 체크 결과 오류 발생 시 폼을 다시 호출
+		if(result.hasFieldErrors("id") || result.hasFieldErrors("passwd")) {
+			return formDelete();
+		}
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		MemberVO db_member = memberService.selectMember(user.getMem_num());
+		boolean check = false;
+		//아이디, 비밀번호 일치 여부 체크
+		try {
+			if(db_member!=null && db_member.getId().equals(memberVO.getId())) {
+				//비밀번호 일치 여부 체크
+				check = db_member.isCheckedPassword(memberVO.getPasswd());
+			}
+			if(check) {
+				//인증 성공, 회원 정보 삭제
+				memberService.deleteMember(user.getMem_num());
+				//로그아웃 처리
+				session.invalidate();
+				//문구 데이터 저장
+				model.addAttribute("accessMsg", "회원탈퇴를 완료했습니다.");
+				//jsp 호출
+				return "common/notice";
+			}
+			//인증 실패
+			throw new AuthCheckException();
+		}catch(AuthCheckException e){
+			result.reject("invalidIdOrPassword");
+			return formDelete();
+		}
+		
 	}
 	
 }

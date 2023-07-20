@@ -1,5 +1,8 @@
 package kr.spring.member.service;
 
+import java.util.List;
+import java.util.Map;
+
 import kr.spring.member.vo.MemberVO;
 
 public interface MemberService {
@@ -8,7 +11,6 @@ public interface MemberService {
 	
 	//회원 가입
 	public void insertMember(MemberVO member);
-	
 	//ID를 이용한 회원 정보 체크
 	public MemberVO selectCheckMember(String id);
 	//회원 정보 (회원 번호를 이용)
@@ -26,4 +28,10 @@ public interface MemberService {
 	//프로필 사진 업데이트
 	public void updateProfile(MemberVO member);
 	
+	
+	/*-----[회원 관리 - 관리자]-----*/
+	
+	public int selectRowCount(Map<String,Object> map);
+	public List<MemberVO> selectList(Map<String,Object> map);
+	public void updateByAdmin(MemberVO memberVO);
 }

@@ -28,7 +28,9 @@ public class AppConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginCheck) //등록
 				.addPathPatterns("/member/myPage.do") //loginCheck 동작 위치 지정
-				.addPathPatterns("/member/update.do");
+				.addPathPatterns("/member/update.do")
+				.addPathPatterns("/member/changePassword.do")
+				.addPathPatterns("/member/delete.do");
 	}
 	
 	
