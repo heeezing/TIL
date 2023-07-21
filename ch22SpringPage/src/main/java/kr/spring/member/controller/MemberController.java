@@ -2,9 +2,12 @@ package kr.spring.member.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -108,7 +111,8 @@ public class MemberController {
 	
 	//로그인 처리
 	@PostMapping("/member/login.do")
-	public String submitLogin(@Valid MemberVO memberVO, BindingResult result, HttpSession session) {
+	public String submitLogin(@Valid MemberVO memberVO, BindingResult result, 
+							  HttpSession session, Model model, HttpServletResponse response) {
 		log.debug("<<회원로그인>> : " + memberVO);
 		
 		//id, passwd 필드만 유효성 체크. 오류 있을 시 폼 호출
@@ -129,9 +133,26 @@ public class MemberController {
 			
 			//인증 성공
 			if(check) { 
-				//===자동 로그인 체크 시작===//
-				
-				//===자동 로그인 체크 끝===//
+				//======자동 로그인 체크 시작======// 											//자동로그인 체크했을 경우:on
+				boolean autoLogin = memberVO.getAuto() != null && memberVO.getAuto().equals("on");
+				if(autoLogin) {
+					//자동 로그인 체크를 한 경우
+					String au_id = member.getAu_id();
+					if(au_id == null) {
+						//자동 로그인 체크 식별값 생성
+						au_id = UUID.randomUUID().toString();
+						log.debug("<<au_id>> : " + au_id);
+						memberService.updateAu_id(au_id, member.getMem_num());
+					}
+					
+					//쿠키 생성
+					Cookie auto_cookie = new Cookie("au-log", au_id);
+					auto_cookie.setMaxAge(60*60*24*7); //쿠키 유효 시간 설정 (1주)
+					auto_cookie.setPath("/"); //쿠키 경로 지정 (/밑으로는 다 사용할 수 있도록 설정)
+					//쿠키 전달
+					response.addCookie(auto_cookie);
+				}
+				//======자동 로그인 체크 끝======//
 				
 				//로그인 처리
 				session.setAttribute("user", member); //세션에 통째로 저장
@@ -170,12 +191,17 @@ public class MemberController {
 	======================*/
 	
 	@RequestMapping("/member/logout.do")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletResponse response) {
 		//로그아웃 처리
 		session.invalidate();
 		
 		//===자동 로그인 해제 시작===//
+		//클라이언트 쿠키 처리
+		Cookie auto_cookie = new Cookie("au-log","");
+		auto_cookie.setMaxAge(0); //덮어씌움으로서 쿠키 삭제
+		auto_cookie.setPath("/"); //삭제할 때도 경로 지정해야 함
 		
+		response.addCookie(auto_cookie);
 		//===자동 로그인 해제 끝===//
 		
 		return "redirect:/main/main.do";

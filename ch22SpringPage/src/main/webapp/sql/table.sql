@@ -28,3 +28,32 @@ CREATE TABLE spmember_detail(
 
 CREATE SEQUENCE spmember_seq;
 
+
+--게시판
+CREATE TABLE spboard(
+	board_num number,
+	title varchar2(90) not null,
+	content clob not null,
+	hit number(8) default 0 not null,
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	ip varchar2(40) not null,
+	mem_num number not null,
+	constraint spboard_pk primary key (board_num),
+	constraint spboard_fk1 foreign key (mem_num) references spmember (mem_num)
+);
+
+CREATE SEQUENCE spboard_seq;
+
+
+
+
+
+
+
+
+
+
+
+
+

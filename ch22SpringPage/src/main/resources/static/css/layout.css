@@ -145,6 +145,9 @@ input{
 input[type="text"],input[type="password"],input[type="email"]{
 	width:350px;
 }
+button[type="submit"]{
+	height:31px;
+}
 
 
 

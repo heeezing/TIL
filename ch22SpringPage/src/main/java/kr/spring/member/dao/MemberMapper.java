@@ -52,9 +52,16 @@ public interface MemberMapper {
 	
 	//자동 로그인
 	//원래 mybatis는 하나의 인자만 넣을 수 있지만, 어노테이션을 통해 여러 인자를 넣을 수 있다.
+	@Update("UPDATE spmember_detail SET au_id=#{au_id} WHERE mem_num=#{mem_num}")
 	public void updateAu_id(@Param("au_id") String au_id, @Param("mem_num")int mem_num);
-	public void selectAu_id(String au_id);
-	public void deleteAu_id(int mem_num);
+	
+	@Select("SELECT m.mem_num,m.id,m.auth,d.au_id,d.passwd,m.nick_name,d.email "
+		  + "FROM spmember m JOIN spmember_detail d ON m.mem_num = d.mem_num "
+		  + "WHERE d.au_id = #{au_id}")
+	public MemberVO selectAu_id(String au_id);
+	
+	@Update("UPDATE spmember_detail SET au_id='' WHERE mem_num=#{mem_num}")
+	public void deleteAu_id(int mem_num); //쿠키,au_id 크로스체크하기때문에 au_id만 지워도 괜찮다.
 	
 	//프로필 이미지 업데이트
 	@Update("UPDATE spmember_detail SET photo=#{photo},photo_name=#{photo_name} WHERE mem_num=#{mem_num}")

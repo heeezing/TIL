@@ -19,7 +19,7 @@
 			</li>
 		</ul>
 		<div class="align-center">
-			<c:if test="${memberVO.auth != 9}">
+			<c:if test="${memberVO.auth != 9}"> 
 			<form:button>전송</form:button>
 			</c:if>
 			<input type="button" value="회원목록" onclick="location.href='admin_list.do'">

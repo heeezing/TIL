@@ -4,8 +4,9 @@
 <!-- 상단 시작 -->
 <h2 class="align-center">SpringPage</h2>
 <div class="align-right">
-	<!-- 우리가 필요한 정보를 통째로 user에 담아 세션에 저장할 예정 -->
+	<a href="${pageContext.request.contextPath}/board/list.do">게시판</a>
 	
+	<!-- 우리가 필요한 정보를 통째로 user에 담아 세션에 저장할 예정 -->
 	<!-- 로그인O, 일반회원인 경우 -->
 	<c:if test="${!empty user && user.auth == 2}">
 	<a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a>
@@ -35,9 +36,15 @@
 	<a href="${pageContext.request.contextPath}/member/registerUser.do">회원가입</a>
 	<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 	</c:if>
-	
+	 
+	<!-- 관리자가 아닌 경우 -->
 	<c:if test="${empty user || user.auth < 9}">
 	<a href="${pageContext.request.contextPath}/main/main.do">홈으로</a>
+	</c:if>
+	
+	<!-- 관리자인 경우 -->
+	<c:if test="${!empty user || user.auth == 9}">
+	<a href="${pageContext.request.contextPath}/main/admin.do">관리자 메인</a>
 	</c:if>
 </div>
 <!-- 상단 끝 -->

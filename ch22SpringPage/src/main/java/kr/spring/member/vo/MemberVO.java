@@ -16,7 +16,9 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+/*byte[]로 데이터를 반환하는 프로퍼티를 출력하게 되면
+  데이터 양이 많아서 느려지는 현상이 발생하기 때문에 출력하지 않게 제외 시킴.*/
+@ToString(exclude = {"photo"})
 public class MemberVO {
 	private int mem_num;
 	
