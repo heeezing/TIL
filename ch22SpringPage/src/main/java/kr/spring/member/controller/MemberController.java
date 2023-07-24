@@ -246,6 +246,17 @@ public class MemberController {
 		return "imageView";
 	}
 	
+	//프로필 사진 출력 (회원 번호 지정)
+	@RequestMapping("/member/viewProfile.do")
+	public String getProfileByMem_num(@RequestParam int mem_num,
+									  HttpServletRequest request,
+									  Model model) {
+		MemberVO memberVO = memberService.selectMember(mem_num);
+		viewProfile(memberVO, request, model); //만들어놓은 공통 코드에 넘겨주기만 하면 된다.
+		
+		return "imageView";
+	}
+	
 	//프로필 사진 처리를 위한 공통 코드
 	public void viewProfile(MemberVO memberVO, HttpServletRequest request, Model model) {
 		if(memberVO==null || memberVO.getPhoto_name()==null) {

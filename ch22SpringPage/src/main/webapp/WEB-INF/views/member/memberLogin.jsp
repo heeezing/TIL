@@ -18,7 +18,7 @@
 				<form:errors path="passwd" element="div" cssClass="error-color"/>
 			</li>
 			<li>
-				<input type="checkbox" name="auto" id="auto">로그인 상태 유지
+				<label for="auto"><input type="checkbox" name="auto" id="auto">로그인 상태 유지</label>
 			</li>
 		</ul>
 		<div class="align-center">

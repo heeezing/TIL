@@ -33,7 +33,6 @@ a:hover{
 }
 
 
-
 /*----------좌측 메뉴 레이아웃 (Admin, MyPage)----------*/
 
 #page_nav{
@@ -50,7 +49,6 @@ a:hover{
 }
 
 
-
 /*----------페이지 기본 레이아웃----------*/
 
 .page-main{
@@ -61,7 +59,6 @@ a:hover{
 	width:600px;
 	margin:0 auto;
 }
-
 
 
 /*----------공통 메시지 및 버튼----------*/
@@ -94,7 +91,6 @@ a:hover{
 }
 
 
-
 /*----------공통 정렬----------*/
 
 .align-center{
@@ -105,7 +101,6 @@ a:hover{
 }
 
 
-
 /*----------상단 메뉴----------*/
 
 div#main_menu ul{
@@ -114,7 +109,6 @@ div#main_menu ul{
 div#main_menu ul li{
 	margin-bottom:5px;
 }
-
 
 
 /*----------메인----------*/
@@ -150,7 +144,6 @@ button[type="submit"]{
 }
 
 
-
 /*----------회원 가입 등록,수정,삭제 폼----------*/
 
 #member_register{
@@ -174,7 +167,6 @@ button[type="submit"]{
 #member_delete input[id="id"], #member_delete input[id="passwd"]{
 	width:240px;
 }
-
 
 
 /*----------로그인----------*/
@@ -218,7 +210,10 @@ button[type="submit"]{
 #member_login .login-btn{
 	width:320px;
 }
-
+#member_login label[for="auto"]{
+	width:200px;
+	padding:0 0 5px 0;
+}
 
 
 /*----------Admin, MY페이지 공통----------*/
@@ -257,7 +252,6 @@ button[type="submit"]{
 }
 
 
-
 /*----------MY페이지----------*/
 
 .camera{
@@ -279,7 +273,6 @@ button[type="submit"]{
 }
 
 
-
 /*----------공통 목록----------*/
 
 form#search_form{
@@ -297,6 +290,9 @@ ul.search li{
 	margin:0 0 9px 0;
 	padding:0;
 	display:inline;
+}
+ul.search li select{
+	height:30px;
 }
 .list-space{
 	width:700px;
@@ -333,3 +329,47 @@ table.striped-table th{
 table.striped-table tr:nth-child(odd){
 	background-color:rgb(250,250,247);
 }
+
+
+/*----------게시판 목록----------*/
+
+form#search_form #order{
+	height:32px;
+}
+
+
+/*----------게시판 폼----------*/
+
+
+
+
+/*----------게시판 글 상세----------*/
+
+ul.detail-info{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+ul.detail-info li{
+	margin:0;
+	padding-top:5px;
+	display:inline-block;
+}
+ul.detail-info li:last-child{
+	vertical-align:top;
+}
+.detail-img{
+	max-width:500px;
+}
+.detail-content img{
+	max-width:940px;
+}
+#output_fav, .output_rfav{
+	cursor:pointer;
+}
+#output_fcount{
+	width:50px;
+	display:inline-block;
+}
+
+

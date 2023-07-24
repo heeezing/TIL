@@ -78,4 +78,11 @@
 		]]>
 	</select>
 	
+	<!-- 게시글 상세 -->
+	<select id="selectBoard" parameterType="integer">
+		SELECT * 
+		FROM spboard b JOIN spmember m USING(mem_num) 
+		WHERE b.board_num = #{board_num}
+	</select>
+	
 </mapper>
