@@ -46,9 +46,34 @@ CREATE TABLE spboard(
 CREATE SEQUENCE spboard_seq;
 
 
+--게시판 댓글
+CREATE TABLE spboard_reply(
+	re_num number,
+	re_content varchar2(900) not null,
+	re_date date default SYSDATE not null,
+	re_mdate date,
+	re_ip varchar2(40) not null,
+	board_num number not null,
+	mem_num number not null,
+	constraint spboard_reply_pk primary key (re_num),
+	constraint spboard_reply_fk1 foreign key (board_num) references spboard (board_num),
+	constraint spboard_reply_fk2 foreign key (mem_num) references spmember (mem_num)
+);
+
+CREATE SEQUENCE spreply_seq;
 
 
+--게시판 좋아요
+CREATE TABLE spboard_fav(
+	fav_num number,
+	board_num number not null,
+	mem_num number not null,
+	constraint spboard_fav_pk primary key (fav_num),
+	constraint spboard_fav_fk1 foreign key (board_num) references spboard (board_num),
+	constraint spboard_fav_fk2 foreign key (mem_num) references spmember (mem_num)
+);
 
+CREATE SEQUENCE refav_seq;
 
 
 

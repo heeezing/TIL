@@ -70,7 +70,11 @@
 		SELECT * 
 		FROM (SELECT a.*, rownum rnum 
 			  FROM (SELECT *
-			  		FROM spboard b JOIN spmember m ON b.mem_num = m.mem_num 
+			  		FROM spboard b JOIN spmember m 
+			  					    ON b.mem_num = m.mem_num 
+			  					   LEFT OUTER JOIN (SELECT COUNT(*) fav_cnt, board_num 
+			  									    FROM spboard_fav GROUP BY board_num)f 
+			  					    ON b.board_num = f.board_num 
 			  		<include refid="boardSearch"></include>
 			  		<include refid="boardOrder"></include>)a)
 		<![CDATA[
@@ -84,5 +88,23 @@
 		FROM spboard b JOIN spmember m USING(mem_num) 
 		WHERE b.board_num = #{board_num}
 	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertReply" parameterType="boardReplyVO">
+		INSERT INTO spboard_reply(
+			re_num,
+			re_content,
+			re_ip,
+			board_num,
+			mem_num		
+			)
+		VALUES(
+			spreply_seq.nextval,
+			#{re_content},
+			#{re_ip},
+			#{board_num},
+			#{mem_num}
+			)
+	</insert>
 	
 </mapper>

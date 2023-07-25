@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.spring.board.service.BoardService;
+import kr.spring.board.vo.BoardFavVO;
+import kr.spring.board.vo.BoardReplyVO;
 import kr.spring.board.vo.BoardVO;
 import kr.spring.member.vo.MemberVO;
 import kr.spring.util.PagingUtil;
@@ -187,4 +190,99 @@ public class BoardController {
 		return "redirect:/board/list.do";
 	}
 	
+	
+	/*======================
+	   	  게시판 글 좋아요
+	======================*/	
+	
+	//부모글 좋아요 읽어오기
+	@RequestMapping("/board/getFav.do")
+	@ResponseBody //ajax통신 이용
+	public Map<String,Object> getFav(BoardFavVO fav, HttpSession session){
+		log.debug("<<게시판 좋아요 읽기>> : " + fav);
+		
+		Map<String,Object> mapJson = new HashMap<String,Object>();
+		
+		//로그인 회원 정보 가져옴
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("status", "noFav");
+		}else { //로그인 O
+			//로그인된 회원 번호 세팅
+			fav.setMem_num(user.getMem_num());
+			
+			BoardFavVO boardFav = boardService.selectFav(fav);
+			if(boardFav != null) { //로그인 회원이 헤당 글에 좋아요 누른 데이터가 있는 경우
+				mapJson.put("status", "yesFav");
+			}else { //로그인 회원이 해당 좋아요 누른 데이터가 없는 경우
+				mapJson.put("status", "noFav");
+			}
+		}
+		mapJson.put("count", boardService.selectFavCount(fav.getBoard_num()));
+		
+		return mapJson;
+	}
+	
+	//부모글 좋아요 등록&삭제
+	@RequestMapping("/board/writeFav.do")
+	@ResponseBody
+	public Map<String,Object> writeFav(BoardFavVO fav, HttpSession session){
+		log.debug("<<게시판 좋아요 등록/삭제 - BoardFavVO>> : " + fav);
+		
+		Map<String,Object> mapJson = new HashMap<String,Object>();
+		
+		//로그인 회원 정보 가져옴
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			//로그인된 회원 번호 세팅
+			fav.setMem_num(user.getMem_num());
+			
+			BoardFavVO boardFav = boardService.selectFav(fav);
+			if(boardFav != null) { //로그인 회원이 헤당 글에 좋아요 누른 데이터가 있는 경우 -> 삭제
+				boardService.deleteFav(boardFav.getFav_num());
+				mapJson.put("result", "success");
+				mapJson.put("status", "noFav");
+			}else { //로그인 회원이 헤당 글에 좋아요 누른 데이터가 없는 경우 -> 등록
+				boardService.insertFav(fav);
+				mapJson.put("result", "success");
+				mapJson.put("status", "yesFav");
+			}
+			mapJson.put("count", boardService.selectFavCount(fav.getBoard_num()));
+		}
+		
+		return mapJson;
+	}
+	
+	
+	/*======================
+		 	댓글 등록
+	======================*/
+	
+	@RequestMapping("/board/writeReply.do")
+	@ResponseBody
+	public Map<String,String> writeReply(BoardReplyVO boardReplyVO,
+										 HttpSession session,
+										 HttpServletRequest request){
+		log.debug("<<댓글 등록>> : " + boardReplyVO);
+		
+		Map<String,String> mapJson = new HashMap<String,String>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			//회원번호 등록
+			boardReplyVO.setMem_num(user.getMem_num());
+			//ip 등록
+			boardReplyVO.setRe_ip(request.getRemoteAddr());
+			//댓글 등록
+			boardService.insertReply(boardReplyVO);
+			mapJson.put("result", "success");
+		}
+		
+		return mapJson;
+	}
+
 }

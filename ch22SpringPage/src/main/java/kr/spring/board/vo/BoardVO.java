@@ -26,4 +26,6 @@ public class BoardVO {
 	private String id; //아이디
 	private String nick_name; //별명
 	
+	private int re_cnt; //댓글 개수
+	private int fav_cnt; //좋아요 개수
 }

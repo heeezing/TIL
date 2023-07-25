@@ -92,7 +92,7 @@
 			</td>
 			<td class="align-center">${board.reg_date}</td>
 			<td class="align-center">${board.hit}</td>
-			<td class="align-center"></td>
+			<td class="align-center">${board.fav_cnt}</td>
 		</tr>
 		</c:forEach>
 	</table>
