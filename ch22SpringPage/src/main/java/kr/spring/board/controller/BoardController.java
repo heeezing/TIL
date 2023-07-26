@@ -1,5 +1,6 @@
 package kr.spring.board.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -285,4 +286,108 @@ public class BoardController {
 		return mapJson;
 	}
 
+	
+	/*======================
+	 		댓글 목록
+	======================*/
+	
+	@RequestMapping("/board/listReply.do")
+	@ResponseBody
+	public Map<String,Object> getList(@RequestParam(value="pageNum",defaultValue="1") int currentPage,
+									  @RequestParam(value="rowCount",defaultValue="10") int rowCount,
+									  @RequestParam int board_num,
+									  HttpSession session){
+		log.debug("<<currentPage>> : " + currentPage);
+		log.debug("<<board_num>> : " + board_num);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("board_num", board_num);
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		//전체 레코드 수
+		int count = boardService.selectRowCountReply(map);
+		
+		//페이지 처리
+		PagingUtil page = new PagingUtil(currentPage,count,rowCount,1,null);
+		
+		List<BoardReplyVO> list = null;
+		if(count > 0) {
+			map.put("start", page.getStartRow());
+			map.put("end", page.getEndRow());
+			list = boardService.selectListReply(map);
+		}else {
+			list = Collections.emptyList(); //빈 배열을 만들어 전달
+		}
+		
+		Map<String,Object> mapJson = new HashMap<String,Object>();
+		mapJson.put("count", count);
+		mapJson.put("list", list);
+		
+		//로그인한 회원 정보 세팅
+		if(user != null) {
+			mapJson.put("user_num",user.getMem_num());
+		}
+		
+		return mapJson;
+	}
+	
+	
+	/*======================
+			댓글 삭제
+	======================*/
+	
+	@RequestMapping("/board/deleteReply.do")
+	@ResponseBody //성공했는지 실패했는지 json문자열로 보여주기 위해 설정
+	public Map<String,String> deleteReply(@RequestParam int re_num,
+										  HttpSession session){
+		log.debug("<<re_num>> : " + re_num);
+		
+		Map<String,String> mapJson = new HashMap<String,String>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		BoardReplyVO db_reply = boardService.selectReply(re_num); //작성자 회원 번호를 알기 위해서
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else if(user != null && user.getMem_num() == db_reply.getMem_num()) { //작성자 본인일 시
+			boardService.deleteReply(re_num);
+			mapJson.put("result", "success");
+		}else { //로그인은 되어있으나 작성자가 아닐 시
+			mapJson.put("result", "wrongAccess");
+		}
+		
+		return mapJson;
+	}
+	
+	
+	/*======================
+			댓글 수정
+	======================*/
+	
+	@RequestMapping("/board/updateReply.do")
+	@ResponseBody
+	public Map<String,String> modifyReply(BoardReplyVO boardReplyVO,
+										  HttpSession session,
+										  HttpServletRequest request){
+		log.debug("<<BoardReplyVO>> : " + boardReplyVO);
+		
+		Map<String,String> mapJson = new HashMap<String,String>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		BoardReplyVO db_reply = boardService.selectReply(boardReplyVO.getRe_num());
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else if(user != null && user.getMem_num() == db_reply.getMem_num()) { //작성자 본인일 시
+			//ip 등록
+			boardReplyVO.setRe_ip(request.getRemoteAddr());
+			//댓글 수정 처리
+			boardService.updateReply(boardReplyVO);
+			mapJson.put("result", "success");
+		}else { //로그인은 되어있으나 작성자가 아닐 시
+			mapJson.put("result", "wrongAccess");
+		}
+		
+		return mapJson;
+	}
+	
 }

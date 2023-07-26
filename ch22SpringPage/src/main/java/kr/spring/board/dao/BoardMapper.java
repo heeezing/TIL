@@ -58,11 +58,21 @@ public interface BoardMapper {
 	/*----------[댓글]----------*/
 	
 	public List<BoardReplyVO> selectListReply(Map<String,Object> map);
+	
+	@Select("SELECT COUNT(*) FROM spboard_reply JOIN spmember USING (mem_num) WHERE board_num=#{board_num}")
 	public int selectRowCountReply(Map<String,Object> map);
+	
+	@Select("SELECT * FROM spboard_reply WHERE re_num=#{re_num}")
 	public BoardReplyVO selectReply (Integer re_num);
+	
 	public void insertReply(BoardReplyVO boardReply);
+	
+	@Update("UPDATE spboard_reply SET re_content=#{re_content},re_ip=#{re_ip},re_mdate=SYSDATE WHERE re_num=#{re_num}")
 	public void updateReply(BoardReplyVO boardReply);
+	
+	@Delete("DELETE FROM spboard_reply WHERE re_num=#{re_num}")
 	public void deleteReply(Integer re_num);
+	
 	//부모글 삭제 시 댓글이 존재하면, 부모글이 삭제되기 전 댓글을 먼저 삭제
 	public void deleteReplyByBoardNum(Integer board_num);
 	
