@@ -59,7 +59,7 @@ public interface BoardMapper {
 	
 	public List<BoardReplyVO> selectListReply(Map<String,Object> map);
 	
-	@Select("SELECT COUNT(*) FROM spboard_reply JOIN spmember USING (mem_num) WHERE board_num=#{board_num}")
+	@Select("SELECT COUNT(*) FROM spboard_reply WHERE board_num=#{board_num}")
 	public int selectRowCountReply(Map<String,Object> map);
 	
 	@Select("SELECT * FROM spboard_reply WHERE re_num=#{re_num}")
@@ -74,6 +74,7 @@ public interface BoardMapper {
 	public void deleteReply(Integer re_num);
 	
 	//부모글 삭제 시 댓글이 존재하면, 부모글이 삭제되기 전 댓글을 먼저 삭제
+	@Delete("DELETE FROM spboard_reply WHERE board_num=#{board_num}")
 	public void deleteReplyByBoardNum(Integer board_num);
 	
 }

@@ -28,7 +28,7 @@
 		</li>
 		<li>
 			<input type="button" class="menu-btn" value="채팅"
-			 onclick="location.href='${pageContext.request.contextPath}/talk/talkList.do'">
+			 onclick="location.href='${pageContext.request.contextPath}/talk/talkRoomWrite.do'">
 		</li>
 		<li>
 			<input type="button" class="menu-btn" value="회원 탈퇴"

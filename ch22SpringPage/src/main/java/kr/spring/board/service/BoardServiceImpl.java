@@ -54,7 +54,7 @@ public class BoardServiceImpl implements BoardService{
 		//부모글 좋아요 삭제
 		boardMapper.deleteFavByBoardNum(board_num);
 		//댓글 존재 시 댓글 우선 삭제 후 부모글 삭제
-		
+		boardMapper.deleteReplyByBoardNum(board_num);
 		//부모글 삭제
 		boardMapper.deleteBoard(board_num);
 	}

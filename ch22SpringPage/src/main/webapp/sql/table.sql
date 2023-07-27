@@ -1,4 +1,4 @@
---회원 관리
+----------회원 관리----------
 
 CREATE TABLE spmember(
 	mem_num number,
@@ -29,7 +29,8 @@ CREATE TABLE spmember_detail(
 CREATE SEQUENCE spmember_seq;
 
 
---게시판
+----------게시판----------
+
 CREATE TABLE spboard(
 	board_num number,
 	title varchar2(90) not null,
@@ -76,9 +77,50 @@ CREATE TABLE spboard_fav(
 CREATE SEQUENCE refav_seq;
 
 
+----------그룹 채팅----------
 
+--채팅방
+CREATE TABLE sptalkroom(
+	talkroom_num number,
+	basic_name varchar2(900) not null,--채팅 멤버를 추가할 때 채팅방 이름을 basic_name에서 가져다 씀	
+	talkroom_date date default SYSDATE not null,
+	constraint sptalkroom_pk primary key (talkroom_num)
+);
 
+CREATE SEQUENCE sptalkroom_seq;
 
+--채팅멤버
 
+CREATE TABLE sptalk_member(
+	talkroom_num number not null,
+	mem_num number not null,
+	room_name varchar2(900) not null,
+	member_date date default SYSDATE not null,
+	constraint sptalkmember_fk1 foreign key (talkroom_num) references sptalkroom (talkroom_num),
+	constraint sptalkmember_fk2 foreign key (mem_num) references spmember (mem_num)
+);
 
+--채팅메시지
+CREATE TABLE sptalk(
+	talk_num number,
+	talkroom_num number not null,--수신그룹
+	mem_num number not null,--발신자
+	message varchar2(4000) not null,
+	chat_date date default SYSDATE not null,
+	constraint sptalk_pk primary key (talk_num),
+	constraint sptalk_fk1 foreign key (talkroom_num) references sptalkroom (talkroom_num),
+	constraint sptalk_fk2 foreign key (mem_num) references spmember (mem_num)
+);
+
+CREATE SEQUENCE sptalk_seq;
+
+--메시지 읽음 체크
+CREATE TABLE sptalk_read(
+	talkroom_num number not null,
+	talk_num number not null,
+	mem_num number not null,
+	constraint read_fk foreign key (talkroom_num) references sptalkroom (talkroom_num),
+	constraint read_fk2 foreign key (talk_num) references sptalk (talk_num),
+	constraint read_fk3 foreign key (mem_num) references spmember (mem_num)
+);
 

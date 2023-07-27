@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import kr.spring.interceptor.AdminCheckInterceptor;
 import kr.spring.interceptor.AutoLoginCheckInterceptor;
 import kr.spring.interceptor.LoginCheckInterceptor;
+import kr.spring.interceptor.WriterCheckInterceptor;
 
 //자바 코드 기반 설정 클래스
 @Configuration
@@ -21,6 +22,7 @@ public class AppConfig implements WebMvcConfigurer{
 	private AutoLoginCheckInterceptor autoLoginCheck;
 	private LoginCheckInterceptor loginCheck;
 	private AdminCheckInterceptor adminCheck;
+	private WriterCheckInterceptor writerCheck;
 	
 	@Bean
 	public AutoLoginCheckInterceptor interceptor() {
@@ -40,6 +42,12 @@ public class AppConfig implements WebMvcConfigurer{
 		return adminCheck;
 	}
 	
+	@Bean
+	public WriterCheckInterceptor interceptor4() {
+		writerCheck = new WriterCheckInterceptor();
+		return writerCheck;
+	}
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		//AutoLoginCheckInterceptor 설정
@@ -48,7 +56,7 @@ public class AppConfig implements WebMvcConfigurer{
 				//로그인 관련 페이지 진입 시 자동 로그인 기능 무력화
 				.excludePathPatterns("/member/login.do") 
 				.excludePathPatterns("/member/logout.do");
-		//LoginInterceptor 설정
+		//LoginCheckInterceptor 설정
 		registry.addInterceptor(loginCheck) //등록
 				.addPathPatterns("/member/myPage.do") //loginCheck 동작 위치 지정
 				.addPathPatterns("/member/update.do")
@@ -57,11 +65,15 @@ public class AppConfig implements WebMvcConfigurer{
 				.addPathPatterns("/board/write.do")
 				.addPathPatterns("/board/update.do")
 				.addPathPatterns("/board/delete.do");
-		//AdminInterceptor 설정
+		//AdminCheckInterceptor 설정
 		registry.addInterceptor(adminCheck)
 				.addPathPatterns("/main/admin.do")
 				.addPathPatterns("/member/admin_list.do")
 				.addPathPatterns("/member/admin_update.do");
+		//WriterCheckInterceptor 설정
+		registry.addInterceptor(writerCheck)
+				.addPathPatterns("/board/update.do")
+				.addPathPatterns("/board/delete.do");
 	}
 	
 	
@@ -75,7 +87,8 @@ public class AppConfig implements WebMvcConfigurer{
 		configurer.setDefinitions(new String[] {
 				"/WEB-INF/tiles-def/main.xml",
 				"/WEB-INF/tiles-def/member.xml",
-				"/WEB-INF/tiles-def/board.xml"
+				"/WEB-INF/tiles-def/board.xml",
+				"/WEB-INF/tiles-def/talk.xml"
 		});
 		return configurer;
 	}

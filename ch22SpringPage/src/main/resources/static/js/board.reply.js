@@ -22,6 +22,8 @@ $(function(){
 				if(pageNum == 1){
 					$('#output').empty();
 				}
+				//댓글 수 읽어오기
+				displayReplyCount(param);
 				
 				//[댓글 목록] - 배열 형태이므로 each메서드 사용
 				$(param.list).each(function(index,item){
@@ -287,6 +289,20 @@ $(function(){
 			}
 		});
 	});
+	
+	
+	//댓글 수 표시
+	function displayReplyCount(data){
+		let count = data.count;
+		let output;
+		if(count == 0){
+			output = '댓글 수(0)';
+		}else{
+			output = '댓글 수('+count+')';
+		}
+		//문서 객체에 추가
+		$('#output_rcount').text(output);
+	}
 	
 	
 	//초기 데이터(목록) 호출

@@ -84,7 +84,7 @@
 		<tr>
 			<td class="align-center">${board.board_num}</td>
 			<td class="align-center" width="400">
-				<a href="detail.do?board_num=${board.board_num}">${board.title}</a>
+				<a href="detail.do?board_num=${board.board_num}">${board.title} (${board.re_cnt})</a>
 			</td>
 			<td class="align-center">
 				<c:if test="${empty board.nick_name}">${board.id}</c:if>
