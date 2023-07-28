@@ -86,9 +86,4 @@ public class MemberServiceImpl implements MemberService{
 		memberMapper.updateByAdmin(memberVO);
 	}
 
-	@Override
-	public List<MemberVO> selectSearchMember(String id) {
-		return memberMapper.selectSearchMember(id);
-	}
-
 }

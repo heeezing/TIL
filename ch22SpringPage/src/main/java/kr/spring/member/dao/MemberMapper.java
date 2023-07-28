@@ -78,13 +78,4 @@ public interface MemberMapper {
 	@Update("UPDATE spmember SET auth=#{auth} WHERE mem_num=#{mem_num}")
 	public void updateByAdmin(MemberVO memberVO);
 	
-	
-	/*-----[채팅]-----*/
-	
-	//채팅 회원 정보 검색
-	@Select("SELECT mem_num,id,nick_name "
-		  + "FROM spmember "
-		  + "WHERE auth>=2 AND id LIKE '%' || #{id} || '%'")
-	public List<MemberVO> selectSearchMember(String id);
-	
 }

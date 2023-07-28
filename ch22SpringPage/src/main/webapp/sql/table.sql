@@ -90,7 +90,6 @@ CREATE TABLE sptalkroom(
 CREATE SEQUENCE sptalkroom_seq;
 
 --채팅멤버
-
 CREATE TABLE sptalk_member(
 	talkroom_num number not null,
 	mem_num number not null,
