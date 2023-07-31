@@ -5,11 +5,11 @@
 <div class="page-main">
 	<h2>채팅방 생성</h2>
 	<form action="talkRoomWrite.do" method="post" id="talk_form">
-	<input type="hidden" name="members" id="user" data-num="${user.id}" value="${user.mem_num}">
+	<input type="hidden" name="members" id="user" data-id="${user.id}" value="${user.mem_num}">
 		<ul>
 			<li>
-				<label for="room_name">채팅방 이름</label>
-				<input type="hidden" name="room_name" id="room_name">
+				<label for="basic_name">채팅방 이름</label>
+				<input type="hidden" name="basic_name" id="basic_name">
 				<span id="name_span"></span>
 				<input type="checkbox" checked id="name_checked">(자동 생성)
 			</li>

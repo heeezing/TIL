@@ -1,3 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.spring.talk.dao.TalkMapper"></mapper>
+<mapper namespace="kr.spring.talk.dao.TalkMapper">
+	<!-- 전체or검색 채팅방 레코드 수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) 
+		FROM sptalkroom 
+	</select>
+	
+	<!-- 전체or검색 채팅방 목록 -->
+	<select id="selectTalkRoomList" parameterType="map" resultType="talkRoomVO">
+		SELECT * 
+		FROM (SELECT a.*, rownum rnum 
+			  FROM (SELECT * 
+			  		FROM sptalkroom 
+			  		ORDER BY talkroom_num DESC)a) 
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
+	<!-- 채팅 멤버 읽기 -->
+	<select id="selectTalkMember" parameterType="integer" resultType="talkMemberVO">
+		SELECT mem_num,
+			   id,
+			   room_name 
+		FROM sptalk_member JOIN spmember USING (mem_num) 
+		WHERE talkroom_num = #{talkroom_num}
+	</select>
+	
+	<!-- 채팅 메시지 등록 -->
+	<insert id="insertTalk" parameterType="talkVO">
+		INSERT INTO sptalk(
+			talk_num,
+			talkroom_num,
+			mem_num,
+			message
+			)
+		VALUES(
+			#{talk_num},
+			#{talkroom_num},
+			#{mem_num},
+			#{message}
+			)
+	</insert>
+	
+	<!-- 채팅 메시지 읽기 -->
+	<select id="selectTalkDetail" parameterType="integer" resultType="talkVO">
+		SELECT 
+			<![CDATA[
+			REPLACE(REPLACE(message,'<','&lt;'),'>','&gt;') message,
+			]]> <!--html 불허-->
+			chat_date,
+			read_count,
+			mem_num,
+			id 
+		FROM sptalk 
+			 LEFT OUTER JOIN (SELECT talk_num, COUNT(*) read_count 
+							  FROM sptalk_read GROUP BY talk_num)
+			  USING (talk_num) 
+			 JOIN spmember
+			  USING (mem_num)				 <!--멤버 등록일(채팅 참여일) 이후의 정보(메시지)만 읽어옴-->
+		WHERE talkroom_num = #{talkroom_num} AND chat_date >= (SELECT member_date 
+															   FROM sptalk_member 
+															   WHERE talkroom_num = #{talkroom_num} 
+															   AND mem_num = #{mem_num}) 
+		ORDER BY chat_date ASC
+	</select>
+</mapper>

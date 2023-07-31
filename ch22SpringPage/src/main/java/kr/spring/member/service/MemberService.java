@@ -34,4 +34,10 @@ public interface MemberService {
 	public int selectRowCount(Map<String,Object> map);
 	public List<MemberVO> selectList(Map<String,Object> map);
 	public void updateByAdmin(MemberVO memberVO);
+	
+	
+	/*-----[채팅]-----*/
+	
+	//채팅 회원 정보 검색
+	public List<MemberVO> selectSearchMember(String id);
 }
