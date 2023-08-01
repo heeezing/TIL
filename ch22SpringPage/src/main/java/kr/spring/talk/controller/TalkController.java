@@ -48,15 +48,35 @@ public class TalkController {
 		log.debug("<<채팅방 만들기>> : " + vo);
 		
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		//-----채팅 멤버 초대 문구 설정 시작-----//
 		
-		//-----채팅 멤버 초대 문구 설정 끝-----//
+		//채팅 멤버 초대(입퇴장) 문구 설정
+		vo.setTalkVO(new TalkVO());
+		vo.getTalkVO().setMem_num(user.getMem_num());
+		//채팅에서 나오지 않을 법한 문구인 '@{member}@'를 넣어 초대(입퇴장) 문구를 구별
+		vo.getTalkVO().setMessage(user.getId()+"님이 "+findMemberId(vo,user)+"님을 초대했습니다.@{member}@");
 		
+		//채팅방 생성 처리
 		talkService.insertTalkRoom(vo);
 		
 		return "redirect:/talk/talkList.do";
 	}
 		
+	//초대한 회원의 id 구하기
+	private String findMemberId(TalkRoomVO vo, MemberVO user) {
+		String member_id = "";
+		int[] members = vo.getMembers();
+		for(int i=0 ; i<members.length ; i++) {
+			String temp_id = memberService.selectMember(members[i]).getId();
+			//초대한 사람의 아이디는 제외
+			if(!user.getId().equals(temp_id)) {
+				member_id += temp_id;
+				if(i < members.length - 1) member_id += ", ";
+			}
+		}
+		
+		return member_id;
+	}
+	
 	
 	/*======================
 	 	   채팅 회원 검색
@@ -190,6 +210,59 @@ public class TalkController {
 			mapJson.put("result", "success");
 			mapJson.put("list", list);
 			mapJson.put("user_num", user.getMem_num());
+		}
+		
+		return mapJson;
+	}
+	
+	
+	
+	/*======================
+	 	  채팅방 이름 변경
+	======================*/
+	
+	@RequestMapping("/talk/changeName.do")
+	@ResponseBody
+	public Map<String,String> changeName(TalkMemberVO vo, HttpSession session){
+		Map<String,String> mapJson = new HashMap<String,String>();
+		//로그인 체크
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			vo.setMem_num(user.getMem_num());
+			talkService.changeRoomName(vo);
+			mapJson.put("result", "success");
+		}
+		
+		return mapJson;
+	}
+	
+	
+	
+	/*======================
+		  채팅방 멤버 추가
+	======================*/
+	
+	@RequestMapping("/talk/newMemberAjax.do")
+	@ResponseBody
+	public Map<String,Object> addNewMember(TalkRoomVO vo, HttpSession session){
+		Map<String,Object> mapJson = new HashMap<String,Object>();
+		//로그인 체크
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			vo.setTalkVO(new TalkVO());
+			vo.getTalkVO().setMem_num(user.getMem_num());
+			vo.getTalkVO().setMessage(user.getId()+"님이 "+findMemberId(vo, user)+"님을 초대했습니다.@{member}@");
+			//채팅방 이름 세팅
+			TalkRoomVO db_vo = talkService.selectTalkRoom(vo.getTalkroom_num());
+			vo.setBasic_name(db_vo.getBasic_name());
+			//멤버 추가 처리
+			talkService.insertNewMember(vo);
+			
+			mapJson.put("result", "success");
 		}
 		
 		return mapJson;

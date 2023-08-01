@@ -46,13 +46,14 @@
 		<tr>
 			<td>
 				<a href="talkDetail.do?talkroom_num=${talk.talkroom_num}">
-					<b>${talk.basic_name}(개수)</b>
+					<b>${talk.talkMemberVO.room_name}(${talk.room_cnt})</b>
 					<br>
-					<span>최신 메시지</span>
+					<span>${fn:substring(talk.talkVO.message,0,45)}</span>
 				</a>
 			</td>
 			<td>
-				최신 메시지 날짜
+				<c:if test="${!empty talk.talkVO.chat_date}">${talk.talkVO.chat_date}</c:if>
+				<c:if test="${empty talk.talkVO.chat_date}">${talk.talkroom_date}</c:if>
 			</td>
 		</tr>
 		</c:forEach>

@@ -2,7 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 채팅 메시지 처리 시작 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/message.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#dialog').dialog({
+			width:'700px',
+			height:'auto',
+			autoOpen:false,
+			modal:true
+		});
+	});
+</script>
 <div class="page-main">
 	<h1 id="chatroom_title">
 		<span id="chatroom_name">${room_name}</span> 채팅방
@@ -28,9 +40,28 @@
 				<textarea rows="5" cols="60" name="message" id="message"></textarea>
 			</li>
 		</ul>
-		<div class="align-center" id="message_btn">
+		<div class="align-right" id="message_btn">
 			<input type="submit" value="전송">
 		</div>
 	</form>
+	
+	<!-- 멤버 추가 다이얼로그 시작 -->
+	<div id="dialog">
+		<form id="new_form">
+			<input type="hidden" name="talkroom_num" value="${param.talkroom_num}">
+			<ul>
+				<li>
+					<label for="member_search">추가할 회원</label>
+					<input type="text" id="member_search" autocomplete="off">
+					<ul id="search_area"></ul>
+					<div id="talk_member"></div>
+				</li>
+			</ul>
+			<div class="align-center">
+				<input type="submit" value="전송">
+			</div>
+		</form>
+	</div>
+	<!-- 멤버 추가 다이얼로그 끝 -->
 </div>
 <!-- 채팅 메시지 처리 끝 -->

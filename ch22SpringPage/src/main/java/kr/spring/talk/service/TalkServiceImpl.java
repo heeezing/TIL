@@ -35,10 +35,11 @@ public class TalkServiceImpl implements TalkService{
 		talkRoomVO.setTalkroom_num(talkMapper.selectTalkRoomNum());
 		//채팅방 생성
 		talkMapper.insertTalkRoom(talkRoomVO);
-		//-----입장 메시지 처리 시작-----//
-		
-		//-----입장 메시지 처리 끝-----//
-		
+		//입장 메시지 처리
+		talkRoomVO.getTalkVO().setTalk_num(talkMapper.selectTalkNum());
+		talkRoomVO.getTalkVO().setTalkroom_num(talkRoomVO.getTalkroom_num());
+		//채팅 메시지 저장
+		talkMapper.insertTalk(talkRoomVO.getTalkVO());
 		//채팅방 멤버 생성 (members로부터 mem_num을 뽑아내어 반복문을 돌면서 insert해줌)
 		for(Integer mem_num : talkRoomVO.getMembers()) {
 			talkMapper.insertTalkRoomMember(talkRoomVO.getTalkroom_num(),
@@ -68,7 +69,34 @@ public class TalkServiceImpl implements TalkService{
 
 	@Override
 	public List<TalkVO> selectTalkDetail(Map<String, Integer> map) {
+		//읽은 채팅 기록은 삭제
+		talkMapper.deleteTalkRead(map);
+		//채팅 메시지 반환
 		return talkMapper.selectTalkDetail(map);
+	}
+
+	@Override
+	public void changeRoomName(TalkMemberVO vo) {
+		talkMapper.changeRoomName(vo);
+	}
+
+	@Override
+	public TalkRoomVO selectTalkRoom(Integer talkroom_num) {
+		return talkMapper.selectTalkRoom(talkroom_num);
+	}
+
+	@Override
+	public void insertNewMember(TalkRoomVO talkRoomVO) {
+		//입장 메시지 처리
+		talkRoomVO.getTalkVO().setTalk_num(talkMapper.selectTalkNum());
+		//메시지 저장
+		talkMapper.insertTalk(talkRoomVO.getTalkVO());
+		//채팅방 멤버 생성
+		for(Integer mem_num : talkRoomVO.getMembers()) {
+			talkMapper.insertTalkRoomMember(talkRoomVO.getTalkroom_num(),
+											talkRoomVO.getBasic_name(),
+											mem_num);
+		}
 	}
 
 }

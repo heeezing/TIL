@@ -3,10 +3,12 @@ package kr.spring.talk.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import kr.spring.talk.vo.TalkMemberVO;
 import kr.spring.talk.vo.TalkRoomVO;
@@ -51,7 +53,20 @@ public interface TalkMapper {
 							   @Param(value="talk_num") int talk_num, 
 							   @Param(value="mem_num") int mem_num);
 	
-	//채팅 메시지 읽기
+	//채팅 메시지 읽어오기
 	public List<TalkVO> selectTalkDetail(Map<String,Integer> map);
 	
+	//읽은 채팅 기록 삭제 (메시지 읽음 처리)
+	@Delete("DELETE FROM sptalk_read "
+		  + "WHERE talkroom_num=#{talkroom_num} AND mem_num=#{mem_num}")
+	public void deleteTalkRead(Map<String,Integer> map);
+	
+	//채팅방 이름 변경하기
+	@Update("UPDATE sptalk_member SET room_name=#{room_name} "
+		  + "WHERE talkroom_num=#{talkroom_num} AND mem_num=#{mem_num}")
+	public void changeRoomName(TalkMemberVO vo);
+	
+	//채팅방 상세
+	@Select("SELECT * FROM sptalkroom WHERE talkroom_num=#{talkroom_num}")
+	public TalkRoomVO selectTalkRoom(Integer talkroom_num);
 }

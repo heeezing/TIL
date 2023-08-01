@@ -3,6 +3,8 @@ package kr.spring.talk.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
+
 import kr.spring.talk.vo.TalkMemberVO;
 import kr.spring.talk.vo.TalkRoomVO;
 import kr.spring.talk.vo.TalkVO;
@@ -19,4 +21,10 @@ public interface TalkService {
 	public void insertTalk(TalkVO talkVO);
 	//채팅 메시지 읽기
 	public List<TalkVO> selectTalkDetail(Map<String,Integer> map);
+	//채팅방 이름 변경하기
+	public void changeRoomName(TalkMemberVO vo);
+	//채팅방 상세
+	public TalkRoomVO selectTalkRoom(Integer talkroom_num);
+	//채팅 멤버 추가
+	public void insertNewMember(TalkRoomVO talkRoomVO);
 }

@@ -11,9 +11,11 @@ $(function(){
 		member_list = $('#chat_member').text().split(',');
 	}
 	
+	
 	/*-------------------
 		  채팅방 생성하기	
 	 --------------------*/
+
 	//회원 정보 검색
 	$('#member_search').keyup(function(){
 		if($('#member_search').val().trim() == ''){
@@ -264,6 +266,87 @@ $(function(){
 		//ajax통신을 위해 기본 이벤트 제거
 		event.preventDefault();
 	});	
+	
+		
+	/*-------------------
+		 채팅방 이름 변경	
+	--------------------*/
+	
+	//채팅방 이름 변경 UI 표시
+	$('#change_name').click(function(){
+		$(this).hide();
+		let output = '';
+		output += '<div id="space_name">';
+		output += '<input type="text" name="room_name" id="room_name">';
+		output += ' <input type="button" value="전송" id="submit_name">';
+		output += ' <input type="button" value="취소" id="result_name">';
+		output += '</div>';
+		
+		$('#chatroom_title').append(output);
+	});
+	
+	//채팅방 이름 변경 UI 숨기기
+	$(document).on('click','#result_name',function(){
+		initForm();
+	});
+	
+	function initForm(){
+		$('#change_name').show();
+		$('#space_name').remove();
+	}
+	
+	//채팅방 이름 변경 처리
+	$(document).on('click','#submit_name',function(){
+		//서버와 통신
+		$.ajax({
+			url:'../talk/changeName.do',
+			type:'post',
+			data:{talkroom_num:$('#talkroom_num').val(),
+				  room_name:$('#room_name').val()},
+			dataType:'json',
+			success:function(param){
+				if(param.result == 'logout'){
+					alert('로그인해야 작성할 수 있습니다.');
+				}else if(param.result == 'success'){
+					$('#chatroom_name').text($('#room_name').val());
+					//폼 초기화
+					initForm();
+				}else{
+					alert('채팅방 이름 변경 오류 발생');
+				}
+			},
+			error:function(){
+				alert('네트워크 오류 발생');
+			}
+		});
+	});
+	
+	
+	/*-------------------
+	 	채팅방 멤버 추가
+	--------------------*/
+	
+	//채팅방 멤버 추가 UI 호출
+	$('#opener').click(function(){
+		$('#dialog').dialog('open');
+		//초기화
+		member_list = $('#chat_member').text().split(',');
+		$('#member_search').val('');
+		$('#search_area').empty();
+		$('#talk_member').empty();
+	});
+	
+	//채팅방 추가 멤버 정보 전송
+	$('#new_form').submit(function(event){
+		if($('input[name="members"]').length == 0){
+			alert('추가할 회원을 선택하세요!');
+			$('#member_search').val('').focus();
+			return false;
+		}
+		
+	});
+	
+	
 	
 	
 	//최초 호출
