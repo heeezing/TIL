@@ -99,4 +99,20 @@ public class TalkServiceImpl implements TalkService{
 		}
 	}
 
+	@Override
+	public void deleteTalkRoomMember(TalkVO talkVO) {
+		talkMapper.deleteTalkRoomMember(talkVO);
+		
+		List<TalkMemberVO> list = talkMapper.selectTalkMember(talkVO.getTalkroom_num());
+		if(list.size() > 1) { //채팅 멤버가 2명 이상인 경우
+			//방 나가기 메시지 처리
+			talkVO.setTalk_num(talkMapper.selectTalkNum());
+			talkMapper.insertTalk(talkVO);
+		}else { //채팅 멤버가 다 나가버리고 1명만 남은 경우
+			//마지막 1명까지 나갈 경우 남아있는 채팅 내용을 모두 지우고 채팅방도 삭제
+			talkMapper.deleteTalk(talkVO.getTalkroom_num());
+			talkMapper.deleteTalkRoom(talkVO.getTalkroom_num());
+		}
+	}
+
 }

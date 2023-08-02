@@ -254,6 +254,7 @@ public class TalkController {
 			mapJson.put("result", "logout");
 		}else { //로그인 O
 			vo.setTalkVO(new TalkVO());
+			vo.getTalkVO().setTalkroom_num(vo.getTalkroom_num()); //채팅방 번호 세팅
 			vo.getTalkVO().setMem_num(user.getMem_num());
 			vo.getTalkVO().setMessage(user.getId()+"님이 "+findMemberId(vo, user)+"님을 초대했습니다.@{member}@");
 			//채팅방 이름 세팅
@@ -261,6 +262,32 @@ public class TalkController {
 			vo.setBasic_name(db_vo.getBasic_name());
 			//멤버 추가 처리
 			talkService.insertNewMember(vo);
+			
+			mapJson.put("result", "success");
+		}
+		
+		return mapJson;
+	}
+	
+	
+	
+	/*======================
+		  채팅방 나가기(삭제)
+	======================*/
+	
+	@RequestMapping("/talk/deleteTalkRoomMemberAjax.do")
+	@ResponseBody
+	public Map<String,String> memberDeleteAjax(TalkVO talkVO, HttpSession session){
+		Map<String,String> mapJson = new HashMap<String,String>();
+		//로그인 체크
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			//퇴장 메시지 생성
+			talkVO.setMem_num(user.getMem_num());
+			talkVO.setMessage(user.getId()+"님이 나갔습니다.@{member}@");
+			talkService.deleteTalkRoomMember(talkVO);
 			
 			mapJson.put("result", "success");
 		}

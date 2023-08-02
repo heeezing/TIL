@@ -15,7 +15,7 @@
 		});
 	});
 </script>
-<div class="page-main">
+<div id="talkDetail" class="page-main">
 	<h1 id="chatroom_title">
 		<span id="chatroom_name">${room_name}</span> 채팅방
 		<input type="button" value="채팅방이름 변경" id="change_name">

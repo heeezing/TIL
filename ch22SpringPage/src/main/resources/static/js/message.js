@@ -1,4 +1,5 @@
 $(function(){
+	let message_socket; //웹소켓 식별자
 	let member_list = []; //채팅 회원 저장
 	
 	//채팅방 멤버를 저장하는 배열에 회원을 저장
@@ -11,6 +12,39 @@ $(function(){
 		member_list = $('#chat_member').text().split(',');
 	}
 	
+
+	/*-------------------
+	 	   웹소켓 연결
+	--------------------*/
+
+	function alarm_connect(){		   //프로토콜이 http가 아니라 ws임
+		message_socket = new WebSocket("ws://localhost:8000/message-ws.do");
+		
+		message_socket.onopen=function(evt/*evt=이벤트*/){
+			//채팅 페이지에 진입하면 채팅 메시지 발송
+			 //jquery는 태그를 배열로 인식하기때문에 length==1이라는 건 태그가 존재한다는 의미.
+			if($('#talkDetail').length == 1){
+				message_socket.send("msg:"); //신호만 보내면 됨
+			}
+			console.log('채팅페이지에 접속되었습니다.');
+		};
+		
+		//서버로부터 메시지를 받으면 호출되는 함수를 지정
+		message_socket.onmessage=function(evt){
+			let data = evt.data;
+			if($('#talkDetail').length == 1 && data.substring(0,4) == 'msg:'){
+				selectMsg();
+			}
+		};
+		
+		message_socket.onclose=function(evt){
+			//소켓이 종료된 후 부과적인 작업이 있을 경우 명시
+			console.log('채팅 종료');
+		};
+	}
+	
+	alarm_connect(); //함수 호출
+
 	
 	/*-------------------
 		  채팅방 생성하기	
@@ -157,6 +191,7 @@ $(function(){
 			success:function(param){
 				if(param.result == 'logout'){
 					alert('로그인 후 사용하세요!');
+					message_socket.close();
 				}else if(param.result == 'success'){
 					//메시지 표시 UI 초기화
 					$('#chatting_message').empty();
@@ -210,10 +245,12 @@ $(function(){
 					});
 				}else{
 					alert('채팅 메시지 읽기 오류 발생');
+					message_socket.close();
 				}
 			},
 			error:function(){
 				alert('네트워크 오류 발생');
+				message_socket.close();
 			}
 		});
 	}
@@ -250,16 +287,20 @@ $(function(){
 			success:function(param){
 				if(param.result == 'logout'){
 					alert('로그인해야 작성할 수 있습니다.');
+					message_socket.close();
 				}else if(param.result == 'success'){
 					//폼 초기화
 					$('#message').val('').focus();
-					selectMsg();
+					//메시지가 저장되었다고 소켓에 신호를 보냄
+					message_socket.send('msg:');
 				}else{
 					alert('채팅 등록 오류 발생');
+					message_socket.close();
 				}
 			},
 			error:function(){
 				alert('네트워크 오류 발생');
+				message_socket.close();
 			}
 		});
 		
@@ -344,12 +385,77 @@ $(function(){
 			return false;
 		}
 		
+		let form_data = $(this).serialize();
+		//서버와 통신
+		$.ajax({
+			url:'../talk/newMemberAjax.do',
+			type:'post',
+			data:form_data,
+			dataType:'json',
+			success:function(param){
+				if(param.result == 'logout'){
+					alert('로그인해야 사용할 수 있습니다.');
+					message_socket.close();
+				}else if(param.result == 'success'){
+					$('#dialog').dialog('close'); //다이얼로그 닫기
+					$('#chat_member').text(member_list); //채팅 멤버 표시
+					$('#chat_mcount').text('('+member_list.length+'명)'); //인원수 표시
+					alert('정상적으로 회원을 추가했습니다.');
+					//메시지가 저장되었다고 소켓에 신호를 보냄
+					message_socket.send('msg:');
+				}else{
+					alert('채팅 멤버 추가 오류 발생');
+					message_socket.close();
+				}
+			},
+			error:function(){
+				alert('네트워크 오류 발생');
+				message_socket.close();
+			}
+		});
+		
+		//form을 사용했기 때문에 submit할 때 진짜 전송되지 않도록 기본 이벤트 제거
+		//(진짜 전송되면 ajax통신을 사용할 수 없다.)
+		event.preventDefault();
 	});
 	
 	
+	/*-------------------
+	 	  채팅방 나가기
+	--------------------*/
 	
+	$('#delete_talkroom').click(function(){
+		let choice = confirm('채팅방을 나가시겠습니까?');
+		if(!choice){
+			return;
+		}
+		
+		//서버와 통신
+		$.ajax({
+			url:'../talk/deleteTalkRoomMemberAjax.do',
+			type:'post',
+			data:{talkroom_num:$('#talkroom_num').val()},
+			dataType:'json',
+			success:function(param){
+				if(param.result == 'logout'){
+					alert('로그인해야 사용할 수 있습니다.');
+					message_socket.close();
+				}else if(param.result == 'success'){
+					alert('정상적으로 채팅방을 나갔습니다.');
+					//메시지가 저장되었다고 소켓에 신호를 보냄
+					message_socket.send('msg:');
+					location.href='../talk/talkList.do';
+				}else{
+					alert('채팅방 나가기 오류 발생');
+					message_socket.close();
+				}
+			},
+			error:function(){
+				alert('네트워크 오류 발생');
+				message_socket.close();
+			}
+		});
+		
+	});
 	
-	//최초 호출
-	selectMsg();
-			
 });

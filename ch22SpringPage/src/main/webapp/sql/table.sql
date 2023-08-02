@@ -124,3 +124,26 @@ CREATE TABLE sptalk_read(
 	constraint read_fk3 foreign key (mem_num) references spmember (mem_num)
 );
 
+
+----------상품----------
+
+CREATE TABLE spitem(
+	item_num number,
+	name varchar2(30) not null,
+	price number(8) not null,
+	quantity number(5) not null,
+	photo1 blob not null,
+	photo_name1 varchar2(90) not null,
+	photo2 blob not null,
+	photo_name2 varchar2(90) not null,
+	delivery_limit number(8) not null, --배송비 면제 금액
+	delivery_fee number(7) not null, --배송비
+	detail clob not null,
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	status number(1) not null,
+	constraint spitem_pk primary key (item_num)
+);
+
+CREATE SEQUENCE spitem_seq;
+

@@ -69,4 +69,12 @@ public interface TalkMapper {
 	//채팅방 상세
 	@Select("SELECT * FROM sptalkroom WHERE talkroom_num=#{talkroom_num}")
 	public TalkRoomVO selectTalkRoom(Integer talkroom_num);
+	
+	//채팅방 나가기
+	@Delete("DELETE FROM sptalk_member WHERE talkroom_num=#{talkroom_num} AND mem_num=#{mem_num}")
+	public void deleteTalkRoomMember(TalkVO talkVO);
+	@Delete("DELETE FROM sptalk WHERE talkroom_num=#{talkroom_num}")
+	public void deleteTalk(Integer talkroom_num);
+	@Delete("DELETE FROM sptalkroom WHERE talkroom_num=#{talkroom_num}")
+	public void deleteTalkRoom(Integer talkroom_num);
 }

@@ -27,4 +27,6 @@ public interface TalkService {
 	public TalkRoomVO selectTalkRoom(Integer talkroom_num);
 	//채팅 멤버 추가
 	public void insertNewMember(TalkRoomVO talkRoomVO);
+	//채팅방 나가기
+	public void deleteTalkRoomMember(TalkVO talkVO);
 }
