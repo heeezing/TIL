@@ -112,7 +112,26 @@ div#main_menu ul li{
 
 
 /*----------메인----------*/
-
+.image-space .horizontal-area{
+	margin:2px;
+	padding:3px;
+	width:180px;
+	height:220px;
+	float:left;
+	text-align:center;
+	overflow:hidden;
+}
+.image-space .horizontal-area img{
+	width:175px;
+	height:175px;	
+}
+.image-space .horizontal-area span{
+	padding:5px;
+	margin:5px;
+}
+.image-spage .float-clear{
+	clear:both;
+}
 
 
 /*----------공통 등록,수정 폼----------*/

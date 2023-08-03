@@ -48,9 +48,9 @@ public class ItemVO {
 	//photo2 업로드 파일 처리 메서드 생성
 	public void setUpload2(MultipartFile upload2) throws IOException{
 		//MultipartFile -> byte[] 변환
-		setPhoto1(upload2.getBytes());
+		setPhoto2(upload2.getBytes());
 		//파일명 구하기
-		setPhoto_name1(upload2.getOriginalFilename());
+		setPhoto_name2(upload2.getOriginalFilename());
 	}
 	
 }

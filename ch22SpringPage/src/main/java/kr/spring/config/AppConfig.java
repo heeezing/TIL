@@ -91,7 +91,8 @@ public class AppConfig implements WebMvcConfigurer{
 				"/WEB-INF/tiles-def/main.xml",
 				"/WEB-INF/tiles-def/member.xml",
 				"/WEB-INF/tiles-def/board.xml",
-				"/WEB-INF/tiles-def/talk.xml"
+				"/WEB-INF/tiles-def/talk.xml",
+				"/WEB-INF/tiles-def/item.xml"
 		});
 		return configurer;
 	}

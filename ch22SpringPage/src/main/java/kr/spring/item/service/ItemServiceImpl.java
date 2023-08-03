@@ -19,26 +19,22 @@ public class ItemServiceImpl implements ItemService{
 		
 	@Override
 	public void insertItem(ItemVO itemVO) {
-		// TODO Auto-generated method stub
-		
+		itemMapper.insertItem(itemVO);
 	}
 
 	@Override
 	public int selectItemCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		return itemMapper.selectItemCount(map);
 	}
 
 	@Override
 	public List<ItemVO> selectItemList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return itemMapper.selectItemList(map);
 	}
 
 	@Override
 	public ItemVO selectItem(Integer item_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return itemMapper.selectItem(item_num);
 	}
 
 	@Override

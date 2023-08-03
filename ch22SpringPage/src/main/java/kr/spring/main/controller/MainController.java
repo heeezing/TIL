@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.spring.item.service.ItemService;
+import kr.spring.item.vo.ItemVO;
 import kr.spring.member.service.MemberService;
 import kr.spring.member.vo.MemberVO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,9 @@ public class MainController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private ItemService itemService;
+	
 	@RequestMapping("/")
 	public String main() {
 		return "redirect:/main/main.do";
@@ -26,6 +31,15 @@ public class MainController {
 	
 	@RequestMapping("/main/main.do")
 	public String main(Model model) {
+		//최신 등록 상품 읽어오기
+		Map<String,Object> mapItem = new HashMap<String,Object>();
+		mapItem.put("start", 1);
+		mapItem.put("end", 12);
+		mapItem.put("status", 1); //1보다 커야하니까 2(표시상품)만 불러옴
+		List<ItemVO> item_list = itemService.selectItemList(mapItem);
+		
+		model.addAttribute("item_list", item_list);
+		
 		return "main"; //타일스 설정의 식별자(main.xml의 definition name)
 	}
 	
