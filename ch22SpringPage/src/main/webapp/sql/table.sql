@@ -147,3 +147,25 @@ CREATE TABLE spitem(
 
 CREATE SEQUENCE spitem_seq;
 
+
+----------장바구니----------
+
+CREATE TABLE spcart(
+	cart_num number,
+	item_num number not null,
+	order_quantity number(5) not null,
+	reg_date date default SYSDATE not null,
+	mem_num number not null,
+	constraint spcart_pk primary key (cart_num),
+	constraint spcart_fk1 foreign key (item_num) references spitem (item_num),
+	constraint spcart_fk2 foreign key (mem_num) references spmember (mem_num)
+);
+
+CREATE SEQUENCE spcart_seq;
+
+
+
+
+
+
+

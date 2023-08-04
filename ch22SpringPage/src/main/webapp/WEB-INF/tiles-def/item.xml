@@ -5,15 +5,21 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-	<!-- 상품 등록 폼 -->
+	<!-- [관리자]상품 등록 폼 -->
     <definition name="itemAdminWrite" extends="admin">
     	<put-attribute name="title" value="상품 등록(관리자 용)"/>
     	<put-attribute name="body" value="/WEB-INF/views/item/admin_writeForm.jsp"/>
     </definition>
     
-	<!-- 상품 목록 -->
+	<!-- [관리자]상품 목록 -->
     <definition name="adminList" extends="admin">
     	<put-attribute name="title" value="상품 목록(관리자 용)"/>
     	<put-attribute name="body" value="/WEB-INF/views/item/admin_list.jsp"/>
+    </definition>
+    
+	<!-- [사용자]상품 상세 -->
+    <definition name="itemView" extends="main">
+    	<put-attribute name="title" value="상품 상세"/>
+    	<put-attribute name="body" value="/WEB-INF/views/item/user_itemView.jsp"/>
     </definition>
 </tiles-definitions>

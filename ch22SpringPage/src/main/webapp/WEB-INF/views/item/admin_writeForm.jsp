@@ -14,7 +14,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ckeditor.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/uploadAdapter.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.item-form.js"></script>
-<div class="page-main">
+<div id="item_form" class="page-main">
 	<h2>상품 등록</h2>
 	<form:form modelAttribute="itemVO" action="admin_write.do" id="item_register" enctype="multipart/form-data">
 		<form:errors element="div" cssClass="error-color"/>
