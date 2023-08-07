@@ -9,6 +9,7 @@
 	<!-- 우리가 필요한 정보를 통째로 user에 담아 세션에 저장할 예정 -->
 	<!-- 로그인O, 일반회원인 경우 -->
 	<c:if test="${!empty user && user.auth == 2}">
+	<a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a>
 	<a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a>
 	</c:if>
 	

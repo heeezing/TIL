@@ -24,20 +24,17 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public int selectTotalByMem_num(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		return cartMapper.selectTotalByMem_num(map);
 	}
 
 	@Override
 	public List<CartVO> selectListCart(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return cartMapper.selectListCart(map);
 	}
 
 	@Override
 	public CartVO selectCart(CartVO cart) {
-		// TODO Auto-generated method stub
-		return null;
+		return cartMapper.selectCart(cart);
 	}
 
 	@Override
@@ -48,8 +45,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void updateCartByItem_num(CartVO cart) {
-		// TODO Auto-generated method stub
-		
+		cartMapper.updateCartByItem_num(cart);
 	}
 
 	@Override

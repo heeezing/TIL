@@ -67,7 +67,8 @@ public class AppConfig implements WebMvcConfigurer{
 				.addPathPatterns("/board/delete.do")
 				.addPathPatterns("/talk/talkRoomWrite.do")
 				.addPathPatterns("/talk/talkList.do")
-				.addPathPatterns("/talk/talkDetail.do");
+				.addPathPatterns("/talk/talkDetail.do")
+				.addPathPatterns("/cart/list.do");
 		//AdminCheckInterceptor 설정
 		registry.addInterceptor(adminCheck)
 				.addPathPatterns("/main/admin.do")
@@ -92,7 +93,8 @@ public class AppConfig implements WebMvcConfigurer{
 				"/WEB-INF/tiles-def/member.xml",
 				"/WEB-INF/tiles-def/board.xml",
 				"/WEB-INF/tiles-def/talk.xml",
-				"/WEB-INF/tiles-def/item.xml"
+				"/WEB-INF/tiles-def/item.xml",
+				"/WEB-INF/tiles-def/cart.xml"
 		});
 		return configurer;
 	}

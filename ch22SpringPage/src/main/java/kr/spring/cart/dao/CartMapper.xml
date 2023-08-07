@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.spring.cart.dao.CartMapper">
+	<!-- resultMap 생성 (프로퍼티명이 불일치하므로) -->
+	<resultMap type="cartVO" id="cartMap">
+		<result property="itemVO.name" column="name"/>
+		<result property="itemVO.status" column="status"/>
+		<result property="itemVO.price" column="price"/>
+		<result property="itemVO.quantity" column="quantity"/>
+		<result property="itemVO.delivery_limit" column="delivery_limit"/>
+		<result property="itemVO.delivery_fee" column="delivery_fee"/>
+	</resultMap>
+	
+	<sql id="cartCondition">
+		WHERE mem_num=#{mem_num} 
+		<!-- 주문 폼에서 장바구니 정보 읽어올 때 cart_numbers 사용함 -->
+		<if test="cart_numbers != null and cart_numbers.length > 0">
+			AND cart_num IN 
+			<foreach item="item" index="index" collection="cart_numbers" 
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</sql>
+	
+	<sql id="cartSubTotal">
+		CASE WHEN delivery_limit != 0 AND order_quantity * price >= delivery_limit 
+			 THEN order_quantity * price 
+			 ELSE order_quantity * price + delivery_fee 
+		END sub_total
+	</sql>
+	
+	<!-- 장바구니 목록 -->
+	<select id="selectListCart" parameterType="map" resultMap="cartMap">
+		SELECT 
+			cart_num,
+			item_num,
+			order_quantity,
+			mem_num,
+			name,
+			price,
+			quantity,
+			status,
+			delivery_limit,
+			CASE WHEN delivery_limit !=0 AND order_quantity*price >= delivery_limit 
+				 THEN 0
+				 ELSE delivery_fee 
+			END delivery_fee, 
+			<include refid="cartSubTotal"></include>
+		FROM spcart JOIN spitem USING (item_num) 
+		<include refid="cartCondition"></include>
+		ORDER BY item_num ASC
+	</select>
+	
+	<!-- 회원 별 장바구니에 담은 상품 총 금액 -->
+	<select id="selectTotalByMem_num" parameterType="map" resultType="integer">
+		SELECT NVL(SUM(sub_total),0) 
+		FROM (SELECT mem_num,
+					 cart_num,
+					 <include refid="cartSubTotal"></include>
+			  FROM spcart JOIN spitem USING (item_num))
+		<include refid="cartCondition"></include>
+	</select>
+	
 	<!-- 장바구니에 상품 등록 -->
 	<insert id="insertCart" parameterType="cartVO">
 		INSERT INTO spcart(
@@ -16,4 +77,7 @@
 			#{mem_num}
 			)
 	</insert>
+	
+	<!--  -->
+	
 </mapper>

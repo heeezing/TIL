@@ -1,12 +1,14 @@
 package kr.spring.cart.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -71,5 +73,38 @@ public class CartController {
 		
 		return mapJson;
 	}
+	
+	
+	
+	/*======================
+		   장바구니 목록
+	======================*/
+	
+	@RequestMapping("/cart/list.do")
+	public String list(HttpSession session, Model model) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("mem_num",user.getMem_num());
+		//회원 번호 별 총 구매액
+		int all_total = cartService.selectTotalByMem_num(map);
+		
+		List<CartVO> list = null;
+		if(all_total > 0) { //=담은 데이터가 있다.
+			list = cartService.selectListCart(map);
+		}
+		
+		model.addAttribute("all_total", all_total);
+		model.addAttribute("list", list);
+		
+		return "cartList";
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

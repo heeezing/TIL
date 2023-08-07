@@ -164,8 +164,40 @@ CREATE TABLE spcart(
 CREATE SEQUENCE spcart_seq;
 
 
+----------주문(구매)----------
 
+CREATE TABLE sporder(
+	order_num number,
+	item_name varchar2(600) not null,
+	order_total number(9) not null,
+	payment number(1) not null,
+	status number(1) default 1 not null,
+	receive_name varchar2(30) not null,
+	receive_post varchar2(5) not null,
+	receive_address1 varchar2(90) not null,
+	receive_address2 varchar2(90) not null,
+	receive_phone varchar2(15) not null,
+	notice varchar2(900),
+	reg_date date default SYSDATE not null,
+	modify_date date,
+	mem_num number not null,
+	constraint sporder_pk primary key (order_num),
+	constraint sporder_fk1 foreign key (mem_num) references spmember(mem_num)
+);
 
+CREATE SEQUENCE sporder_seq;
 
+CREATE TABLE sporder_detail(
+	detail_num number,
+	item_num number not null,
+	item_name varchar2(30) not null,
+	item_price number(8) not null,
+	item_delivery number(7) not null,
+	item_total number(8) not null,
+	order_quantity number(7) not null,
+	order_num number not null,
+	constraint sporder_detail_pk primary key (detail_num),
+	constraint sporder_detail_fk1 foreign key (order_num) references sporder (order_num)
+);
 
-
+CREATE SEQUENCE sporder_detail_seq;

@@ -628,6 +628,12 @@ div#item_form form#item_modify ul{
 }
 
 
+/*----------장바구니----------*/
+
+form[id="cart_order"]{
+	border:none;
+}
+
 
 
 
