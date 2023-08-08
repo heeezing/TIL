@@ -39,8 +39,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void updateCart(CartVO cart) {
-		// TODO Auto-generated method stub
-		
+		cartMapper.updateCart(cart);
 	}
 
 	@Override
@@ -50,8 +49,7 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public void deleteCart(Integer cart_num) {
-		// TODO Auto-generated method stub
-		
+		cartMapper.deleteCart(cart_num);
 	}
 
 }

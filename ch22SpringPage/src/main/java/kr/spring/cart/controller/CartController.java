@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.spring.cart.service.CartService;
@@ -102,9 +103,52 @@ public class CartController {
 	
 	
 	
+	/*======================
+		장바구니 상품 수량 변경
+	======================*/
+	
+	@RequestMapping("/cart/modifyCart.do")	
+	@ResponseBody
+	public Map<String,String> submitModify(CartVO cartVO, HttpSession session){
+		Map<String,String> mapJson = new HashMap<String,String>();
+		//로그인 체크
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			//현재 구매하고자 하는 상품의 재고수를 구함
+			ItemVO item = itemService.selectItem(cartVO.getItem_num());
+			if(item.getStatus() == 1) {
+				mapJson.put("result", "noSale");
+			}else if(item.getQuantity() < cartVO.getOrder_quantity()) {
+				mapJson.put("result", "noQuantity"); //재고 부족
+			}else { //상품 수량 변경이 가능한 상태
+				cartService.updateCart(cartVO);
+				mapJson.put("result", "success");
+			}
+		}
+		return mapJson;
+	}	
 	
 	
 	
+	/*======================
+		 장바구니 상품 삭제
+	======================*/
 	
+	@RequestMapping("/cart/deleteCart.do")
+	@ResponseBody
+	public Map<String,String> delete(@RequestParam int cart_num, HttpSession session){
+		Map<String,String> mapJson = new HashMap<String,String>();
+		//로그인 체크
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) { //로그인 X
+			mapJson.put("result", "logout");
+		}else { //로그인 O
+			cartService.deleteCart(cart_num);
+			mapJson.put("result", "success");
+		}
+		return mapJson;
+	}
 	
 }
