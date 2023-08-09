@@ -635,10 +635,23 @@ form[id="cart_order"]{
 }
 
 
+/*----------주문----------*/
 
-
-
-
+#order_register{
+	width:860px;
+}
+#order_modify{
+	width:700px;
+}
+#order_register #receive_name{
+	width:222px;
+}
+#order_register #zipcode, #order_modify #zipcode{
+	width:218px;
+}
+#delivery_text{
+	color:red;
+}
 
 
 
