@@ -83,8 +83,8 @@
 			</li>
 			<li>
 				<label>결제 수단</label>
-				<input type="radio" name="payment" id="payment1" value="1">통장입금
-				<input type="radio" name="payment" id="payment2" value="2">카드결제
+				<form:radiobutton path="payment" value="1"/>통장입금
+				<form:radiobutton path="payment" value="2"/>카드결제
 			</li>
 		</ul>
 		

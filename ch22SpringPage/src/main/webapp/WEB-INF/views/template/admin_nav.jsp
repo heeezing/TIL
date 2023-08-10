@@ -12,7 +12,7 @@
 			 onclick="location.href='${pageContext.request.contextPath}/item/admin_list.do'">
 		</li>
 		<li>
-			<input type="button" class="menu-btn" value="회원 탈퇴"
+			<input type="button" class="menu-btn" value="주문 관리"
 			 onclick="location.href='${pageContext.request.contextPath}/order/admin_list.do'">
 		</li>
 	</ul>

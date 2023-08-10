@@ -1,5 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.spring.order.dao.OrderMapper">
+	<!-- 상품 주문 -->
+	<insert id="insertOrder" parameterType="orderVO">
+		INSERT INTO sporder(
+			order_num,
+			item_name,
+			order_total,
+			payment,
+			receive_name,
+			receive_post,
+			receive_address1,
+			receive_address2,
+			receive_phone,
+			notice,
+			mem_num
+			)
+		VALUES(
+			#{order_num},
+			#{item_name},
+			#{order_total},
+			#{payment},
+			#{receive_name},
+			#{receive_post},
+			#{receive_address1},
+			#{receive_address2},
+			#{receive_phone},
+			#{notice},
+			#{mem_num}
+			)
+	</insert>
+	
+	<insert id="insertOrderDetail" parameterType="orderDetailVO">
+		INSERT INTO sporder_detail(
+			detail_num,
+			item_num,
+			item_name,
+			item_price,
+			item_delivery,
+			item_total,
+			order_quantity,
+			order_num
+			)
+		VALUES(
+			sporder_detail_seq.nextval,
+			#{item_num},
+			#{item_name},
+			#{item_price},
+			#{item_delivery},
+			#{item_total},
+			#{order_quantity},
+			#{order_num}
+			)
+	</insert>
+	
+	
+	<!-- [관리자] 주문 목록 -->
+	
+	<!-- 검색창 용 sql 조각 -->
+	<sql id="orderSearch">
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<if test="keyfield == 1">
+					order_num = #{keyword}
+				</if>
+				<if test="keyfield == 2">
+					id LIKE '%'|| #{keyword} || '%'
+				</if>
+				<if test="keyfield == 3">
+					item_name LIKE '%'|| #{keyword} || '%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 전체or검색 레코드 수 -->
+	<select id="selectOrderCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) 
+		FROM sporder o JOIN spmember m ON o.mem_num = m.mem_num 
+		<include refid="orderSearch"></include>
+	</select>
 
+	<!-- 전체or검색 목록 -->
+	<select id="selectListOrder" parameterType="map" resultType="orderVO">
+		SELECT * 
+		FROM (SELECT a.*, rownum rnum 
+			  FROM (SELECT * 
+			  		FROM sporder o JOIN spmember m ON o.mem_num = m.mem_num 
+			  		<include refid="orderSearch"></include> 
+			  		ORDER BY order_num DESC)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

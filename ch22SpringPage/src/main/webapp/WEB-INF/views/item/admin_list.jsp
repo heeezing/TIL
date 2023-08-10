@@ -16,7 +16,7 @@
 	});
 </script>
 <div class="page-main">
-	<h2>상품 목록</h2>
+	<h2>상품 목록(관리자 용)</h2>
 	<!-- 검색창 -->
 	<form action="admin_list.do" id="search_form" method="get">
 		<ul class="search">
