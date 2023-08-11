@@ -1,6 +1,7 @@
 package kr.spring.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.spring.member.service.MemberService;
 import kr.spring.member.vo.MemberVO;
+import kr.spring.order.service.OrderService;
+import kr.spring.order.vo.OrderVO;
 import kr.spring.util.AuthCheckException;
 import kr.spring.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private OrderService orderService;
 	
 	/*======================
 	       자바빈 초기화
@@ -217,8 +222,17 @@ public class MemberController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		//회원 정보 반환
 		MemberVO member = memberService.selectMember(user.getMem_num());
-		//반환 받은 회원 정보를 request에 저장
+		//주문 정보 반환
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("mem_num", user.getMem_num());
+		//최신 주문 정보 10건만 표시
+		map.put("start", 1);
+		map.put("end", 10);
+		List<OrderVO> orderList = orderService.selectListOrderByMem_num(map);
+		
+		//반환 받은 정보를 request에 저장
 		model.addAttribute("member", member);
+		model.addAttribute("orderList", orderList);
 		
 		return "myPage"; //tiles설정 name
 	}

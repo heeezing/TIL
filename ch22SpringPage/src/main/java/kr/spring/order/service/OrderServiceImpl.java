@@ -43,4 +43,24 @@ public class OrderServiceImpl implements OrderService{
 		return orderMapper.selectListOrder(map);
 	}
 
+	@Override
+	public int selectOrderCountByMem_num(Map<String, Object> map) {
+		return orderMapper.selectOrderCountByMem_num(map);
+	}
+
+	@Override
+	public List<OrderVO> selectListOrderByMem_num(Map<String, Object> map) {
+		return orderMapper.selectListOrderByMem_num(map);
+	}
+
+	@Override
+	public OrderVO selectOrder(Integer order_num) {
+		return orderMapper.selectOrder(order_num);
+	}
+
+	@Override
+	public List<OrderDetailVO> selectListOrderDetail(Integer order_num) {
+		return orderMapper.selectListOrderDetail(order_num);
+	}
+
 }

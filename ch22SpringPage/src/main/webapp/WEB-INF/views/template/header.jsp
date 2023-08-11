@@ -44,7 +44,7 @@
 	</c:if>
 	
 	<!-- 관리자인 경우 -->
-	<c:if test="${!empty user || user.auth == 9}">
+	<c:if test="${!empty user && user.auth == 9}">
 	<a href="${pageContext.request.contextPath}/main/admin.do">관리자 메인</a>
 	</c:if>
 </div>

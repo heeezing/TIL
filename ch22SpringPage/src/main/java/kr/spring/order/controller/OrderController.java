@@ -14,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.spring.cart.service.CartService;
 import kr.spring.cart.vo.CartVO;
@@ -28,6 +31,7 @@ import kr.spring.member.vo.MemberVO;
 import kr.spring.order.service.OrderService;
 import kr.spring.order.vo.OrderDetailVO;
 import kr.spring.order.vo.OrderVO;
+import kr.spring.util.PagingUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -217,6 +221,72 @@ public class OrderController {
 		
 		return "common/notice"; //jsp
 	}
+	
+	
+	
+	/*======================
+		 	주문 목록
+	======================*/
+	@RequestMapping("/order/orderList.do")
+	public ModelAndView orderList(@RequestParam(value="pageNum",defaultValue="1") int currentPage,
+								  String keyfield, String keyword, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("keyfield",keyfield);
+		map.put("keyword",keyword);
+		map.put("mem_num",user.getMem_num());
+		
+		//전체or검색 레코드 수
+		int count = orderService.selectOrderCountByMem_num(map);
+		log.debug("<<count>> : " + count);
+		
+		//페이지 처리
+		PagingUtil page = new PagingUtil(keyfield,keyword,currentPage,count,20,10,"orderList.do");
+		
+		List<OrderVO> list = null;
+		if(count > 0) {
+			map.put("start", page.getStartRow());
+			map.put("end", page.getEndRow());
+			
+			list = orderService.selectListOrderByMem_num(map);
+		}
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("orderList");
+		mav.addObject("count", count);
+		mav.addObject("list", list);
+		mav.addObject("page", page.getPage());
+		
+		return mav;
+	}
+	
+	
+	
+	/*======================
+		  주문 상세(수정)
+	======================*/
+	
+	@GetMapping("/order/orderModify.do")
+	public String formUserModify(@RequestParam int order_num, Model model) {
+		//주문 정보 읽어오기
+		OrderVO order = orderService.selectOrder(order_num);
+		//개별 상품의 주문 정보
+		List<OrderDetailVO> detailList = orderService.selectListOrderDetail(order_num);
+		
+		model.addAttribute("orderVO", order);
+		model.addAttribute("detailList", detailList);
+		
+		return "orderModify";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

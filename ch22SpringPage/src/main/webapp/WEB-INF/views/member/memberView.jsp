@@ -16,5 +16,33 @@
 		<li>정보수정일 : ${member.modify_date}</li>
 		</c:if>
 	</ul>
+	
+	<h2>주문 목록</h2>
+	<table class="striped-table">
+		<tr>
+			<th>주문번호</th>
+			<th>상품명</th>
+			<th>주문날짜</th>
+			<th>배송상태</th>
+		</tr>
+		<c:forEach var="order" items="${orderList}">
+		<tr>
+			<td>${order.order_num}</td>
+			<td>
+				<a href="${pageContext.request.contextPath}/order/orderModify.do?order_num=${order.order_num}">
+					${order.item_name}
+				</a>
+			</td>
+			<td>${order.reg_date}</td>
+			<td>
+				<c:if test="${order.status == 1}">배송대기</c:if>
+				<c:if test="${order.status == 2}">배송준비중</c:if>
+				<c:if test="${order.status == 3}">배송중</c:if>
+				<c:if test="${order.status == 4}">배송완료</c:if>
+				<c:if test="${order.status == 5}">주문취소</c:if>
+			</td>
+		</tr>
+		</c:forEach>
+	</table>
 </div>
 <!-- MY페이지 끝 -->

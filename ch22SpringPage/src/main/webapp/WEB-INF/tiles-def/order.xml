@@ -5,13 +5,25 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-	<!-- 사용자 -->
+	<!-- 주문 폼 -->
     <definition name="orderForm" extends="main">
     	<put-attribute name="title" value="상품구매"/>
     	<put-attribute name="body" value="/WEB-INF/views/order/user_orderForm.jsp"/>
     </definition>
     
-	<!-- 관리자 -->
+    <!-- 나의 주문 목록 -->
+    <definition name="orderList" extends="myPage">
+    	<put-attribute name="title" value="주문목록"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/user_orderList.jsp"/>
+    </definition>
+    
+    <!-- 주문 상세 내역 (정보 수정) -->
+    <definition name="orderModify" extends="myPage">
+    	<put-attribute name="title" value="주문목록"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/user_modifyForm.jsp"/>
+    </definition>
+    
+	<!-- [관리자] 회원 주문 목록 -->
     <definition name="adminOrderList" extends="admin">
     	<put-attribute name="title" value="주문목록(관리자 용)"/>
     	<put-attribute name="body" value="/WEB-INF/views/order/admin_list.jsp"/>

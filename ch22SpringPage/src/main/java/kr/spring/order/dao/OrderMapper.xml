@@ -56,7 +56,6 @@
 	
 	
 	<!-- [관리자] 주문 목록 -->
-	
 	<!-- 검색창 용 sql 조각 -->
 	<sql id="orderSearch">
 		<where>
@@ -92,6 +91,41 @@
 		<![CDATA[
 		WHERE rnum >= #{start} AND rnum <= #{end}
 		]]>
+	</select>
+
+
+	<!-- [사용자] 주문 목록 -->
+	<!-- 검색창 용 sql 조각 -->
+	<sql id="orderSearchByUser">
+		WHERE mem_num = #{mem_num} 
+		<if test="keyword != null and keyword != ''">
+			<if test="keyfield == 1">
+				AND order_num = #{keyword} 
+			</if>
+			<if test="keyfield == 2">
+				AND item_name LIKE '%' || #{keyword} || '%' 
+			</if>
+		</if>
+	</sql>
+	
+	<!-- 전체or검색 레코드 수 -->
+	<select id="selectOrderCountByMem_num" parameterType="map">
+		SELECT COUNT(*) 
+		FROM sporder 
+		<include refid="orderSearchByUser"></include>
+	</select>
+	
+	<!-- 전체or검색 목록 -->
+	<select id="selectListOrderByMem_num" parameterType="map" resultType="orderVO">
+		SELECT * 
+		FROM (SELECT a.*, rownum rnum 
+			  FROM (SELECT * 
+			  		FROM sporder 
+			  		<include refid="orderSearchByUser"></include>
+			  		ORDER BY order_num DESC)a) 
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>		  		
 	</select>
 	
 </mapper>

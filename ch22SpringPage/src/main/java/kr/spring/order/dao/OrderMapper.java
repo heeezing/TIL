@@ -33,4 +33,14 @@ public interface OrderMapper {
 	public int selectOrderCount(Map<String,Object> map);
 	//[관리자] 전체or검색 목록
 	public List<OrderVO> selectListOrder(Map<String,Object> map);
+	//[사용자] 전체or검색 레코드 수
+	public int selectOrderCountByMem_num(Map<String,Object> map);
+	//[사용자] 전체or검색 목록
+	public List<OrderVO> selectListOrderByMem_num(Map<String,Object> map);
+	//주문 상세
+	@Select("SELECT * FROM sporder WHERE order_num=#{order_num}")
+	public OrderVO selectOrder(Integer order_num);
+	//개별 상품 목록
+	@Select("SELECT * FROM sporder_detail WHERE order_num=#{order_num} ORDER BY item_num DESC")
+	public List<OrderDetailVO> selectListOrderDetail(Integer order_num);
 }

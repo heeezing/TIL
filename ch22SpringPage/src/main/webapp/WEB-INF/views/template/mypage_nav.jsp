@@ -31,6 +31,10 @@
 			 onclick="location.href='${pageContext.request.contextPath}/talk/talkList.do'">
 		</li>
 		<li>
+			<input type="button" class="menu-btn" value="주문목록"
+			 onclick="location.href='${pageContext.request.contextPath}/order/orderList.do'">
+		</li>
+		<li>
 			<input type="button" class="menu-btn" value="회원 탈퇴"
 			 onclick="location.href='${pageContext.request.contextPath}/member/delete.do'">
 		</li>
