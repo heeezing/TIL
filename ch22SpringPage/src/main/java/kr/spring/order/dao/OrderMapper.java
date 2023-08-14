@@ -37,10 +37,18 @@ public interface OrderMapper {
 	public int selectOrderCountByMem_num(Map<String,Object> map);
 	//[사용자] 전체or검색 목록
 	public List<OrderVO> selectListOrderByMem_num(Map<String,Object> map);
-	//주문 상세
+	//[관리자&사용자] 주문 상세
 	@Select("SELECT * FROM sporder WHERE order_num=#{order_num}")
 	public OrderVO selectOrder(Integer order_num);
-	//개별 상품 목록
+	//[관리자&사용자] 개별 상품 목록
 	@Select("SELECT * FROM sporder_detail WHERE order_num=#{order_num} ORDER BY item_num DESC")
 	public List<OrderDetailVO> selectListOrderDetail(Integer order_num);
+	//[관리자&사용자] 배송지 수정
+	public void updateOrder(OrderVO order);
+	//[관리자&사용자] 주문 상태 수정
+	@Update("UPDATE sporder SET status=#{status},modify_date=SYSDATE WHERE order_num=#{order_num}")
+	public void updateOrderStatus(OrderVO order);
+	//[관리자&사용자] 주문 취소 시 상품 수량 업데이트
+	@Update("UPDATE spitem SET quantity = quantity + #{order_quantity} WHERE item_num=#{item_num}")
+	public void updateItemQuantity(OrderDetailVO orderDetailVO);
 }

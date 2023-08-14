@@ -127,7 +127,21 @@
 		WHERE rnum >= #{start} AND rnum <= #{end}
 		]]>		  		
 	</select>
-	
+
+
+	<!-- 배송지 정보 수정 -->	
+	<update id="updateOrder" parameterType="orderVO">
+		UPDATE sporder
+		SET receive_name=#{receive_name},
+			receive_post=#{receive_post},
+			receive_address1=#{receive_address1},
+			receive_address2=#{receive_address2},
+			receive_phone=#{receive_phone},
+			notice=#{notice},
+			modify_date=SYSDATE 
+		WHERE order_num=#{order_num}
+	</update>
+
 </mapper>
 
 

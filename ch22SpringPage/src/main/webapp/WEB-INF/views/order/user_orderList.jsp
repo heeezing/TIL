@@ -56,7 +56,7 @@
 		<tr>
 			<td>${order.order_num}</td>
 			<td>
-				<a href="orderModify.do?order_num=${order.order_num}">${order.item_name}</a>
+				<a href="orderDetail.do?order_num=${order.order_num}">${order.item_name}</a>
 			</td>
 			<td><fmt:formatNumber value="${order.order_total}"/>원</td>
 			<td>${order.reg_date}</td>

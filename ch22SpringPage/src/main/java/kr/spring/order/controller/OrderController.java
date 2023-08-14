@@ -262,11 +262,31 @@ public class OrderController {
 	}
 	
 	
+
+	/*======================
+		  	주문 상세
+	======================*/	
+	@RequestMapping("/order/orderDetail.do")
+	public String formUserDetail(@RequestParam int order_num, Model model) {
+		//주문 정보 불러오기
+		OrderVO order = orderService.selectOrder(order_num);
+		//개별 상품의 주문 정보
+		List<OrderDetailVO> detailList = orderService.selectListOrderDetail(order_num);
+		log.debug("<<주문상세>> : " + detailList);
+		
+		model.addAttribute("orderVO", order);
+		model.addAttribute("detailList", detailList);
+		
+		return "orderDetail";
+	}
+	
+	
 	
 	/*======================
-		  주문 상세(수정)
+		  	배송지 변경
 	======================*/
 	
+	//폼 호출
 	@GetMapping("/order/orderModify.do")
 	public String formUserModify(@RequestParam int order_num, Model model) {
 		//주문 정보 읽어오기
@@ -280,13 +300,66 @@ public class OrderController {
 		return "orderModify";
 	}
 	
+	//전송된 데이터 처리
+	@PostMapping("/order/orderModify.do")
+	public String submitUserModify(@Valid OrderVO orderVO, BindingResult result,
+									Model model, HttpServletRequest request) {
+		log.debug("<<OrderVO>> : " + orderVO);
+		
+		//전송된 데이터 유효성 체크 결과 오류가 있으면 폼 호출
+		if(result.hasErrors()) {
+			return "orderModify";
+		}
+		
+		//조건 체크를 위해 한 건의 데이터를 가져옴
+		OrderVO db_order = orderService.selectOrder(orderVO.getOrder_num());
+		if(db_order.getStatus() > 1) {
+			//배송 준비 중 이상으로 관리자가 변경한 상품은 주문자가 변경할 수 없게 처리
+			model.addAttribute("message", "배송 상태가 변경되어 주문자가 배송지 정보를 변경할 수 없음");
+			model.addAttribute("url", request.getContextPath()+"/order/orderList.do");
+		}
+		
+		//수정 처리
+		orderService.updateOrder(orderVO);
+		model.addAttribute("message", "배송지 정보가 변경되었습니다.");
+		model.addAttribute("url", request.getContextPath()+"/order/orderDetail.do?order_num="+orderVO.getOrder_num());
+		
+		return "common/resultView";
+	}
 	
 	
 	
+	/*======================
+		  사용자 주문 취소
+	======================*/
 	
-	
-	
-	
-	
-	
+	@RequestMapping("/order/orderCancel.do")
+	public String submitCancel(@RequestParam int order_num, Model model, 
+								HttpSession session, HttpServletRequest request) {
+		OrderVO db_order = orderService.selectOrder(order_num);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		//타인의 주문을 취소할 수 없게 조건 체크
+		if(db_order.getMem_num() != user.getMem_num()) {
+			model.addAttribute("message", "타인의 주문을 취소할 수 없습니다.");
+			model.addAttribute("url", request.getContextPath()+"/order/orderList.do");
+			return "common/resultView";
+		}
+		//배송 대기 상태가 아닐 경우 취소할 수 없게 조건 체크
+		if(db_order.getStatus() > 1) {
+			model.addAttribute("message", "배송 상태가 이미 변경되어 주문자가 주문을 취소할 수 없습니다.");
+			model.addAttribute("url", request.getContextPath()+"/order/orderList.do");
+			return "common/resultView";
+		}
+		
+		//주문 취소 처리
+		OrderVO vo = new OrderVO();
+		vo.setOrder_num(order_num);
+		vo.setStatus(5);
+		orderService.updateOrderStatus(vo);
+		
+		model.addAttribute("message", "주문 취소가 완료되었습니다.");
+		model.addAttribute("url", request.getContextPath()+"/order/orderDetail.do?order_num="+order_num);
+		
+		return "common/resultView";
+	}
 }

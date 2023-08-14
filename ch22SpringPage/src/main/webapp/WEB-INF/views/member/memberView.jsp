@@ -29,7 +29,7 @@
 		<tr>
 			<td>${order.order_num}</td>
 			<td>
-				<a href="${pageContext.request.contextPath}/order/orderModify.do?order_num=${order.order_num}">
+				<a href="${pageContext.request.contextPath}/order/orderDetail.do?order_num=${order.order_num}">
 					${order.item_name}
 				</a>
 			</td>

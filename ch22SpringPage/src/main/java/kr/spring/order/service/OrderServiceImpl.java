@@ -63,4 +63,21 @@ public class OrderServiceImpl implements OrderService{
 		return orderMapper.selectListOrderDetail(order_num);
 	}
 
+	@Override
+	public void updateOrder(OrderVO order) {
+		orderMapper.updateOrder(order);
+	}
+
+	@Override
+	public void updateOrderStatus(OrderVO order) {
+		orderMapper.updateOrderStatus(order);
+		//주문 취소일 경우만 상품 개수를 조정
+		if(order.getStatus() == 5) {
+			List<OrderDetailVO> detailList = orderMapper.selectListOrderDetail(order.getMem_num());
+			for(OrderDetailVO vo : detailList) {
+				orderMapper.updateItemQuantity(vo);
+			}
+		}
+	}
+
 }

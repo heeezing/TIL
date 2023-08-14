@@ -17,9 +17,15 @@
     	<put-attribute name="body" value="/WEB-INF/views/order/user_orderList.jsp"/>
     </definition>
     
-    <!-- 주문 상세 내역 (정보 수정) -->
+    <!-- 주문 상세 -->
+    <definition name="orderDetail" extends="myPage">
+    	<put-attribute name="title" value="주문내역"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/user_detail.jsp"/>
+    </definition>
+    
+    <!-- 주문 상세 - 배송지 수정 -->
     <definition name="orderModify" extends="myPage">
-    	<put-attribute name="title" value="주문목록"/>
+    	<put-attribute name="title" value="주문내역"/>
     	<put-attribute name="body" value="/WEB-INF/views/order/user_modifyForm.jsp"/>
     </definition>
     

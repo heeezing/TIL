@@ -3,134 +3,65 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!-- 주문 내역 시작 -->
+<!-- 배송지 정보 수정폼 시작 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.order-form.js"></script>
 <div class="page-main">
-	<h2>주문 내역</h2>
+	<h2>배송지 정보 수정</h2>
+	
+	<!-- 배송 대기 상태가 아닐 경우 -->
+	<c:if test="${orderVO.status != 1}">
+	<div class="result-display">
+		배송 대기일 때만 배송지 정보를 수정할 수 있습니다.
+	</div>	
+	</c:if>
+	
+	<!-- 배송 대기 상태일 경우 (수정 가능) -->
+	<c:if test="${orderVO.status == 1}">
 	<form:form modelAttribute="orderVO" action="orderModify.do" id="order_modify">
 		<form:hidden path="order_num"/>
 		<form:hidden path="status"/>
-		<table class="basic-table">
-			<tr>
-				<th>상품명</th>
-				<th>수량</th>
-				<th>가격</th>
-				<th>배송비</th>
-				<th>합계</th>
-			</tr>
-			<c:forEach var="detail" items="${detailList}">
-			<tr>
-				<td>${detail.item_name}</td>
-				<td class="align-center">
-					<fmt:formatNumber value="${detail.order_quantity}"/>
-				</td>
-				<td class="align-center">
-					<fmt:formatNumber value="${detail.item_price}"/>원
-				</td>
-				<td class="align-center">
-					<fmt:formatNumber value="${detail.item_delivery}"/>원
-				</td>
-				<td class="align-center">
-					<fmt:formatNumber value="${detail.item_total}"/>원
-				</td>
-			</tr>   
-			</c:forEach>
-	        <tr>
-	            <td colspan="4" class="align-right"><b>총 구매금액</b></td>
-	            <td class="align-center">
-	            	<fmt:formatNumber value="${orderVO.order_total}"/>
-	            </td>
-	        </tr>
-	    </table>
-	
+		<form:hidden path="payment"/>
 		<ul>
-			<c:if test="${orderVO.status == 1}">
 			<li>
 				<form:label path="receive_name">받는 사람</form:label>			
 				<form:input path="receive_name"/>
+				<form:errors path="receive_name" cssClass="error-color"/>
 			</li>
 			<li> <!-- for,id 맞춤. 커스텀태그 사용 시에는 bean과 자동 매치 되어서 명시 안 해도 됨. -->	
 				<label for="zipcode">우편번호</label> 
 				<form:input path="receive_post" id="zipcode" maxlength="10"/> 
 				<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="default-btn">
+				<form:errors path="receive_post" cssClass="error-color"/>
 			</li>
 			<li>
 				<label for="address1">주소</label> 
 				<form:input path="receive_address1" id="address1" maxlength="30"/>
+				<form:errors path="receive_address1" cssClass="error-color"/>
 			</li>
 			<li>
 				<label for="address2">상세주소</label>	
 				<form:input path="receive_address2" id="address2" maxlength="30"/>
+				<form:errors path="receive_address2" cssClass="error-color"/>
 			</li>
 			<li>
 				<form:label path="receive_phone">전화번호</form:label>	
 				<form:input path="receive_phone" maxlength="15"/>
+				<form:errors path="receive_phone" cssClass="error-color"/>
 			</li>
 			<li>
 				<form:label path="notice">남기실 말씀</form:label>			
 				<form:input path="notice"/>
 			</li>
-			</c:if>
-			
-			<c:if test="${orderVO.status >= 2}">
-			<li>
-				<label>받는 사람</label>
-				${orderVO.receive_name}
-			</li>
-			<li>
-				<label>우편번호</label>
-				${orderVO.receive_post}
-			</li>
-			<li>
-				<label>주소</label>
-				${orderVO.receive_address1} ${orderVO.receive_address2}
-			</li>
-			<li>
-				<label>전화번호</label>
-				${orderVO.receive_phone}
-			</li>
-			<li>
-				<label>남기실 말씀</label>
-				${orderVO.notice}
-			</li>
-			</c:if>
-			
-			<li>
-				<label>결제수단</label>
-				<c:if test="${orderVO.payment == 1}">통장입급</c:if>
-				<c:if test="${orderVO.payment == 2}">카드결제</c:if>
-			</li>
-			<li>
-				<label>배송상태</label>
-				<c:if test="${orderVO.status == 1}">배송대기</c:if>
-				<c:if test="${orderVO.status == 2}">배송준비중</c:if>
-				<c:if test="${orderVO.status == 3}">배송중</c:if>
-				<c:if test="${orderVO.status == 4}">배송완료</c:if>
-				<c:if test="${orderVO.status == 5}">주문취소</c:if>
-			</li>
 		</ul>
 		
 		<div class="align-center">
-			<c:if test="${orderVO.status == 1}">
-			<form:button class="default-btn">주문수정</form:button>
-			<input type="button" value="주문취소" class="default-btn" id="order_cancel">
-			<script type="text/javascript">
-				let order_cancel = document.getElementById('order_cancel');
-				order_cancel.onclick=function(){
-					let choice = confirm(주문을 취소하시겠습니까?);
-					if(chioice){
-						location.replace('orderCancel.do?order_num=${orderVO.order_num}');
-					}
-				}
-			</script>
-			</c:if>
-			<input type="button" value="주문목록" class="default-btn" 
-				   onclick="location.href='${pageContext.request.contextPath}/order/orderList.do'">
+			<form:button class="default-btn">배송지정보수정</form:button>
+			<input type="button" value="주문내역" class="default-btn" 
+				   onclick="location.href='orderDetail.do?order_num=${orderVO.order_num}'">
 			<input type="button" value="MyPage" class="default-btn" 
 				   onclick="location.href='${pageContext.request.contextPath}/member/myPage.do'">
 		</div>
 	</form:form>
-</div>
 
 <!-- 우편번호 검색 시작 -->
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
@@ -229,5 +160,7 @@
        element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
    }
 </script>
+</c:if>
+</div>
 <!-- 우편번호 검색 끝 -->
-<!-- 주문 내역 끝 -->
+<!-- 배송지 정보 수정폼 끝 -->

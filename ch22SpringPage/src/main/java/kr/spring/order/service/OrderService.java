@@ -3,8 +3,6 @@ package kr.spring.order.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Select;
-
 import kr.spring.order.vo.OrderDetailVO;
 import kr.spring.order.vo.OrderVO;
 
@@ -23,4 +21,8 @@ public interface OrderService {
 	public OrderVO selectOrder(Integer order_num);
 	//개별 상품 목록
 	public List<OrderDetailVO> selectListOrderDetail(Integer order_num);
+	//[관리자&사용자] 배송지 수정
+	public void updateOrder(OrderVO order);
+	//[관리자&사용자] 주문 상태 수정
+	public void updateOrderStatus(OrderVO order);
 }
