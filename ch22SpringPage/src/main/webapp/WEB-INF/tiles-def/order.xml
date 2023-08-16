@@ -25,7 +25,7 @@
     
     <!-- 주문 상세 - 배송지 수정 -->
     <definition name="orderModify" extends="myPage">
-    	<put-attribute name="title" value="주문내역"/>
+    	<put-attribute name="title" value="배송지정보수정"/>
     	<put-attribute name="body" value="/WEB-INF/views/order/user_modifyForm.jsp"/>
     </definition>
     
@@ -33,5 +33,23 @@
     <definition name="adminOrderList" extends="admin">
     	<put-attribute name="title" value="주문목록(관리자 용)"/>
     	<put-attribute name="body" value="/WEB-INF/views/order/admin_list.jsp"/>
+    </definition>
+    
+	<!-- [관리자] 회원 주문 상세 내역 -->
+    <definition name="adminOrderDetail" extends="admin">
+    	<put-attribute name="title" value="주문내역(관리자 용)"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/admin_detail.jsp"/>
+    </definition>
+    
+	<!-- [관리자] 배송지 수정 -->
+    <definition name="adminOrderModify" extends="admin">
+    	<put-attribute name="title" value="배송지정보수정(관리자 용)"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/admin_modifyForm.jsp"/>
+    </definition>
+    
+	<!-- [관리자] 주문 상태 수정 -->
+    <definition name="adminOrderStatus" extends="admin">
+    	<put-attribute name="title" value="주문상태수정(관리자 용)"/>
+    	<put-attribute name="body" value="/WEB-INF/views/order/admin_status.jsp"/>
     </definition>
 </tiles-definitions>
