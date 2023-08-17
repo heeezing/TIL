@@ -39,8 +39,7 @@ public class ItemServiceImpl implements ItemService{
 
 	@Override
 	public void updateItem(ItemVO itemVO) {
-		// TODO Auto-generated method stub
-		
+		itemMapper.updateItem(itemVO);
 	}
 
 	@Override

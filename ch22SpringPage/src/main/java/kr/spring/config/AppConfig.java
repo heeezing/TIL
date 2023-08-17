@@ -68,12 +68,24 @@ public class AppConfig implements WebMvcConfigurer{
 				.addPathPatterns("/talk/talkRoomWrite.do")
 				.addPathPatterns("/talk/talkList.do")
 				.addPathPatterns("/talk/talkDetail.do")
-				.addPathPatterns("/cart/list.do");
+				.addPathPatterns("/cart/list.do")
+				.addPathPatterns("/order/orderForm.do")
+				.addPathPatterns("/order/order.do")
+				.addPathPatterns("/order/orderList.do")
+				.addPathPatterns("/order/orderDetail.do")
+				.addPathPatterns("/order/orderModify.do")
+				.addPathPatterns("/order/orderCancel.do");
 		//AdminCheckInterceptor 설정
 		registry.addInterceptor(adminCheck)
 				.addPathPatterns("/main/admin.do")
 				.addPathPatterns("/member/admin_list.do")
-				.addPathPatterns("/member/admin_update.do");
+				.addPathPatterns("/member/admin_update.do")
+				.addPathPatterns("/item/admin_list.do")
+				.addPathPatterns("/item/admin_write.do")
+				.addPathPatterns("/order/admin_list.do")
+				.addPathPatterns("/order/admin_detail.do")
+				.addPathPatterns("/order/admin_modify.do")
+				.addPathPatterns("/order/admin_status.do");
 		//WriterCheckInterceptor 설정
 		registry.addInterceptor(writerCheck)
 				.addPathPatterns("/board/update.do")

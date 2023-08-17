@@ -70,8 +70,28 @@
 		]]>
 	</select>
 
-
-
+	<!-- 상품정보수정 -->
+	<update id="updateItem" parameterType="itemVO">
+		UPDATE spitem 
+		SET
+		  <if test="photo1.length > 0">
+		  photo1=#{photo1},
+		  photo_name1=#{photo_name1},		 
+		  </if>
+		  <if test="photo2.length > 0">
+		  photo2=#{photo2},
+		  photo_name2=#{photo_name2},		 
+		  </if>
+		  name=#{name},
+		  price=#{price},
+		  quantity=#{quantity},
+		  delivery_limit=#{delivery_limit},
+		  delivery_fee=#{delivery_fee},
+		  detail=#{detail},
+		  modify_date=SYSDATE,
+		  status = #{status}
+		WHERE item_num=#{item_num}
+	</update>
 
 
 </mapper>

@@ -4,6 +4,7 @@
 <!-- 상단 시작 -->
 <h2 class="align-center">SpringPage</h2>
 <div class="align-right">
+	<a href="${pageContext.request.contextPath}/item/list.do">상품리스트</a>
 	<a href="${pageContext.request.contextPath}/board/list.do">게시판</a>
 	
 	<!-- 우리가 필요한 정보를 통째로 user에 담아 세션에 저장할 예정 -->

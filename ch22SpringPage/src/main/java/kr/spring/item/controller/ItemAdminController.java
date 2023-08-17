@@ -40,11 +40,13 @@ public class ItemAdminController {
 	    	상품 등록
 	======================*/
 	
+	//폼 호출
 	@GetMapping("/item/admin_write.do")
 	public String form() {
 		return "itemAdminWrite";
 	}
 	
+	//전송된 데이터 처리
 	@PostMapping("/item/admin_write.do")
 	public String submit(@Valid ItemVO vo, BindingResult result, Model model,
 						 HttpServletRequest request, HttpSession session) {
@@ -119,4 +121,47 @@ public class ItemAdminController {
 		
 		return mav;
 	}
+	
+	
+	/*======================
+	    	상품 수정
+	======================*/
+	
+	//폼 호출
+	@GetMapping("/item/admin_modify.do")
+	public String formUpdate(@RequestParam int item_num, Model model) {
+		ItemVO itemVO = (ItemVO)itemService.selectItem(item_num);
+		model.addAttribute("itemVO", itemVO);
+		
+		return "itemAdminModify";
+	}
+	
+	//전송된 데이터 처리
+	@PostMapping("/item/admin_modify.do")
+	public String submitUpdate(@Valid ItemVO vo, BindingResult result, 
+								Model model, HttpServletRequest request) {
+		log.debug("<<ItemVO>> : " + vo);
+		
+		//유효성 체크 결과 오류가 있으면 폼을 다시 호출
+		if(result.hasErrors()) {
+			//폼 다시 호출 시 사진 파일명도 같이 다시 보여주기 위해 저장
+			ItemVO db_item = itemService.selectItem(vo.getItem_num());
+			vo.setPhoto_name1(db_item.getPhoto_name1());
+			vo.setPhoto_name2(db_item.getPhoto_name2());
+			return "itemAdminModify";
+		}
+		
+		//수정 처리
+		itemService.updateItem(vo);
+		
+		model.addAttribute("message", "상품 정보 수정을 완료했습니다.");
+		model.addAttribute("url", request.getContextPath()+"/item/admin_modify.do?item_num="+vo.getItem_num());
+		
+		return "common/resultView";
+	}
+	
+	
+	
+	
+	
 }

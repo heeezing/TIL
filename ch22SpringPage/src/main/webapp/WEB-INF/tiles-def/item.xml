@@ -17,6 +17,20 @@
     	<put-attribute name="body" value="/WEB-INF/views/item/admin_list.jsp"/>
     </definition>
     
+	<!-- [관리자]상품 수정 폼 -->
+    <definition name="itemAdminModify" extends="admin">
+    	<put-attribute name="title" value="상품 수정(관리자 용)"/>
+    	<put-attribute name="body" value="/WEB-INF/views/item/admin_modifyForm.jsp"/>
+    </definition>
+    
+    
+    
+	<!-- [사용자]상품 목록 -->
+    <definition name="itemList" extends="main">
+    	<put-attribute name="title" value="상품 목록"/>
+    	<put-attribute name="body" value="/WEB-INF/views/item/user_itemList.jsp"/>
+    </definition>
+    
 	<!-- [사용자]상품 상세 -->
     <definition name="itemView" extends="main">
     	<put-attribute name="title" value="상품 상세"/>
